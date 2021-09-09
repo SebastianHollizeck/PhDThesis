@@ -1,0 +1,12 @@
+\section[DNA analysis]{DNA analysis- what to do with the sequence}
+\label{intro-sec:analysis}
+The types of analysis that can be done with the output from the sequencing machine stretches far,  however, all methods need to first infer the location in the genome, the sequenced piece of DNA originated from. As the current methods randomly fragment the DNA (\autoref{intro-sec:libraryprep}), the genomic location information is completely lost. This process is referred to as mapping.
+
+\subsection[Mapping]{Mapping - Ey man, where is my origin}
+\label{intro-sec:mapping}
+In this process, the fragments of DNA, which were sequenced, are assigned a genomic coordinate on the reference genome. This is only possible, due to the fact, that we have a resolved genome sequences (see~\autoref{intro-sec:sequencing}) for a high number of species. The location a sequenced piece of DNA fits to the reference genome might be unique, but it could also fit to multiple locations, due to highly repetitive regions or due to the existence of pseudo genes with almost 100\% identify. In addition to this, the reference genome might not accurately reflect the genome of the organism that has been sequenced. Each mapping position is therefore assigned a quality score, which reflects how likely it is the actual position of the sequence. As Illumina sequencers have the ability to sequence both ends of the DNA fragment, the position of the ends (read 1 and read 2) to each other can also be used to infer the quality, as they should be within a reasonable distance to each other (see \autoref{fig:libraryprep})
+
+As this process is time consuming and the exact location of the fragment might not be as important, there exists a subset of tools called pseudo-mapper, which are based on $k$-mers, which are predefined DNA sequences of length $k$, which help to identify certain regions of interest. These tools are especially common for RNAseq, where the exact location of a read doesnt matter, only that the read is within a gene \cite{Bray2016,Patro2017}.
+
+\subsection[Variant calling]{Variant calling - spot the distance}
+\label{intro-sec:variantcalling}
