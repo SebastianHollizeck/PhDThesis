@@ -8,7 +8,7 @@ However this method has multiple issues for modern research questions. Mostly, t
 \subsection[Library preparation]{Library preparation - what we learned from using phages}
 \label{intro-sec:libraryprep}
 
-\begin{figure}[!th]
+\begin{figure}[!ht]
 \centering
 \includegraphics[width=.9\linewidth]{Figures/LibraryPreparation.png}
 \caption[Library preparation for NGS]{Adapter ligation during library preparation. The adapters are added to the DNA insert during library preparation. A. The DNA insert is prepared by adding an A-tail and phosphorylation. B. The adapter complex which includes the P5/P7 flow cell binding adapter is added to the DNA insert. C. The DNA insert is ready for sequencing. D. The DNA insert binds to the flow cell for sequencing. Primers bind to the DNA insert to generate reads; \\Figure adapted from \href{https://sapac.support.illumina.com/bulletins/2020/12/how-short-inserts-affect-sequencing-performance.html}{"How short inserts affect sequencing performance"}\protect\cite{Illumina2020}}\label{fig:libraryprep}
@@ -20,14 +20,15 @@ Once the DNA is ready, it is both phosphorelated as well as an A-tail is added, 
 \subsection{Next generation sequencing}
 \label{intro-sec:ngs}
 
-\begin{figure}[!th]
+\begin{figure}[!ht]
 \centering
 \includegraphics[width=.85\linewidth]{Figures/SequencingBySynthesis.jpg}
 \caption[Sequencing by synthesis (Illumina)]{The Illumina sequencing-by-synthesis approach. Cluster strands created by bridge amplification are primed and all four fluorescently labeled, 3'-OH blocked nucleotides are added to the flow cell with DNA polymerase. The cluster strands are extended by one nucleotide. Following the incorporation step, the unused nucleotides and DNA polymerase molecules are washed away, a scan buffer is added to the flow cell, and the optics system scans each lane of the flow cell by imaging units called tiles. Once imaging is completed, chemicals that effect cleavage of the fluorescent labels and the 3'-OH blocking groups are added to the flow cell, which prepares the cluster strands for another round of fluorescent nucleotide incorporation; Figure adapted from \protect\citeauthor*{Mardis2008}\protect\cite{Mardis2008}}\label{fig:sequencingbysynthesis}
 \end{figure}
+%make sure the image comes as early as possible
+\afterpage{\clearpage}
 
 Next generation sequencing (NGS)is the coined term for basically any standard high-throughput sequencing performed, which includes exome, genome, transcriptome, protein-dna interactions (ChIP) and other epigenome studies. The term NGS is still widely used, even though it has been more than 10 years since the first NGS approach was commercially available. While in the beginning of next generation sequencing there were multiple approaches, the current lion share (80\% of sequencing data) of protocols use the Illumina short read sequencing by synthesis approach (\autoref{fig:sequencingbysynthesis})\cite{Mardis2008,Straiton2019}, which is based on the concept of alternating integration of florescently labelled nucleotides and imaging with a microscope (\autoref{fig:sequencingbysynthesis}) as well as multiplexing, where a DNA fragment is ligated to an index, which allows the sequencing of multiple samples at once \cite{Church1984,Church1988} as it is shown in \autoref{fig:libraryprep}. This method allows highly accurate determination of the sequence of a DNA fragment and depending on the flow cell and sequencing machine allows to sequence a whole genome in just 24h.
-
 
 \subsection[Long read sequencing]{Long read sequencing - the "third" generation sequencing}
 \label{intro-sec:lrs}

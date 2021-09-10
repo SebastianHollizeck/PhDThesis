@@ -6,7 +6,22 @@ The types of analysis that can be done with the output from the sequencing machi
 \label{intro-sec:mapping}
 In this process, the fragments of DNA, which were sequenced, are assigned a genomic coordinate on the reference genome. This is only possible, due to the fact, that we have a resolved genome sequences (see~\autoref{intro-sec:sequencing}) for a high number of species. The location a sequenced piece of DNA fits to the reference genome might be unique, but it could also fit to multiple locations, due to highly repetitive regions or due to the existence of pseudo genes with almost 100\% identify. In addition to this, the reference genome might not accurately reflect the genome of the organism that has been sequenced. Each mapping position is therefore assigned a quality score, which reflects how likely it is the actual position of the sequence. As Illumina sequencers have the ability to sequence both ends of the DNA fragment, the position of the ends (read 1 and read 2) to each other can also be used to infer the quality, as they should be within a reasonable distance to each other (see \autoref{fig:libraryprep})
 
-As this process is time consuming and the exact location of the fragment might not be as important, there exists a subset of tools called pseudo-mapper, which are based on $k$-mers, which are predefined DNA sequences of length $k$, which help to identify certain regions of interest. These tools are especially common for RNAseq, where the exact location of a read doesnt matter, only that the read is within a gene \cite{Bray2016,Patro2017}.
+As this process is time consuming and the exact location of the fragment might not be as important, there exists a subset of tools called pseudo-mapper, which are based on $k$-mers, which are predefined DNA sequences of length $k$, which help to identify certain regions of interest. These tools are especially common for RNAseq, where the exact location of a read doesnt matter, only that the read is within a gene \cite{Bray2016,Patro2017}, but also for methods that estimate similarity between sequences (DNA, RNA or protein) \cite{Ondov2016,Luczak2017}.
 
-\subsection[Variant calling]{Variant calling - spot the distance}
+For this work however, the exact position of reads is important, so only real mapping methods like BWA \cite{Li2013} or Bowtie 2 \cite{Langmead2018}, which are optimised for short reads from Illumina systems, provide the necessary functions.
+
+\todo[color=green]{add things about alternative contigs and reference genome?}
+
+\subsection[Variant calling]{Variant calling - spot the difference}
 \label{intro-sec:variantcalling}
+As intra-species genetic variation is intended for adaptation and evolution, there will be places where the DNA sequence of the subject will differ from the sequence of the reference (see \autoref{intro-sec:mutations}). These variants give insight into medical background as well as treatment options for patients and can even be used to guide family planning. Depending on the type of variation that is of interest, a different set of computational methods are needed, as germline and somatic variants have different properties.
+
+\subsection[Germline]{Germline variant calling - the cards you have been dealt at birth}
+\label{intro-sec:germlinecalling}
+The most common source of DNA used for germline variant analysis is the mono nuclear layer from the blood of the subject, but really almost any cell can be used for this process, as all cells in the organism will share all germline variants (\autoref{intro-sec:mutations}). The only important input on top of the DNA sequence from the sequencer are the reference genome of the organism as all variant nomenclature is based on the reference and the ploidy of the organism (\autoref{intro-sec:ploidy}). The ploidy is important to infer, at which ranges of allele frequency a variant can biologically occur. For example in a human diploid genome, germline variants can occur either in one or both chromosomes, which mean we assume reads should show an allele frequency of around 50\% and 100\%, where the hexaploid commercial wheat allele frequency for variants would be 16\%, 33\%, 50\%, 66\%, 0.83\% and 100\%. Due to the random sampling and possible sequencing errors, however the observed allele frequencies will differ. 
+Most state of the art germline variant calling method will also use haplotype reconstructions through de-Bruijn graphs, which features a remapping of reads in relation to each other \cite{Garrison2012,Lai2016,Kim2018,Benjamin2019,Cooke2021}.
+
+
+\subsection[Somatic]{Somatic variant calling - life is ever changing}
+\label{intro-sec:somaticcalling}
+

@@ -15,13 +15,30 @@
 %
 
 % Include any extra LaTeX packages required
+
+%reference managing
 \usepackage[sorting=none, citestyle=numeric, backend=biber]{biblatex}
 \addbibresource{MyBibLatex.bib}
-\usepackage{verbatim}  % Needed for the "comment" environment to make LaTeX comments
-%\usepackage{vector}  % Allows "\bvec{}" and "\buvec{}" for "blackboard" style bold vectors in maths
 
+\usepackage{verbatim}  % Needed for the "comment" environment to make LaTeX comments
+
+%setup the links the right way
 \hypersetup{urlcolor=blue, colorlinks=true}  % Colours hyperlinks in blue, but this can be distracting if there are many links.
 
+%allow short citations in the beginning of chapters
+\usepackage{epigraph}
+% and set it up
+\renewcommand{\epigraphsize}{\small\itshape}
+\setlength\epigraphwidth{9cm}
+
+% allow marks and todos
+\usepackage[colorinlistoftodos]{todonotes}
+
+%allows us to use figures nicer
+\usepackage{float}
+
+%allows a nice way to "flush" floats
+\usepackage{afterpage}
 
 %% ----------------------------------------------------------------
 
@@ -155,19 +172,15 @@ $\omega$ & angular frequency & rads$^{-1}$ \\
 % Include the chapters of the thesis, as separate files
 % Just uncomment the lines as you write the chapters
 
-\input{Chapters/Introduction/main-Introduction.tex} % Introduction
+\input{Chapters/Introduction/main-Introduction.tex} 
 
-\input{Chapters/Variantcalling/main-Variantcalling.tex} % Background Theory 
+\input{Chapters/Variantcalling/main-Variantcalling.tex}  
 
-\input{Chapters/CASCADE/main-CASCADE.tex} % Experimental Setup
+\input{Chapters/CASCADE/main-CASCADE.tex} 
 
-\input{Chapters/mismatchfinder/main-Mismatchfinder.tex} % Experiment 1
+\input{Chapters/Mismatchfinder/main-Mismatchfinder.tex} 
 
-%\input{Chapters/Chapter5} % Experiment 2
-
-%\input{Chapters/Chapter6} % Results and Discussion
-
-%\input{Chapters/Chapter7} % Conclusion
+\input{Chapters/Conclusion/main-Conclusion.tex} % 
 
 %% ----------------------------------------------------------------
 % Now begin the Appendices, including them as separate files
