@@ -2,7 +2,7 @@
 \label{intro-sec:analysis}
 The types of analysis that can be done with the output from the sequencing machine stretches far,  however, all methods need to first infer the location in the genome, the sequenced piece of DNA originated from. As the current methods randomly fragment the DNA (\autoref{intro-sec:libraryprep}), the genomic location information is completely lost. This process is referred to as mapping.
 
-\subsection[Mapping]{Mapping - Ey man, where is my origin}
+\subsection[Mapping]{Mapping - Ey man, where is my genomic location?}
 \label{intro-sec:mapping}
 In this process, the fragments of DNA, which were sequenced, are assigned a genomic coordinate on the reference genome. This is only possible, due to the fact, that we have a resolved genome sequences (see~\autoref{intro-sec:sequencing}) for a high number of species. The location a sequenced piece of DNA fits to the reference genome might be unique, but it could also fit to multiple locations, due to highly repetitive regions or due to the existence of pseudo genes with almost 100\% identify. In addition to this, the reference genome might not accurately reflect the genome of the organism that has been sequenced. Each mapping position is therefore assigned a quality score, which reflects how likely it is the actual position of the sequence. As Illumina sequencers have the ability to sequence both ends of the DNA fragment, the position of the ends (read 1 and read 2) to each other can also be used to infer the quality, as they should be within a reasonable distance to each other (see \autoref{fig:libraryprep})
 
@@ -18,10 +18,23 @@ As intra-species genetic variation is intended for adaptation and evolution, the
 
 \subsection[Germline]{Germline variant calling - the cards you have been dealt at birth}
 \label{intro-sec:germlinecalling}
-The most common source of DNA used for germline variant analysis is the mono nuclear layer from the blood of the subject, but really almost any cell can be used for this process, as all cells in the organism will share all germline variants (\autoref{intro-sec:mutations}). The only important input on top of the DNA sequence from the sequencer are the reference genome of the organism as all variant nomenclature is based on the reference and the ploidy of the organism (\autoref{intro-sec:ploidy}). The ploidy is important to infer, at which ranges of allele frequency a variant can biologically occur. For example in a human diploid genome, germline variants can occur either in one or both chromosomes, which mean we assume reads should show an allele frequency of around 50\% and 100\%, where the hexaploid commercial wheat allele frequency for variants would be 16\%, 33\%, 50\%, 66\%, 0.83\% and 100\%. Due to the random sampling and possible sequencing errors, however the observed allele frequencies will differ. 
-Most state of the art germline variant calling method will also use haplotype reconstructions through de-Bruijn graphs, which features a remapping of reads in relation to each other \cite{Garrison2012,Lai2016,Kim2018,Benjamin2019,Cooke2021}.
+The most common source of DNA used for germline variant analysis is the mono nuclear layer from the blood of the subject, but really almost any cell can be used for this process, as all cells in the organism will share all germline variants (\autoref{intro-sec:mutations}). The only important input on top of the DNA sequence from the sequencer are the reference genome of the organism as all variant nomenclature is based on the reference and the ploidy of the organism (\autoref{intro-sec:ploidy}). The ploidy is important to infer, at which ranges of allele frequency a variant can biologically occur. For example in a human diploid genome, germline variants can occur either in one or both chromosomes, which mean we assume reads should show an allele frequency of around 50\% and 100\%, where the hexaploid commercial wheat \cite{Mayer2014} allele frequency for variants would be 16\%, 33\%, 50\%, 66\%, 0.83\% and 100\%. Due to the random sampling and possible sequencing errors, however the observed allele frequencies will differ. 
+Most state of the art germline variant calling method will also use haplotype reconstructions through de-Bruijn graphs, which features a remapping of reads in relation to each other \cite{Garrison2012,Lai2016,Kim2018,Benjamin2019,Cooke2021}. These
 
 
 \subsection[Somatic]{Somatic variant calling - life is ever changing}
 \label{intro-sec:somaticcalling}
+In contrast to germline variant calling, somatic variant calling methods cannot rely on allele frequency, as not all cells sequenced are expected to have the change in nucleotide. The allele frequency is instead a measure of the sub clonal size. A subclone is here defined as the set of cells, which were derived from the cell, which originally acquired the somatic mutation. Depending on the selective advantage, just random drift and also the time point when the variant was introduced, these clones can be very variable in size and therefore their contribution to the DNA in the sequencing.
+As not all cells have the variants, the selection of the tissue for library preparation is very important, unlike for germline calling. 
+The main use of somatic variant calling is the genetic diagnosis and research of cancer samples, where the main question is, which changes are present in the tumour, which lead to the disease.
+
+\subsubsection[Tumour-normal]{Tumour-normal variant calling - it's a ``simple`` substration!?}
+\label{intro-sec:tncalling}
+The ideal scenario for tumour somatic variant calling is when a biopsy of the tumour as well as a normal sample of the patient is available. In most clinical cases, this will be the diagnostic biopsy as well as the mono nuclear layer just like for germline calling (\autoref{intro-sec:germlinecalling}). 
+These two samples are then analysed together and only changes that are only in the somatic tumour sample and not in the normal sample are reported. Even though this concept sounds simple, there are some pitfalls. First of all, there might be some tumour contamination in the normal sample, which needs to be adjusted for \cite{Kim2018,TaylorWeiner2018}. Second, there might be normal ``contamination`` in the tumour sample, this means that not all cells in the tumour sample are actually tumour. This means that
+
+\subsubsection[Tumour only]{Tumour only variant calling - how hard can it be?!}
+\label{intro-sec:tocalling}
+\todo{change this to not have subsubsections}
+
 
