@@ -8,7 +8,7 @@
 %% ---------------------------------------------------------------- 
 
 % Set up the document
-\documentclass[a4paper, 11pt, oneside]{Thesis}  % Use the "Thesis" style, based on the ECS Thesis style by Steve Gunn
+\documentclass[a4paper, 11pt, twoside]{Thesis}  % Use the "Thesis" style, based on the ECS Thesis style by Steve Gunn
 %
 % Put your figures in this directory
 \graphicspath{Figures/}  % Location of the graphics files (set up for graphics to be in PDF format)
@@ -18,6 +18,8 @@
 \setcounter{tocdepth}{2}
 
 % Include any extra LaTeX packages required
+\usepackage[english]{babel}
+
 
 %reference managing
 \usepackage[sorting=none, citestyle=numeric, backend=biber]{biblatex}
@@ -34,7 +36,9 @@
 \renewcommand{\epigraphsize}{\small\itshape}
 \setlength\epigraphwidth{9.5cm}
 
-% allow marks and todos
+% allow marks and todos !!! REMOVE FOR FINAL VERSION !!!
+\setlength{\marginparwidth}{2cm}
+
 \usepackage[colorinlistoftodos]{todonotes}
 
 %allows us to use figures nicer
@@ -172,8 +176,16 @@ $\omega$ & angular frequency & rads$^{-1}$ \\
 \mainmatter	  % Begin normal, numeric (1,2,3...) page numbering
 \pagestyle{fancy}  % Return the page headers back to the "fancy" style
 
+%setup so that the header shows the chapter and the footer shows the page number
+\fancyhead[LE,RO]{\rightmark}
+\fancyhead[RE,LO]{}
+\fancyfoot[LE,RO]{\thepage}
+\fancyfoot[RE,LO]{}
 
-\fancyhead[L]{\rightmark} %setup so that the left header shows the section
+%make pretty lines
+%\renewcommand{\footrulewidth}{1pt}
+\renewcommand{\headrulewidth}{1pt}
+
 
 % Include the chapters of the thesis, as separate files
 % Just uncomment the lines as you write the chapters
@@ -206,7 +218,7 @@ $\omega$ & angular frequency & rads$^{-1}$ \\
 
 %% ----------------------------------------------------------------
 \label{Bibliography}
-\lhead{\emph{Bibliography}}  % Change the left side page header to "Bibliography"
+\fancyhead[LE,RO]{Bibliography}  % Change the left side page header to "Bibliography"
 \printbibliography
 
 \end{document}  % The End
