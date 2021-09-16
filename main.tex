@@ -19,7 +19,10 @@
 
 % Include any extra LaTeX packages required
 \usepackage[english]{babel}
+% with babel and biblatex, csquuotes is a requirements for quoted text to work as expected
+\usepackage{csquotes}
 
+\usepackage[usenames,dvipsnames]{xcolor}
 
 %reference managing
 \usepackage[sorting=none, citestyle=numeric, backend=biber]{biblatex}
@@ -35,6 +38,22 @@
 % and set it up
 \renewcommand{\epigraphsize}{\small\itshape}
 \setlength\epigraphwidth{9.5cm}
+
+
+%this redefines how chapters look and also allows quotes
+\usepackage[avantgarde]{quotchap}
+%make the title left justified
+\makeatletter
+\patchcmd{\@makechapterhead}
+ {\raggedleft\advance}
+ {\raggedright\advance}
+ {}{}
+\makeatother
+%reduce the spacing after a chapter
+\renewcommand{\chapterheadendvskip}{\vspace*{0.7\baselineskip}}
+
+
+
 
 % allow marks and todos !!! REMOVE FOR FINAL VERSION !!!
 \setlength{\marginparwidth}{2cm}
@@ -142,6 +161,7 @@
 \textbf{WES} & \textbf{W}hole \textbf{E}xome \textbf{S}equencing\\
 \textbf{SCLC} & \textbf{s}mall \textbf{c}ell \textbf{l}ung \textbf{c}ancer\\
 \textbf{NSCLC} & \textbf{n}on-\textbf{s}mall \textbf{c}ell \textbf{l}ung \textbf{c}ancer\\
+\textbf{RAID} & \textbf{R}edundant \textbf{A}rray of \textbf{I}ndependent \textbf{D}isks \\
 
 
 
@@ -186,6 +206,8 @@ $\omega$ & angular frequency & rads$^{-1}$ \\
 %\renewcommand{\footrulewidth}{1pt}
 \renewcommand{\headrulewidth}{1pt}
 
+%change the distance of the number to the top of the page
+\renewcommand{\chapterheadstartvskip}{\vspace*{-4\baselineskip}}
 
 % Include the chapters of the thesis, as separate files
 % Just uncomment the lines as you write the chapters
