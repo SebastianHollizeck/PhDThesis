@@ -22,13 +22,21 @@
 % with babel and biblatex, csquuotes is a requirements for quoted text to work as expected
 \usepackage{csquotes}
 
+%better fonts
+\usepackage{lmodern}
+
 \usepackage[usenames,dvipsnames]{xcolor}
 
 %reference managing
 \usepackage[sorting=none, citestyle=numeric, backend=biber]{biblatex}
 \addbibresource{MyBibLatex.bib}
 
+% we allow the urls in the bibliography to be broken after normal characters as well, not just '-', '\' and '.'
+\setcounter{biburllcpenalty}{7000}
+\setcounter{biburlucpenalty}{8000}
+
 \usepackage{verbatim}  % Needed for the "comment" environment to make LaTeX comments
+
 
 %setup the links the right way
 \hypersetup{urlcolor=blue, colorlinks=true}  % Colours hyperlinks in blue, but this can be distracting if there are many links.
@@ -58,7 +66,8 @@
 % allow marks and todos !!! REMOVE FOR FINAL VERSION !!!
 \setlength{\marginparwidth}{2cm}
 
-\usepackage[colorinlistoftodos]{todonotes}
+\usepackage[colorinlistoftodos, prependcaption,textsize=small]{todonotes}
+
 
 %allows us to use figures nicer
 \usepackage{float}
@@ -76,7 +85,7 @@
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Update your department and school here:
-\department{{Department of Mad Science}}
+\department{{Sir Peter MacCallum department of Oncology}}
 \school{{Melbourne School of Awesome}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -92,7 +101,7 @@
 \addresses  {\groupname\\\deptname\\\univname}  % Do not change this here, instead these must be set in the "Thesis.cls" file, please look through it instead
 \date       {\today}
 \subject    {}
-\keywords   {Cancer evolution, ctDNA, variant calling}
+\keywords   {cancer evolution, cancer heterogeneity, ctDNA, variant calling}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \maketitle
@@ -151,22 +160,27 @@
 \listofsymbols{ll}  % Include a list of Abbreviations (a table of two columns)
 {
 % \textbf{Acronym} & \textbf{W}hat (it) \textbf{S}tands \textbf{F}or \\
-\textbf{DNA} & \textbf{D}eoxyribo\textbf{n}ucleic \textbf{A}cid \\
-\textbf{RNA} & \textbf{R}ibo\textbf{n}ucleic \textbf{A}cid \\
+\textbf{DNA} & \textbf{D}eoxyribo\textbf{N}ucleic \textbf{A}cid \\
+\textbf{RNA} & \textbf{R}ibo\textbf{N}ucleic \textbf{A}cid \\
 \textbf{cfDNA} & \textbf{c}ell \textbf{f}ree \textbf{DNA} \\
 \textbf{ctDNA} & \textbf{c}irculating \textbf{t}umour \textbf{DNA}\\
 \textbf{bp} & \textbf{b}ase \textbf{p}air\\
 \textbf{ChIP} & \textbf{Ch}romatin \textbf{I}mmuno\textbf{P}recipitation\\
 \textbf{WGS} & \textbf{W}hole \textbf{G}enome \textbf{S}equencing\\
 \textbf{WES} & \textbf{W}hole \textbf{E}xome \textbf{S}equencing\\
-\textbf{SCLC} & \textbf{s}mall \textbf{c}ell \textbf{l}ung \textbf{c}ancer\\
-\textbf{NSCLC} & \textbf{n}on-\textbf{s}mall \textbf{c}ell \textbf{l}ung \textbf{c}ancer\\
+\textbf{SCLC} & \textbf{S}mall \textbf{C}ell \textbf{L}ung \textbf{C}ancer\\
+\textbf{NSCLC} & \textbf{N}on-\textbf{S}mall \textbf{C}ell \textbf{L}ung \textbf{C}ancer\\
 \textbf{RAID} & \textbf{R}edundant \textbf{A}rray of \textbf{I}ndependent \textbf{D}isks \\
 \textbf{SNP} & \textbf{S}ingle \textbf{N}ucleotide \textbf{P}olymorphism\\
 \textbf{InDel} & \textbf{In}sertion or \textbf{Del}etion \\
 \textbf{SV} & \textbf{S}tructural \textbf{V}ariant \\
 \textbf{PON} & \textbf{P}anel \textbf{O}f \textbf{N}ormals \\
 \textbf{GATK} & \textbf{G}enome \textbf{A}nalysis \textbf{T}ool\textbf{K}it \\
+\textbf{NJ} & \textbf{N}eighbour \textbf{J}oining \\
+\textbf{UPGMA} & \textbf{U}nweighted \textbf{P}air \textbf{G}roup \textbf{M}ethod with \textbf{A}rithmetic mean \\
+\textbf{WPGMA} & \textbf{W}eighted \textbf{P}air \textbf{G}roup \textbf{M}ethod with \textbf{A}rithmetic mean \\
+\textbf{F81} & \textbf{F}elsenstein 19\textbf{81} model \\
+\textbf{HKY85} & \textbf{H}asegawa, \textbf{K}ishino and \textbf{Y}ano 19\textbf{85} model\\
 
 
 
@@ -246,6 +260,7 @@ $\omega$ & angular frequency & rads$^{-1}$ \\
 %% ----------------------------------------------------------------
 \label{Bibliography}
 \fancyhead[LE,RO]{Bibliography}  % Change the left side page header to "Bibliography"
+
 \printbibliography
 
 \end{document}  % The End
