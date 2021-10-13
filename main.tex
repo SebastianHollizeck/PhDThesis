@@ -75,7 +75,15 @@
 %allows a nice way to "flush" floats
 \usepackage{afterpage}
 
+
+%allows multi column for the paper 
+\usepackage{multicol}
 %% ----------------------------------------------------------------
+
+% custom hyphenation
+%\hyphenation{mul-ti-sam-ple-va-ri-ant-call-ing}
+\Urlmuskip = 0mu plus 1mu
+
 
 \begin{document}
 \frontmatter      % Begin Roman style (i, ii, iii, iv...) page numbering
@@ -248,7 +256,7 @@ $\omega$ & angular frequency & rads$^{-1}$ \\
 
 \appendix % Cue to tell LaTeX that the following 'chapters' are Appendices
 
-%\input{Appendices/AppendixA}	% Appendix Title
+\input{Appendices/Variantcalling/app-main.tex}	% Appendix Title
 
 %\input{Appendices/AppendixB} % Appendix Title
 
