@@ -32,14 +32,20 @@
 \addbibresource{MyBibLatex.bib}
 
 % we allow the urls in the bibliography to be broken after normal characters as well, not just '-', '\' and '.'
-\setcounter{biburllcpenalty}{7000}
-\setcounter{biburlucpenalty}{8000}
+% If you want to break on URL numbers
+\setcounter{biburlnumpenalty}{9000}
+% If you want to break on URL lower case letters
+\setcounter{biburllcpenalty}{9000}
+% If you want to break on URL UPPER CASE letters
+\setcounter{biburlucpenalty}{9000}
 
 \usepackage{verbatim}  % Needed for the "comment" environment to make LaTeX comments
 
 
 %setup the links the right way
 \hypersetup{urlcolor=blue, colorlinks=true}  % Colours hyperlinks in blue, but this can be distracting if there are many links.
+%make the font normal
+\urlstyle{rm}
 
 %allow short citations in the beginning of chapters
 \usepackage{epigraph}
