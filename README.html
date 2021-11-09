@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Development of new methods for accurate estimation of tumour heterogeneity</title>
+  <style>
+    html {
+      line-height: 1.5;
+      font-family: Georgia, serif;
+      font-size: 20px;
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 1em;
+      }
+    }
+    @media print {
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, 'Lucida Console', Consolas, monospace;
+      font-size: 85%;
+      margin: 0;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+    }
+    .hanging div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }
+  </style>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Development of new methods for accurate estimation of tumour heterogeneity</h1>
+</header>
+<p><span> <strong>DNA</strong> &amp; <strong>D</strong>eoxyribo<strong>N</strong>ucleic <strong>A</strong>cid<br />
+<strong>RNA</strong> &amp; <strong>R</strong>ibo<strong>N</strong>ucleic <strong>A</strong>cid<br />
+<strong>cfDNA</strong> &amp; <strong>c</strong>ell <strong>f</strong>ree <strong>DNA</strong><br />
+<strong>ctDNA</strong> &amp; <strong>c</strong>irculating <strong>t</strong>umour <strong>DNA</strong><br />
+<strong>bp</strong> &amp; <strong>b</strong>ase <strong>p</strong>air<br />
+<strong>ChIP</strong> &amp; <strong>Ch</strong>romatin <strong>I</strong>mmuno<strong>P</strong>recipitation<br />
+<strong>WGS</strong> &amp; <strong>W</strong>hole <strong>G</strong>enome <strong>S</strong>equencing<br />
+<strong>WES</strong> &amp; <strong>W</strong>hole <strong>E</strong>xome <strong>S</strong>equencing<br />
+<strong>SCLC</strong> &amp; <strong>S</strong>mall <strong>C</strong>ell <strong>L</strong>ung <strong>C</strong>ancer<br />
+<strong>NSCLC</strong> &amp; <strong>N</strong>on-<strong>S</strong>mall <strong>C</strong>ell <strong>L</strong>ung <strong>C</strong>ancer<br />
+<strong>RAID</strong> &amp; <strong>R</strong>edundant <strong>A</strong>rray of <strong>I</strong>ndependent <strong>D</strong>isks<br />
+<strong>SNP</strong> &amp; <strong>S</strong>ingle <strong>N</strong>ucleotide <strong>P</strong>olymorphism<br />
+<strong>InDel</strong> &amp; <strong>In</strong>sertion or <strong>Del</strong>etion<br />
+<strong>SV</strong> &amp; <strong>S</strong>tructural <strong>V</strong>ariant<br />
+<strong>PON</strong> &amp; <strong>P</strong>anel <strong>O</strong>f <strong>N</strong>ormals<br />
+<strong>GATK</strong> &amp; <strong>G</strong>enome <strong>A</strong>nalysis <strong>T</strong>ool<strong>K</strong>it<br />
+<strong>NJ</strong> &amp; <strong>N</strong>eighbour <strong>J</strong>oining<br />
+<strong>UPGMA</strong> &amp; <strong>U</strong>nweighted <strong>P</strong>air <strong>G</strong>roup <strong>M</strong>ethod with <strong>A</strong>rithmetic mean<br />
+<strong>WPGMA</strong> &amp; <strong>W</strong>eighted <strong>P</strong>air <strong>G</strong>roup <strong>M</strong>ethod with <strong>A</strong>rithmetic mean<br />
+<strong>F81</strong> &amp; <strong>F</strong>elsenstein 19<strong>81</strong> model<br />
+<strong>HKY85</strong> &amp; <strong>H</strong>asegawa, <strong>K</strong>ishino and <strong>Y</strong>ano 19<strong>85</strong> model<br />
+<strong>HPC</strong> &amp; <strong>H</strong>igh <strong>P</strong>erformance <strong>C</strong>omputing<br />
+</span></p>
+<p><span> Speed of Light &amp; <span class="math inline"><em>c</em></span> &amp; <span class="math inline">=</span> &amp; <span class="math inline">2.997 924 58 × 10<sup>8</sup> ms<sup>−s</sup></span> (exact)<br />
+</span></p>
+<p><span> <span class="math inline"><em>a</em></span> &amp; distance &amp; m<br />
+<span class="math inline"><em>P</em></span> &amp; power &amp; W (Js<span class="math inline"><sup>−1</sup></span>)<br />
+&amp; &amp;<br />
+<span class="math inline"><em>ω</em></span> &amp; angular frequency &amp; rads<span class="math inline"><sup>−1</sup></span><br />
+</span></p>
+<div class="savequote">
+<p>“Begin at the beginning,“ the King said, very gravely, “and go on till you come to the end: then stop.“</p>
+</div>
+<h1 id="ch:intro">Introduction</h1>
+<p>This first introduction chapter contains all the necessary background information as well as an overview for the work discussed in this thesis. It summarised basic biological properties of DNA and cell biology as well as the respective technologies to read, analyse and measure these biological concepts and then how to evaluate the output of these methods. <a href="#intro-sec:DNA">Section <a href="#intro-sec:DNA" data-reference-type="ref" data-reference="intro-sec:DNA">1.1</a></a> delineates the role DNA plays for the cell and then <a href="#intro-sec:ctDNA">section <a href="#intro-sec:ctDNA" data-reference-type="ref" data-reference="intro-sec:ctDNA">1.2</a></a> shows how these standards are changed in the tumour and cell free context. <a href="#intro-sec:sequencing">Section <a href="#intro-sec:sequencing" data-reference-type="ref" data-reference="intro-sec:sequencing">1.3</a></a> introduces the current technologies used to measure and detect DNA and its variations. With <a href="#intro-sec:analysis">section <a href="#intro-sec:analysis" data-reference-type="ref" data-reference="intro-sec:analysis">1.4</a></a> covering the computational analysis methods to read out changes in the DNA. Then <a href="#intro-sec:lungcancer">section <a href="#intro-sec:lungcancer" data-reference-type="ref" data-reference="intro-sec:lungcancer">1.5.1</a></a> relates how these changes lead to cancer and what we can learn from them. The introduction concludes with <a href="#intro-sec:overview">section <a href="#intro-sec:overview" data-reference-type="ref" data-reference="intro-sec:overview">1.6</a></a> as an overview over the thesis aims and my work in addressing them in the following chapters.</p>
+<h2 id="intro-sec:DNA">DNA as a information storage unit</h2>
+<figure>
+<img src="Figures/DNAStructure.png" id="fig:DNAstructure" alt="Overview of DNA structure and the nucleobases, which form DNA strands. Nucleotides are split into Purines and Pyrimidines by the structure of the nitrogen ring; complementary pairing of bases is shown as shapes of the bases as well as with 2D structures; Hyrdogen (H) bonds are shown as dotted lines; Phosphates are shown as P; 3’ and 5’ ends are defined by the internal number of the carbon atom of the sugar which is exposed; Adapted from “DNA structure“ by BioRender.com (2021) Retrieved from https://app.biorender.com/biorender-templates" /><figcaption aria-hidden="true">Overview of DNA structure and the nucleobases, which form DNA strands. Nucleotides are split into Purines and Pyrimidines by the structure of the nitrogen ring; complementary pairing of bases is shown as shapes of the bases as well as with 2D structures; Hyrdogen (H) bonds are shown as dotted lines; Phosphates are shown as P; 3’ and 5’ ends are defined by the internal number of the carbon atom of the sugar which is exposed; Adapted from “DNA structure“ by <a href="https://biorender.com"><code>BioRender.com</code></a> (2021) Retrieved from <a href="https://app.biorender.com/biorender-templates"><code>https://app.biorender.com/biorender-templates</code></a></figcaption>
+</figure>
+<p>It is a widely accepted fact, that Deoxyribonucleic acid (DNA) serves as the long term information storage molecule of our cells. This information is protected and allows correction of simple errors through its double helix structure <span class="citation" data-cites="Watson1953 Liang1998">(Watson and Crick 1953; Liang et al. 1998)</span>. The nucleotides, which consist of a deoxyribose sugar (hence the name), a phosphate group and the nitrogenous base, are joined together by phosphate groups. Even though there are six common naturally occurring nitrogenous bases: Adenine (A), Thymine (T), Guanine (G), Cytosine (C), Uracil (U) and nicotinamide, only the first four are used to encode the genetic information into DNA. Each of the strands mirrors the other, so that an adenine will be paired up with a thymine forming two hydrogen bonds. Similarly cytosine will pair with guanine forming an even stronger bond with three hydrogen bonds. While other pairings which do not follow those rules are chemically possible, they are mostly observed in ribonucleic acid (RNA) <span class="citation" data-cites="Sinden1994">(Sinden 1994)</span>. These very strict bonding rules enable the DNA to be similar to a hard drive with backup on a computer. And as only one strand contains all the information, the DNA polymerase enzyme does only need access to one strand, which allows parallel replication during cell division, but also error corrections, by proof reading the newly synthesised strand with the template. In order to be able to distinguish the two strands, they were assigned the names 3’ and 5’ depending on the numbering of the carbon atom in the sugar, which is exposed ().</p>
+<p>The entirety of the DNA encoding the organism is commonly called “the genome“ with all genes, which consist of introns and exons are called exome. Unicellular organisms usually only have a very small amount of introns, which to current knowledge only provide limited information and are only responsible for structure. In vertebrates introns as well as intergeneic DNA (the DNA between genes) contribute most of the DNA in the genome. For example in humans, only <span class="math inline">1%</span> of the genetic material is considered to be exonic, whereas introns contribute <span class="math inline"> ≈ 24%</span> and the rest is intergeneic (<span class="math inline"> ≈ 75%</span>)<span class="citation" data-cites="Venter2001">(Venter et al. 2001)</span>.</p>
+<figure>
+<img src="Figures/ChromosomeStructure.png" id="fig:chromsomestructure" alt="Structural overview of the metaphase condensed chromosome: DNA is first wrapped around Histones to form nucleosome, which then associate with each other to form the chromatin fiber, which in the metaphase of the cell cycle is condensed even more into the X-shaped chromosome" /><figcaption aria-hidden="true">Structural overview of the metaphase condensed chromosome: DNA is first wrapped around Histones to form nucleosome, which then associate with each other to form the chromatin fiber, which in the metaphase of the cell cycle is condensed even more into the X-shaped chromosome</figcaption>
+</figure>
+<p>The DNA in eukaryotes however is not free floating around in the nucleus of a cell, but rather in most eukrayotic organisms, it is highly condensed and structured, first wrapped around nucleosomes like thread on a spool, then organised around histones, into either open (accessible) or closed chromatin, which then can be even further condensed into chromosomes, which have a X-like shape, with two shorter and two longer arms (). This allows some of the DNA to be accessible where the use of other areas can be restricted<span class="citation" data-cites="Hammond2017">(Hammond et al. 2017)</span>. Through this restriction, the availability of certain genes, which are the sections of the DNA, which encode for short term storage molecules like RNA. This restriction plays an important role in cell fate and cell viability. Ultimately all information stored to create a new highly complex organism is stored in just the DNA of one cell. Whichever parts are used and how they are used decides the function and the identity of the cell<span class="citation" data-cites="Bonev2016">(Bonev and Cavalli 2016)</span>.</p>
+<h3 id="intro-sec:ploidy">Ploidy - its good to have a backup, if you do it right</h3>
+<p>Similar to the already discussed RAID-like setup of the DNA in two strands, another concept of data security, a spatial different storage is also implemented. Most eukaryotic organisms have at least two of each chromosome (diploid) with some species reaching up to septaploid<span class="citation" data-cites="Tateoka1975">(Tateoka 1975)</span>. However, this concept is not the only reason for the ploidy of somatic cells. For sexually reproducing organisms, at least a diploid set of chromosomes is necessary to enable information to be joined from both parents. Germline cells (sperm and egg) are generally monoploid, such that the resulting cell will be diploid, but the ploidy of the somatic cells is not as uniform within a species, where it can vary between organisms based on gender or rank <span class="citation" data-cites="Trivers1976">(Trivers and Hare 1976)</span>. In most organisms, a change in ploidy is fatal <span class="citation" data-cites="Otto2007">(Otto 2007)</span> and only partial ploidy changes like extra copies of chromosome 17 <span class="citation" data-cites="Gottlieb1962">(Gottlieb et al. 1962)</span>, chromosome 18 <span class="citation" data-cites="Cereda2012">(Cereda and Carey 2012)</span> and chromosome 21 <span class="citation" data-cites="Hulten2008">(Hultén et al. 2008)</span> are tolerated. These syndroms can occur when the is an uneven split of chromosomes during cell division. The additional advantage, apart from sexual reproduction, is that a second almost identical copy of a chromosome allows repair of DNA, even when both strands are damaged, for example in a double strand break. In this case, the information from the sister chromosome will be used, by first cutting the double strand break ends to have overhang (resection). This overhang will then merge with the sister chromosome’s mirrored strand. In this state, the two chromosomes are fused together in a Holliday junction, which allows the missing part from the resection and the double strand break to be synthesised <span class="citation" data-cites="Lilley2000">(Lilley 2000)</span>. During this process, which is part of the homology directed repair (HDR) machinery, the sister chromosomes exchange parts of their DNA, when resolving the Holliday junction. As these stretches of DNA do not need to be 100% identical, this plays and important role in evolution and diversity <span class="citation" data-cites="Hanage2006 Kong2013">(Hanage, Fraser, and Spratt 2006; Kong et al. 2013)</span>.</p>
+<figure>
+<img src="Figures/ChromosomeTerritories.png" id="fig:chromosometerretories" alt="Individual chromosomes occupy a subspace in the nucleus called chromosome territories. Chromosome territories can be further partitioned to distinct A and B compartments, which are enriched for active and repressed chromatin, respectively. Genomic regions within topologically associating domains (TADs) display increased interactions, while their interactions with neighbouring regions outside of the TADs are rather limited." /><figcaption aria-hidden="true">Individual chromosomes occupy a subspace in the nucleus called chromosome territories. Chromosome territories can be further partitioned to distinct A and B compartments, which are enriched for active and repressed chromatin, respectively. Genomic regions within topologically associating domains (TADs) display increased interactions, while their interactions with neighbouring regions outside of the TADs are rather limited.</figcaption>
+</figure>
+<p>Even though this X-like structure is the most commonly used and known structure, the DNAs 3D structure is usually very different and only takes this shape for the very short time of the cell cycle. Most of the time, the chromosomes are unravelled into something resembling a ball of yarn, where the “open“ chromatin regions are on the outside and the “closed“ regions are “hidden“ in the inside and each chromosome establishes its own “territory“ inside the nucleus (). This structure allows another DNA cross over with non-sister chromsomes, which is called a chiasma.</p>
+<h3 id="intro-sec:mutations">Phantastical mutations and where to find them</h3>
+<p>However even though the DNA is highly stable and error correction methods are constantly working to not introduce any changes in the DNA, the source of evolution and adaptation of species is sourced in a steady mutation rate <span class="citation" data-cites="Darwin2010 Sprouffske2018">(Darwin 2010; Sprouffske et al. 2018)</span>. These changes in normal tissue are mostly irrelevant to the organism as a whole and will not be passed on to the next generation. These changes are known as somatic mutations. This type of mutation accumulates in a cell linearly over the course of the lifespan of the cell and is not bound to just cell divisions<span class="citation" data-cites="Alexandrov2015 Moore2021">(Alexandrov et al. 2015; Moore et al. 2021)</span>. In contrast, if one of those mutations occurs in the germline cell, eg. sperm or egg producing cells, these mutations will be propagated to all offspring and be present in all cells of that organism and in term all its offspring. These mutations are called germline mutations. These mutations are also called germline variants, as they establish in the population and represent a variation of the organism. Mutations can also be classified depending on either their size ranging from single nucleotide polymorphisms (SNPs) over small insertions or deletions (InDels) to large structural changes, like the deletion of parts of or even a whole chromosome arm. like previously described with ploidy changes, usually smaller changes have less impact on the overall fitness of the organism, however even SNPs can lead to changes which are not compatible with life<span class="citation" data-cites="Shamseldin2015 Frey2021">(Shamseldin et al. 2015; Frey et al. 2021)</span>.</p>
+<h2 id="intro-sec:ctDNA">Cell free DNA is more than just bits and pieces</h2>
+<p>When a cell from a multicellular organism dies, through which ever method, there will be many different enzymes involved, which clear the debris and recycle material. This means that proteases digest proteins into amino acids, which will later be used for either building new proteins or possibly even digested further for energy production. The same happens with the DNA in the cell. However as discussed in the previous section <a href="#intro-sec:DNA" data-reference-type="ref" data-reference="intro-sec:DNA">1.1</a> the DNA is wrapped around histones and organised in structures called nuclesomes. These protect the DNA from being cut by DNAases by hindering the access to the DNA, similar to how they stopped the access for transcription into RNA. This then in turn leads to the DNA being cut into pieces mainly in the length of 167 base pairs (bp). These DNA fragments, which are called cell free DNA (cfDNA), can then be detected in bodily fluids, like blood or even stool. By analysing these fragments, non invasive tests for prenatal care have been possible, as the DNA of the foetus is detectable in the mothers blood <span class="citation" data-cites="Dan2012 Nicolaides2013">(Dan et al. 2012; Nicolaides et al. 2013)</span>. Similar to the process, a cancer also sheds DNA, titled circulating tumour DNA (ctDNA), when its cells die, either through intervention of the immune system or through other forcefull processes. These ctDNA fragments can also be analysed and molecular properties measured, without even knowing the exact location of the tumour. As a blood test can be routinely performed in the clinic or even a general practitioner, the monitoring of cancer progression is significantly easier and safer than through other measures. Of course it is, similar to the prenatal test, only a proxy for the cells which are still alive, as these have not shed their DNA. Additionally the amount of shedded DNA is highly variable between tumours, with a general higher amount for later stages, so that sometimes there is almost no ctDNA present, even though the cancer is fairly advanced <span class="citation" data-cites="Diehl2008 Schwarzenbach2011">(Diehl et al. 2008; Schwarzenbach, Hoon, and Pantel 2011)</span>.</p>
+<h2 id="intro-sec:sequencing">DNA sequencing - when is next generation sequencing the current generation?</h2>
+<p>As we know the building blocks, that make DNA as well as the process and the enzymes responsible, we can synthesise DNA in vitro. By chemically modifying the nucleotides supplied to the synthesis process, the sequence of the copied strand can be analysed. The first method to make use of this used the lambda phage to fuse known ends for the primers needed for the reaction to the piece of DNA and supplied labelled nucleotides <span class="citation" data-cites="Padmanabhan1974">(Padmanabhan, Jay, and Wu 1974)</span>.This method was then superseded by "Sanger sequencing" after Frederick Sanger who with colleagues published this method in 1977, by adding <strong>di</strong>deoxynucleotides in a low concentration, the polymerase chain reaction would terminate trying to integrate these nucleotides and by labelling them radioactively or flourecently, a gel can be used to determine the sequence of a piece of DNA <span class="citation" data-cites="Sanger1975 Sanger1977">(Sanger and Coulson 1975; Sanger, Nicklen, and Coulson 1977)</span>, which made the method better suited for larger scale projects.</p>
+<p>However this method has multiple issues for modern research questions. Mostly, that it is fairly labour and time consuming to analyse multiple pieces of DNA at the same time and it is very challenging to sequence all the DNA of an organism. The human genome project, which was started in 1990 used machines which automated the Sanger sequencing procedure and it still took hundreds of researchers 13 years to complete the DNA sequence of just one human <span class="citation" data-cites="Lander2001 Venter2001">(Lander et al. 2001; Venter et al. 2001)</span>. Even though this was a very long project, it laid the ground work for the usage of the current sequencing technologies.</p>
+<h3 id="intro-sec:libraryprep">Library preparation - what we learned from using phages</h3>
+<figure>
+<img src="Figures/LibraryPreparation.png" id="fig:libraryprep" alt="Adapter ligation during library preparation. The adapters are added to the DNA insert during library preparation. A. The DNA insert is prepared by adding an A-tail and phosphorylation. B. The adapter complex which includes the P5/P7 flow cell binding adapter is added to the DNA insert. C. The DNA insert is ready for sequencing. D. The DNA insert binds to the flow cell for sequencing. Primers bind to the DNA insert to generate reads; Figure adapted from &quot;How short inserts affect sequencing performance&quot;(Illumina 2020)" /><figcaption aria-hidden="true">Adapter ligation during library preparation. The adapters are added to the DNA insert during library preparation. A. The DNA insert is prepared by adding an A-tail and phosphorylation. B. The adapter complex which includes the P5/P7 flow cell binding adapter is added to the DNA insert. C. The DNA insert is ready for sequencing. D. The DNA insert binds to the flow cell for sequencing. Primers bind to the DNA insert to generate reads;<br />
+Figure adapted from <a href="https://sapac.support.illumina.com/bulletins/2020/12/how-short-inserts-affect-sequencing-performance.html">"How short inserts affect sequencing performance"</a><span class="citation" data-cites="Illumina2020">(Illumina 2020)</span></figcaption>
+</figure>
+<p>Library preparation is the name of the preprocessing step, which is done before it is sequenced with the current technologies. The first step to sequence DNA is to obtain the DNA, which is done by lysing the cells of interest, which disrupts the cell membrane and therefore spills all its contents. The then spilled DNA is fragmented into smaller pieces, by either restriction enzymes or sonication, to have a size of about between 200-800bp. These steps are not necessary when preparing sequencing of ctDNA, as discussed in , the DNA is unbound and already digested into short fragments. Once the DNA is ready, it is both phosphorelated as well as an A-tail is added, before the adapter complex is ligated. This enabled the DNA to bind to the flow cell which is covered with the reverse complement of the adapter ().</p>
+<h3 id="intro-sec:ngs">Next generation sequencing</h3>
+<figure>
+<img src="Figures/SequencingBySynthesis.jpg" id="fig:sequencingbysynthesis" alt="The Illumina sequencing-by-synthesis approach. Cluster strands created by bridge amplification are primed and all four fluorescently labeled, 3’-OH blocked nucleotides are added to the flow cell with DNA polymerase. The cluster strands are extended by one nucleotide. Following the incorporation step, the unused nucleotides and DNA polymerase molecules are washed away, a scan buffer is added to the flow cell, and the optics system scans each lane of the flow cell by imaging units called tiles. Once imaging is completed, chemicals that effect cleavage of the fluorescent labels and the 3’-OH blocking groups are added to the flow cell, which prepares the cluster strands for another round of fluorescent nucleotide incorporation; Figure adapted from Mardis (2008)(Mardis 2008)" /><figcaption aria-hidden="true">The Illumina sequencing-by-synthesis approach. Cluster strands created by bridge amplification are primed and all four fluorescently labeled, 3’-OH blocked nucleotides are added to the flow cell with DNA polymerase. The cluster strands are extended by one nucleotide. Following the incorporation step, the unused nucleotides and DNA polymerase molecules are washed away, a scan buffer is added to the flow cell, and the optics system scans each lane of the flow cell by imaging units called tiles. Once imaging is completed, chemicals that effect cleavage of the fluorescent labels and the 3’-OH blocking groups are added to the flow cell, which prepares the cluster strands for another round of fluorescent nucleotide incorporation; Figure adapted from <span class="citation" data-cites="Mardis2008">Mardis (2008)</span><span class="citation" data-cites="Mardis2008">(Mardis 2008)</span></figcaption>
+</figure>
+<p>Next generation sequencing (NGS)is the coined term for basically any standard high-throughput sequencing performed, which includes exome, genome, transcriptome, protein-dna interactions (ChIP) and other epigenome studies. The term NGS is still widely used, even though it has been more than 10 years since the first NGS approach was commercially available. While in the beginning of next generation sequencing there were multiple approaches, the current lion share (80% of sequencing data) of protocols use the Illumina short read sequencing by synthesis approach ()<span class="citation" data-cites="Mardis2008 Straiton2019">(Mardis 2008; Straiton et al. 2019)</span>, which is based on the concept of alternating integration of florescently labelled nucleotides and imaging with a microscope () as well as multiplexing, where a DNA fragment is ligated to an index, which allows the sequencing of multiple samples at once <span class="citation" data-cites="Church1984 Church1988">(G. M. Church and Gilbert 1984; G. Church and Kieffer-Higgins 1988)</span> as it is shown in . This method allows highly accurate determination of the sequence of a DNA fragment and depending on the flow cell and sequencing machine allows to sequence a whole genome in just 24h.</p>
+<h3 id="intro-sec:lrs">Long read sequencing - the "third" generation sequencing</h3>
+<p>By now, multiple methods which broke free of the size limitations of NGS exist, which are commonly referred to as long read sequencing. Most of the current methods trade the very high accuracy of the second generation NGS methods for the capability of sequencing of sequencing huge continous strands of DNA (current record 2.3 Million bp <span class="citation" data-cites="Payne2018">(Payne et al. 2018)</span>) with normal library preparation ranging between 10-30 Kbp. These methods are expected to revolutionise our understanding of the highly repetitive elements that exist in the genome, such as the centromeres of chromosomes. Methods such as the direct molecule sequencing approach by Oxford Nanopore are even able to distinguish post transcriptional modifications on RNA<span class="citation" data-cites="Pratanwanich2021">(Pratanwanich et al. 2021)</span>. So far, these methods however are still very expensive and as this work is dealing with ctDNA, which is highly fragmented, these methods offer only limited advantages over the short read sequencing, while being much more expensive.</p>
+<h2 id="intro-sec:analysis">DNA analysis- what to do with the sequence</h2>
+<p>The types of analysis that can be done with the output from the sequencing machine stretches far, however, all methods need to first infer the location in the genome, the sequenced piece of DNA originated from. As the current methods randomly fragment the DNA (), the genomic location information is completely lost. This process is referred to as mapping.</p>
+<h3 id="intro-sec:mapping">Mapping - Ey man, where is my genomic location?</h3>
+<p>In this process, the fragments of DNA, which were sequenced, are assigned a genomic coordinate on the reference genome. This is only possible, due to the fact, that we have a resolved genome sequences () for a high number of species. The location a sequenced piece of DNA fits to the reference genome might be unique, but it could also fit to multiple locations, due to highly repetitive regions or due to the existence of pseudo genes with almost 100% identify. In addition to this, the reference genome might not accurately reflect the genome of the organism that has been sequenced. Each mapping position is therefore assigned a quality score, which reflects how likely it is the actual position of the sequence. As Illumina sequencers have the ability to sequence both ends of the DNA fragment, the position of the ends (read 1 and read 2) to each other can also be used to infer the quality, as they should be within a reasonable distance to each other ()</p>
+<p>As this process is time consuming and the exact location of the fragment might not be as important, there exists a subset of tools called pseudo-mapper, which are based on <span class="math inline"><em>k</em></span>-mers, which are predefined DNA sequences of length <span class="math inline"><em>k</em></span>, which help to identify certain regions of interest. These tools are especially common for RNAseq, where the exact location of a read doesnt matter, only that the read is within a gene <span class="citation" data-cites="Bray2016 Patro2017">(Bray et al. 2016; Patro et al. 2017)</span>, but also for methods that estimate similarity between sequences (DNA, RNA or protein) <span class="citation" data-cites="Ondov2016 Luczak2017">(Ondov et al. 2016; Luczak, James, and Girgis 2017)</span>.</p>
+<p>For this work however, the exact position of reads is important, so only real mapping methods like BWA <span class="citation" data-cites="Li2013">(Li 2013)</span> or Bowtie 2 <span class="citation" data-cites="Langmead2018">(Langmead et al. 2018)</span>, which are optimised for short reads from Illumina systems, provide the necessary functions.</p>
+<h3 id="intro-sec:variantcalling">Variant calling - spot the difference</h3>
+<p>As intra-species genetic variation is intended for adaptation and evolution, there will be places where the DNA sequence of the subject will differ from the sequence of the reference (see ). These variants give insight into medical background as well as treatment options for patients and can even be used to guide family planning. Depending on the type of variation that is of interest, a different set of computational methods are needed, as germline and somatic variants have different properties.</p>
+<h3 id="intro-sec:germlinecalling">Germline variant calling - the cards you have been dealt at birth</h3>
+<p>The most common source of DNA used for germline variant analysis is the mono nuclear layer from the blood of the subject, but really almost any cell can be used for this process, as all cells in the organism will share all germline variants (). The only important input on top of the DNA sequence from the sequencer are the reference genome of the organism as all variant nomenclature is based on the reference and the ploidy of the organism (). The ploidy is important to infer, at which ranges of allele frequency a variant can biologically occur. For example in a human diploid genome, germline variants can occur either in one or both chromosomes, which mean we assume reads should show an allele frequency of around 50% and 100%, where the hexaploid commercial wheat <span class="citation" data-cites="Mayer2014">(Mayer et al. 2014)</span> allele frequency for variants would be 16%, 33%, 50%, 66%, 0.83% and 100%. Due to the random sampling and possible sequencing errors, however the observed allele frequencies will differ. Most state of the art germline variant calling method will also use haplotype reconstructions through de-Bruijn graphs, which features a remapping of reads in relation to each other <span class="citation" data-cites="Garrison2012 Lai2016 Kim2018 Benjamin2019 Cooke2021">(Garrison and Marth 2012; Lai et al. 2016; Kim et al. 2018; Benjamin et al. 2019; Cooke, Wedge, and Lunter 2021)</span> where the original mapping location assigned by the aligner () is only used as a guideline. This allows to resolve even complex haplotypes of the sample by not restricting the method to the linear setup of the reference genome.</p>
+<h3 id="intro-sec:somaticcalling">Somatic variant calling - life is ever changing</h3>
+<p>In contrast to germline variant calling, somatic variant calling methods cannot rely on allele frequency, as not all cells sequenced are expected to have the change in nucleotide. The allele frequency is instead a measure of the sub clonal size. A subclone is here defined as the set of cells, which were derived from the cell, which originally acquired the somatic mutation. Depending on the selective advantage, just random drift and also the time point when the variant was introduced, these clones can be very variable in size and therefore their contribution to the DNA in the sequencing. As not all cells have the variants, the selection of the tissue for library preparation is very important, unlike for germline calling. The main use of somatic variant calling is the genetic diagnosis and research of cancer samples, where the main question is, which changes are present in the tumour, which lead to the disease.</p>
+<p>The ideal scenario for tumour somatic variant calling is when a biopsy of the tumour as well as a normal sample of the patient is available. In most clinical cases, this will be the diagnostic biopsy as well as the mono nuclear layer from blood, just like for germline calling (). This needs to be adjusted depending on the type of malignancy, because if the tumour is a leukemia, the mono nuclear layer of the blood might contain tumour cells, but for solid tumours, the blood is a routine, minimally invasive option. These two samples are then analysed together and only changes that are only in the somatic tumour sample and not in the normal sample are reported. Even though this concept sounds simple, there are some pitfalls <span class="citation" data-cites="GATKTeam2021a">(GATK Team 2021b)</span>. First of all, there might be some tumour contamination in the normal sample, which needs to be adjusted for <span class="citation" data-cites="Kim2018 TaylorWeiner2018">(Kim et al. 2018; Taylor-Weiner et al. 2018)</span>. Second, there might be normal “contamination“ in the tumour sample, this means that not all cells in the tumour sample are actually tumour. This means that the signal of the tumour changes is reduced and harder to find.</p>
+<p>All of these issues are amplified in the case, when there is no “normal“ sample available, either because the patient didnt consent, due to other medical issues, or because for diagnostic tests there usually is no need for a germline sample. In this case, there is the option for “tumour only“ variant calling, which requires a database of germline variants in the population, to distinguish between somatic and germline variants, as the variant calling is very similar to just germline variant calling () without the restriction of the ploidy. However, even with an extensive database like gnomAD <span class="citation" data-cites="Karczewski2020">(Karczewski et al. 2020)</span> it is unlikely that is possible to remove all germline variants from the analysis and as there is no direct comparison, the precision of the “tumour only“ method is significantly lower <span class="citation" data-cites="Karimnezhad2020">(Karimnezhad et al. 2020)</span>.</p>
+<h2 id="intro-sec:cancer">Cancer</h2>
+<p>While cancer is a massively heterogenous disease, as it can arise through a multitude of ways in almost any tissue, there are a some fundamental defining features, which most, if not all malignancies acquire, before they are truly cancers . The original characteristics comprise</p>
+<div class="enumerate*">
+<p>Sustaining proliferative signaling</p>
+<p>Evading growth suppressors</p>
+<p>Activating invastion and metastasis</p>
+<p>Enabling replicative immortality</p>
+<p>Inducing angiogenesis</p>
+<p>Resisting cell death</p>
+</div>
+<p>(). These hallmarks were long considered the core of tumour development and the authors themselves hypothesised, that these core mechanics allow us to condense the complexity that cancer displays, both in the clinic as well as in labs, with a small set of rules, which all cancers have to obey <span class="citation" data-cites="Hanahan2000">(Hanahan and Weinberg 2000)</span>. In their exact words: “We foresee cancer research developing into a logical science, where the complexities of the disease, described in the laboratory and clinic, will become understandable in terms of a small number of underlying principles“</p>
+<figure>
+<img src="Figures/oldHallmarksCancer.jpg" id="fig:oldhallmarks" alt="Acquired capabilities of cancer; Functional capabilities acquired by most cancers during their development; Figure adapted from Hanahan and Weinberg (2000)(Hanahan and Weinberg 2000)" /><figcaption aria-hidden="true">Acquired capabilities of cancer; Functional capabilities acquired by most cancers during their development; Figure adapted from <span class="citation" data-cites="Hanahan2000">Hanahan and Weinberg (2000)</span><span class="citation" data-cites="Hanahan2000">(Hanahan and Weinberg 2000)</span></figcaption>
+</figure>
+<p>However, with 11 years of additional research into the topic, more hallmarks have been found and the original list was revised by the authors to contain additional characteristics, namely</p>
+<div class="enumerate*">
+<p>Avoiding immune destruction</p>
+<p>Tumour-promoting inflamation</p>
+<p>Genome instability and mutation</p>
+<p>Deregulating cellular energetics</p>
+</div>
+<p>() <span class="citation" data-cites="Hanahan2011">(Hanahan and Weinberg 2011)</span>. And even then a few years later, even more hallmarks e.g. metabolic rewiring are now considered a part of the characteristics of cancer <span class="citation" data-cites="Fouad2017">(Fouad and Aanei 2017)</span>.</p>
+<figure>
+<img src="Figures/newHallmarksCancer.jpg" id="fig:newhallmarks" alt="Emerging hallmarks and enabling characteristics of cancer; updated version of the hallmarks figure () with ; Figure adapted from Hanahan and Weinberg (2011)(Hanahan and Weinberg 2011)" /><figcaption aria-hidden="true">Emerging hallmarks and enabling characteristics of cancer; updated version of the hallmarks figure () with ; Figure adapted from <span class="citation" data-cites="Hanahan2011">Hanahan and Weinberg (2011)</span><span class="citation" data-cites="Hanahan2011">(Hanahan and Weinberg 2011)</span></figcaption>
+</figure>
+<p>So while the original set of the hallmarks was not sufficient or complete, it offered a good attempt at abstraction of biological concepts to describe cancers. In the following pages, I will outline each of those hallmarks and how it influences my research.</p>
+<h4 id="sustaining-proliferative-signaling---there-are-no-breaks-on-the-train">Sustaining proliferative signaling - there are no breaks on the train</h4>
+<h4 id="evading-growth-suppressors">Evading growth suppressors</h4>
+<h4 id="activating-invasion-and-metastasis---look-at-me...-i-am-the-organism-now">Activating invasion and metastasis - look at me... I am the organism now</h4>
+<h4 id="enabling-replicative-immortality">Enabling replicative immortality</h4>
+<h4 id="inducing-angiogenesis">Inducing angiogenesis</h4>
+<h4 id="resisting-cell-death">Resisting cell death</h4>
+<h3 id="intro-sec:lungcancer">Lungcancer</h3>
+<p>With around 1.6 million deaths world-wide each year, lung cancer is the number one cause of cancer death <span class="citation" data-cites="Siegel2018">(Siegel, Miller, and Jemal 2018)</span>. Every year about twelve thousand Australians get diagnosed with lung cancer. These cases can be generally split into two groups: small cell lung cancers (SCLC) and non-small cell lung cancers (NSCLC), which account for around 15% and 85% of cases, respectively. The majority of NSCLC are either lung adenocarcinoma or lung squamous cell carcinoma <span class="citation" data-cites="Molina2008">(Molina et al. 2008)</span>. Even though smoking is highly associated with lung cancers, there is a big group of never smokers, with a high risk of lung cancers in East Asia, especially women, which is correlated with outside influences like pollution and occupational carcinogens and paired with genetic susceptibility <span class="citation" data-cites="Sun2007">(Sun, Schiller, and Gazdar 2007)</span>. This group usually shows <em>EGFR</em> (epidermal growth factor receptor) driven tumours. EGFR is a transmembrane receptor tyrosine kinase, which is usually only expressed in epithelial, mesenchymal, and neurogenic tissue, but its overexpression in other tissues is a hallmark of many human malignancies, not just NSCLC.</p>
+<h2 id="intro-sec:overview">Overview</h2>
+<div class="savequote">
+<p>“It is the main source of our mistakes, when making making decision, that we only look at life piece by piece and not as a whole.“</p>
+</div>
+<h1 id="ch:variantcalling">Joint somatic variant calling - if germline can do it, so can we</h1>
+<h2 id="variantcalling-sec:intro">Introduction</h2>
+<p>When I started exploring the somatic variant calling methods in the beginning of my PhD in 2018, I was surprised about the stark difference between germline and somatic variant calling methods. Where all "modern" germline variant callers have the built-in capability to joint call multiple samples, for example from family trios, virtually no somatic variant caller had this function.</p>
+<p>The joint analysis of smaller cohorts improves the performance of germline variant calling methods significantly, by allowing to assess technical artifacts, which might be unique for the individual sequencing machine or the researcher handling the DNA <span class="citation" data-cites="Schirmer2016 Stoler2021">(Schirmer et al. 2016; Stoler and Nekrutenko 2021)</span>. As certain parts of the genome are more problematic to sequence () and map (), a “control“ sample can help to distinguish if a certain observed change occurs commonly, is a technical issue or in fact a real change.</p>
+<p>For somatic variant calling, this concept has been adjusted in the genome analysis toolkit (GATK) <span class="citation" data-cites="BrianOConnor2020">(Brian O’Connor 2020)</span> to allow the use of panel of normals (PON), which contains frequently seen changes in healthy (“normal“) individuals analysed with the same sequencing technology <span class="citation" data-cites="GATKTeam2021">(GATK Team 2021a)</span>, but this is a post processing step of the analysis rather than a more intricate model like it is for the germline equivalent. Mutect2, which is the most recent somatic variant calling algorithm provided by the Broad institute, however also provides a multi-sample mode, for which all tumour samples need to be from the same patient, either longitudinal or spatial different <span class="citation" data-cites="GATKTeam2020">(GATK Team 2020)</span>. This mode is hidden quite well and all tutorials published by the developers state that “there is currently no way to perform joint calling for somatic variant discovery“ <span class="citation" data-cites="GATKTeam2021a">(GATK Team 2021b)</span>, so while all methods in the GATK are considered a beta feature, this seems, that development is not a priority.</p>
+<p>There are only two methods currently, which have documented and published capabilities to jointly analyse tumour samples from the same patient to call somatic variants. The first one is a specialised method built on a joint bayesian model for SNVs to occur in multiple samples called multiSNV <span class="citation" data-cites="Josephidou2015">(Josephidou, Lynch, and Tavaré 2015)</span>. However it has multiple shortcomings, which make it not useable for our data. First, as the name suggests, the method can only jointly evaluate SNVs and completely ignores indels and structural variants, which would be acceptable for the superior performance shown. However, multiSNV was optimised only for WES and not for the very deep WGS that is now available. This means exceptionally high runtimes. Even with custom parallelisation that was attempted in this work, the predicted runtime for just one multi sample patient would have been longer than 3 years. This again shows, that while multiSNV was a great step forward at the time, there is a real need for new methods to stem the tide of sequencing data available at low cost.</p>
+<p>multiSNV has been the only software available for multi sample analysis, but only recently, during this work, superFreq <span class="citation" data-cites="Flensburg2020">(Flensburg et al. 2020)</span> was published. It combines all standard analysis steps for tumour analysis, like variant calling or clonal deconvolution, into one program and is even able to jointly analyse samples. However similar to multiSNV, its focus when optimising and developing was on WES and RNAseq data, so when applied to our data, we could not find a server with enough memory to execute the workflow.</p>
+<p>This then prompted us to investigate possible workflows to enable the analysis of high depth WGS, which we estimate to become more and more normal, with the ever dropping prices of sequencing. The following sections will first show the publication and then discusses additional analysis done after the the publication of the manuscript () and the impact of the joint analysis on downstream methods ().</p>
+<h2 id="publication">Publication</h2>
+<p>The publication about joint somatic variant calling can be found at <a href="https://doi.org/10.1093/bioinformatics/btab606"><code>https://doi.org/10.1093/bioinformatics/btab606</code></a> and non-journal formated version is also attached as .</p>
+<h2 id="variantcalling-sec:downstream">Effects on downstream analysis - not quite the missing link, but close</h2>
+<p>The ability to find additional shared variants has significant impact on our understanding of cancer evolution and the timing of initiation and metastatic seeding. Recent work has shown, that similar to the well known genetic heterogeneity, there is heterogeneity when it comes to metastatic seeding. While traditionally it was thought that tumours only metastesised after they reached a certain size, to escape the restrictions of the niche, like reduced nutrition, recent publications showed, there is also very early metastatic seeding <span class="citation" data-cites="Hu2019">(Hu et al. 2019)</span>. But all those methods are ultimately based on the somatic variants found in the data, so if we improve on the input of the downstream analysis methods, we can expect a clearer and possibly more granular result.</p>
+<p>In this section I will highlight for a few examples on how big the effect can be for methods, like phylogenetic reconstruction and clonal decomposition, which use somatic variants as input.</p>
+<h3 id="variantcalling-sec:phylo">Phylogenetic reconstruction</h3>
+<p>As this work is not about the advantages and shortcomings of different phylogenetic reconstruction tools, we will not show a comprehensive amount of these tools, but rather focus on the results. For this reason, we chose to use neighbour joining (NJ) <span class="citation" data-cites="Saitou1987">(Saitou and Nei 1987)</span>, because it is fast, readily available in most phylogenetic reconstruction tool kits and if the input distance is correct, the output will be correct. And even, if the distance is not 100% correct, if the distance is “nearly additive“ and the input distances are not far off the real distance, the tree topology will still be reconstructed correctly <span class="citation" data-cites="Mihaescu2007">(Mihaescu, Levy, and Pachter 2007)</span>. Lastly, in contrast to many other methods like UPGMA and WPGMA <span class="citation" data-cites="Sokal1958">(Sokal and Michener 1958)</span>, NJ does not assume an equal mutation rate of each sample, because we know, that the molecular clock hypothesis <span class="citation" data-cites="Zuckerkandl1962">(Zuckerkandl and Pauling 1962)</span> is not valid for different lineages of cancers <span class="citation" data-cites="Shibata2010">(Shibata 2010)</span>.</p>
+<p>While there are lots of distance measures for DNA sequences, which allow accounting for different probabilities of transitions and transversions as well as uneven base composition, models like F81 <span class="citation" data-cites="Felsenstein1981">(Felsenstein 1981)</span> or HKY85 <span class="citation" data-cites="Hasegawa1985">(Hasegawa, Kishino, and Yano 1985)</span> are only really designed for germline mutations and are not easily applicable for subclonal somatic mutations, which is why we decided to first transform the variants present in all samples into a binary occurrence vector and then calculating the Hamming distance <span class="citation" data-cites="Hamming1950">(Hamming 1950)</span> between all samples. This generates a maximum parsimony approach and the branch length of the trees will be directly translatable to the amount of variants which are different between samples.</p>
+<p>shows both the reconstructed phylogenies when using the variants found with the default tumour-normal method and our improved joint method and using the exact same reconstruction method otherwise.</p>
+<figure>
+<embed src="Figures/phyloCA99.pdf" id="fig:ca99phylo" /><figcaption aria-hidden="true">Reconstructed phylogenies of a patient with multiple spatially distinct samples; Reconstruction method is neighbour joining for both cases, only the input of the called variants is different. Tip labels describe the location of the sample in the patient. Trees are shown as unrooted with germline as fixated origin point; black line ruler shows the length of an edge with 5000 mutations</figcaption>
+</figure>
+<p>There are several obvious changes, first, the longer edge connecting the the germline, which we consider as the state of no somatic variants, to all other samples. This shows that there are many more shared mutations in all samples, than what would have been anticipated with the default method. As the accumulation of somatic variants is still used as a proxy for timing and cell divisions, when assuming a high mutation rate for lung cancer (<span class="math inline">5.3 ⋅ 10<sup>−8</sup></span> from <span class="citation" data-cites="Werner2020">Werner et al. (2020)</span> <span class="citation" data-cites="Werner2020">(Werner et al. 2020)</span>) this difference of <span class="math inline"> ≈ 36000</span> variants is equivalent to <span class="math inline"> ≈ 2000</span> cell divisions. While the cell doubling rate of lung cancers is highly dependent on the type <span class="citation" data-cites="Arai1994">(Arai et al. 1994)</span>, this difference makes a huge difference when assessing the timing of the tumour initiation and further evolution.</p>
+<p>Secondly, there have been topological changes, which generate a bifuricating edge between the warm coloured pleura, occipital, l-liver-2 and l-liver-5 samples, which fits significantly better with the clinical history and PET scans of the patient, as these are the sites of progression, which lead to the death of the patient in contrast to the earlier sites of disease.</p>
+<p>shows a topology focused view of the two trees, which highlights the breaks which are needed to morph one tree into the other with dotted edges <span class="citation" data-cites="Vienne2018">(Vienne 2018)</span>. The common subtrees are coloured the same on both sides and connecting lines show identical labels. This format shows that while the trees look quite similar at first glance, they show vastly different topologies.</p>
+<figure>
+<embed src="Figures/tanglePhyloCA99.pdf" id="fig:tanglePhyloCa99" /><figcaption aria-hidden="true">Side by side view of the reconstructed trees from ; internal edges, which are distinct between trees are shown as dotted lines; common subtrees are shown in red and green; Tree labels have been sorted to minimise distance between labels; axis show the hamming distance between two nodes. Visualisation generated with dendextend <span class="citation" data-cites="Galili2015">(Galili 2015)</span></figcaption>
+</figure>
+<p>One example of this is “l-liver-3“ which was a singleton, almost an outlier, in the pairwise reconstructed tree but is clustered together with “r-liver-2“ and “r-liver-3“. Generally, there have been additional changes, which make the topology more granular. Where all of the “l-liver-*“ samples were shown as an almost linear branching off the main stem, they are now further subdivided and each show distinct mutations, like “l-liver-2“ and “l-liver-5“ ().</p>
+<h2 id="variantcalling-sec:longitudinal">Longitudinal analysis - something for the ages </h2>
+<p>While the initial motivation for the development of these workflows was the analysis of multi-region, so spatial, samples from the same patient coming from the CASCADE rapid autopsy program, a longitudinal application of these methods for the joint analysis of diagnostic and relapse sample, or even the repeated testing of ctDNA are quite worth thinking about. In this part, I will present work using the published workflows on a longitudinal datasets, which highlights the flexibility and wide spread use of our new methods.</p>
+<p>Specifically, I will show the analysis of longitudinal ctDNA WES of patient “CA-F“ from the manuscript (). in a study of late stage melanoma patients, identified ctDNA sequencing as a way to stratify patients into high and low risk of relapse and therefore inform adjuvant therapy <span class="citation" data-cites="Tan2019">(Tan et al. 2019)</span>. In this analysis we aim to improve the quality of detection of low allele frequency somatic variants. This would enable the detection of variants from brains metastasis, as the blood brain barrier decreases the availability of DNA fragments from lesions in the brains in the normal blood stream <span class="citation" data-cites="2014">(<span>“ctDNA Is a Specific and Sensitive Biomarker in Multiple Human Cancers.”</span> 2014)</span>, however it is detectable with sensitive enough methods <span class="citation" data-cites="Yoon2019 Ma2020">(Yoon et al. 2019; Ma et al. 2020)</span>.</p>
+<h3 id="variantcalling-sec:clonal">Clonal deconvolution</h3>
+<p>Finally, the holy grail of analysis of multiple related samples from the same patient is the clonal deconvolution, where subclonal reoccurring patterns of mutations are detected. These can be linked to either parallel evolution through positive selection pressure, like a targeted drug or to the process of developing Metastases where a piece of the cancer “breaks“ off and grows at a different site. Surprisingly, as it shares the same issues as the joint somatic variant calling of needing deeply sequenced data from multiple samples of the same organism, there is a plethora of algorithms and methods available for clonal deconvolution. Since 2015 PhyloWGS <span class="citation" data-cites="Deshwar2015">(Deshwar et al. 2015)</span>, Canopy <span class="citation" data-cites="Jiang2016">(Jiang et al. 2016)</span>, CLOE <span class="citation" data-cites="Marass2016">(Marass et al. 2016)</span>, CloneFinder <span class="citation" data-cites="Miura2018">(Miura et al. 2018)</span>, Machina <span class="citation" data-cites="ElKebir2018">(El-Kebir, Satas, and Raphael 2018)</span> and MOBSTER <span class="citation" data-cites="Caravagna2020">(Caravagna et al. 2020)</span>. Underlying these models is a form of clustering variants with similar variant allele frequency together, to reduce the combinatorial space and enhance the confidence in the signal <span class="citation" data-cites="Tarabichi2021">(Tarabichi et al. 2021)</span>. However even though there is a high number of tools, the challenge to select the right tool is substantial, especially since all of them have up and downsides <span class="citation" data-cites="Miura2020">(Miura et al. 2020)</span>. In this work we decided to use PhylogicNDT <span class="citation" data-cites="Leshchiner2018">(Leshchiner et al. 2018)</span> as it has been shown to work well on clinical samples <span class="citation" data-cites="Gerstung2020">(Gerstung et al. 2020)</span> and does not have the restriction for the input to be from copy number neutral areas which many of the other tools have.</p>
+<p>The analysis was conducted by transforming the variants called with the joint workflows as well as the default pairwise analysis into the required MAF file format without the cancer cell fraction part, in order to let PhylogicNDT calculate those on the fly. The local copy numbers for each variants are generated by intersecting the called segments from sequenza with the position of the variants. Variants which could not be assigned a local copy number change were discarded from the analysis.</p>
+<figure>
+<embed src="Figures/clonalDeconv.pdf" id="fig:clonaldeconv" /><figcaption aria-hidden="true">Reconstructed clonal trees from PhylogicNDT; Blue circle at top depicts the germline/normal state. The coloured edges with the same coloured circle represents a distinct subclone of the parent from which the edge emerges; The number in braces next to the edge is the number of mutations which define this subclone with an added gene symbol added, if there is a cancer driver gene mutation. The left part shows the result when using the default pairwise method of Strelka2 and the right side uses the results from the Strelka2Pass workflow</figcaption>
+</figure>
+<p>shows the highest parsimony clonal tree reconstructed by PhylogicNDT for the pairwise as well as the joint variant calling. As the copynumber calling information is the same for both inputs, the only difference is in the called variants. While there was no subclonal structure detected at all for the pairwise analysis, there is a highly variable structure detected using the jointly called variants.</p>
+<h2 id="usage---its-not-just-me-that-thinks-it-is-good">Usage - its not just me that thinks it is good</h2>
+<p>As published software is amazing, its real value is in the re-usability and portability. Many published software packages are not maintained or not even functional even though they are published. While I developed these joint somatic variant calling workflows to deal with a challenge I faced, many other people even just at the same institute have already shown interest and some research groups are already using the software to analyse their multi-sample data.</p>
+<figure>
+<embed src="Figures/dawsontoolkitDownloads.pdf" id="fig:usageStats" /><figcaption aria-hidden="true">Cumulative download numbers of the “dawsontoolkit“ docker container since publication of the manuscript; Actual counts are shown as dots, with smoothed trajectory depicted as dotted line with the 95% confidence interval shown as a grey background; confidence interval has been adjusted with exponential decay of prediction accuracy with distance from the last data point; Start date 7<span class="math inline"><sup><em>t</em><em>h</em></sup></span> September 2021</figcaption>
+</figure>
+<p>To have some proxy of the usage statistics of the workflows, I recorded the download numbers of the “dawsontoolkit“ docker container, which only contains software for refiltering and joint analysis of the workflows after the publication of the manuscript. Obviously, this is an imperfect measurement, as people can reuse a downloaded container as often as they want, which would not appear in the count and similarly, just because the container was downloaded, the analysis might not have been used. However it still shows an interaction and an interest in the methods. The download numbers show a quick increase in numbers in the beginning, just after the publication, followed by a short plateau but then another increase (). This suggests, that there is a need in the methods, rather than a simple curiosity after publication.</p>
+<div class="savequote">
+<p>“Death is a release from and an end of all pains: beyond it our sufferings cannot extend: it restores us to the peaceful rest in which we lay before we were born“</p>
+</div>
+<h1 id="ch:cascade">CASCADE - Late stage lung cancer in the spotlight</h1>
+<h2 id="cascade-sec:intro">Introduction</h2>
+<h2 id="cascade-sec:publication">Publication</h2>
+<p>This chapter includes the data analysis for two two publications. The first publication features the resistance mechanism of small cell transformation (<a href="https://doi.org/10.1016/j.ccell.2019.08.008"><code>https://doi.org/10.1016/j.ccell.2019.08.008</code></a><span class="citation" data-cites="Burr2019">(Burr et al. 2019)</span>) and the second shows the discovery of resistance to a targeted RET-fusion driven cancer (<a href="https://doi.org/10.1016/j.jtho.2020.01.006"><code>https://doi.org/10.1016/j.jtho.2020.01.006</code></a><span class="citation" data-cites="Solomon2020">(Solomon et al. 2020)</span>)</p>
+<h2 id="cascade-sec:cohort">Cohort analysis</h2>
+<h2 id="cascade-sec:mitochondria">Mitochondrial phylogenetic reconstruction - the power house of the phylogenies</h2>
+<h2 id="cascade-sec:outlook">Outlook</h2>
+<div class="savequote">
+<p>“Many a mickle makes a muckle.“</p>
+</div>
+<h1 id="ch:mmf">MisMatchFinder - hope springs eternal</h1>
+<h2 id="mmf-sec:intro">Introduction</h2>
+<div class="savequote">
+<p>“As you think, so you become. Our busy minds are forever jumping to conclusions, manufacturing and interpreting signs that aren’t there.“</p>
+</div>
+<h1 id="ch:conclusion">Conclusion</h1>
+<h1 id="ch:appendixManuscript">Custom workflows to improve joint variant calling from multiple related tumour samples: FreeBayesSomatic and Strelka2Pass</h1>
+<p>This appendix contains the manuscript published at <em>Bioinformatics</em> in an non journal style format. It can also be found at <a href="https://doi.org/10.1093/bioinformatics/btab606/6361543">10.1093/bioinformatics/btab606/6361543</a> for a paper style version.</p>
+<hr />
+<p><span><strong>Hollizeck S.<span class="math inline"><sup>1, 2</sup></span>, Wong S.Q.<span class="math inline"><sup>1, 2</sup></span>, Solomon B.<span class="math inline"><sup>1, 2</sup></span>, Chandrananda D.<span class="math inline"><sup>1, 2</sup></span>, and Dawson S-J.<span class="math inline"><sup>1, 2, 3, *</sup></span></strong></span></p>
+<p><span> <span class="math inline"><sup>1</sup></span> Peter MacCallum Cancer Centre, Melbourne 3000, Victoria, Australia<br />
+<span class="math inline"><sup>2</sup></span> Sir Peter MacCallum Department of Oncology, University of Melbourne, Melbourne 3000, Victoria, Australia<br />
+<span class="math inline"><sup>3</sup></span> Centre for Cancer Research, University of Melbourne, Melbourne 3000, Victoria, Australia<br />
+<span class="math inline"><sup>*</sup></span> D.C and S.J.D are co-senior authors and contributed equally to this article </span></p>
+<p><span> Received on 27-Jan-2021; revised on 13-Jul-2021; accepted on 12-Aug-2021 </span></p>
+<p><span><strong>Abstract</strong></span></p>
+<h5 id="summary"><strong>Summary:</strong></h5>
+<p>This work describes two novel workflows for variant calling that extend the widely used algorithms of Strelka2 and FreeBayes to call somatic mutations from multiple related tumour samples and one matched normal sample. We show that these workflows offer higher precision and recall than their single tumour-normal pair equivalents in both simulated and clinical sequencing data.</p>
+<h5 id="availability-and-implementation"><strong>Availability and Implementation:</strong></h5>
+<p>Source code freely available at the following link: <a href="https://atlassian.petermac.org.au/bitbucket/projects/DAW/repos/multisamplevariantcalling"><code>https://atlassian.petermac.org.au/bitbucket/projects/DAW/repos/multisamplevariantcalling</code></a> and executable through Janis (<a href="https://github.com/PMCC-BioinformaticsCore/janis"><code>https://github.com/PMCC-BioinformaticsCore/janis</code></a>) under the GPLv3 licence.</p>
+<h5 id="contact"><strong>Contact:</strong></h5>
+<p><a href="Dineika.Chandrananda@petermac.org">Dineika.Chandrananda@petermac.org</a>, <a href="Sarah-Jane.Dawson@petermac.org">Sarah-Jane.Dawson@petermac.org</a></p>
+<h5 id="supplementary-information"><strong>Supplementary information:</strong></h5>
+<p>Supplementary data are available at <em>Bioinformatics</em> online.</p>
+<h2 id="introduction">Introduction</h2>
+<p>Joint variant calling methods are routinely used to call germline variants by leveraging population-wide information across multiple related samples <span class="citation" data-cites="DePristo2011 Toptas2018">(DePristo et al. 2011; Toptaş et al. 2018)</span>. This concept is also advantageous for somatic variant calling to potentially overcome the challenges of spatial heterogeneity and low tumour purity. However, there is a critical lack of robust algorithms that allow multi-sample somatic calling. Most studies still rely on variant calling of separate tumour-normal pairs, subsequently combining the results across a sample cohort <span class="citation" data-cites="Hu2019 Leong2018 Wang2018">(Hu et al. 2019; Leong et al. 2018; Wang et al. 2018)</span>.</p>
+<p>There are two major pitfalls for combining variants called from individual tumour samples. First, it is very difficult to differentiate between a false negative result due to "missing data" versus the true absence of a variant. Second, there is limited sensitivity for low allele frequency variants thus, decreasing the ability to detect minor clones, particularly in samples with low tumour purity.</p>
+<p>Currently, only three algorithms claim to have the functionality to jointly analyse multiple samples: multiSNV <span class="citation" data-cites="Josephidou2015">(Josephidou, Lynch, and Tavaré 2015)</span>, SuperFreq <span class="citation" data-cites="Flensburg2020">(Flensburg et al. 2020)</span>, and Mutect2 <span class="citation" data-cites="Benjamin2019">(Benjamin et al. 2019)</span>, each presenting different limitations. For instance, multiSNV cannot call indels and along with SuperFreq, is not optimised for analysis of deep coverage whole-genome sequencing (WGS) data. Mutect2 has previously been shown to be disadvantageously conservative as well as computationally inefficient <span class="citation" data-cites="Chen2020a">(Chen et al. 2020)</span>.</p>
+<p>To enable highly sensitive, fast and accurate variant detection from multiple related tumour samples, we have developed joint variant calling extensions to two widely used single-sample algorithms, FreeBayes <span class="citation" data-cites="Garrison2012">(Garrison and Marth 2012)</span> and Strelka2 <span class="citation" data-cites="Kim2018">(Kim et al. 2018)</span>. Using both simulated and clinical sequencing data, we show that these workflows are highly accurate and can detect variants at much lower variant allele frequencies than commonly used methods.</p>
+<h2 id="materials-and-methods">Materials and methods</h2>
+<h3 id="freebayessomatic-workflow">FreeBayesSomatic workflow</h3>
+<p>The original FreeBayes algorithm can jointly evaluate multiple samples but routinely it does not perform somatic variant calling on tumour-normal pairs. We introduce FreeBayesSomatic which allows concurrent analysis of multiple tumour samples by adapting concepts from SpeedSeq <span class="citation" data-cites="Chiang2015">(Chiang et al. 2015)</span> which differentiates the likelihood of a variant between tumour and normal samples instead of imposing an absolute filter for all variants called in the normal. Hence, for each genotype (GT) at SNV sites, FreeBayesSomatic first calculates the difference in likelihoods (LOD) between the normal (Eq. 1) and the tumour (Eq. 2) samples genotype likelihoods (GL) with g<span class="math inline"><sub>0</sub></span> describing the reference genotype.</p>
+<p><span class="math display">$$\begin{aligned}
+\text{LOD}_{\text{normal}} &amp;= \max_{g_i \in \text{GT}} \left( \text{GL}(g_0) - \text{GL}(g_i) \right) \label{eq:01}\\
+\text{LOD}_{\text{tumour}} &amp;= \min_{s \in \text{Samples}} \left( \min_{g_i \in \text{GT}} \left( \text{GL}_s(g_i) - \text{GL}_s(g_0) \right) \right) \label{eq:02}\\
+\text{somaticLOD} &amp; := \left( \text{LOD}_{\text{normal}} \geq 3.5 \land \text{LOD}_{\text{tumour}} \geq 3.5 \right) \label{eq:03}\end{aligned}$$</span></p>
+<p>Next, the variant allele frequencies (VAF) in both the tumour and the normal samples are compared at each site.</p>
+<p><span class="math display">$$\begin{aligned}
+\text{VAF}_{\text{tumour}} &amp;= \max_{s \in \text{Samples}} ( \text{VAF}_s) \label{eq:04}\\
+\text{somaticVAF} &amp; := \left( \text{VAF}_{\text{normal}} \leq 0.001 ~\lor \right. \nonumber \\
+ &amp; \left. ( \text{VAF}_{\text{tumour}} \geq 2.7 \cdot \text{VAF}_{\text{normal}}) \right) \label{eq:05}\end{aligned}$$</span></p>
+<p>A variant is classified as somatic when both somaticLOD as well as somatic VAF pass the criteria somaticLOD (Eq. 3) and somaticVAF (Eq. 5).</p>
+<p>The thresholds chosen for both LOD and VAF calculations were previously fitted by the blue-collar bioinformatics workflow for the DREAM synthetic 3 dataset using the SpeedSeq likelihood difference approach <span class="citation" data-cites="Chapman2020">(Chapman et al. 2021)</span> and were selected to identify high confidence variants.</p>
+<h3 id="strelka2pass-workflow">Strelka2Pass workflow</h3>
+<p>In contrast to FreeBayes, whilst Strelka2 has a multiple-sample mode for germline analysis and tumour-normal pair somatic variant calling capabilities, it cannot jointly analyse multiple related tumour samples. We enable this feature by adapting a two-pass strategy previously used for RNA-seq data <span class="citation" data-cites="Veeneman2015">(Veeneman et al. 2015)</span>. First, somatic variants are called from each tumour-normal pair. All detected variants across the cohort are then used as input for the second pass of the analysis where we re-iterate through each tumour-normal pair but assess allelic information for all input genomic sites.</p>
+<p>The method re-evaluates the likelihood of each variant, by integrating every genotype from each tumour-normal pair. This step can "call" a variant (<span class="math inline"><em>v</em></span>) in a sample that initially did not present enough evidence to pass the Strelka2 internal filtering using two conditions: 1) if this variant was called as a proper "PASS" by Strelka2 in any other tumour sample, or 2) if the integrated evidence for this variant across all tumour-normal pairs reached a sufficiently high level. The second condition was based on the somatic evidence score (SomEVS) reported by Strelka2, which is the logarithm of the probability of the variant <span class="math inline"><em>v</em></span> being an artefact.</p>
+<p><span class="math display">$$p_{error}(v) = 10^{\left( \frac{-\text{SomEVS}(v)}{10} \right)} \label{eq:06}$$</span></p>
+<p>While the germline sample is shared between all processes, we can approximate these individual probabilities as being independent, since one variant calling process is agnostic of the other. Hence, we derive the following:</p>
+<p><span class="math display"><em>p</em><sub><em>e</em><em>r</em><em>r</em><em>o</em><em>r</em></sub>(<em>v</em><sub><em>s</em><sub>1</sub></sub>,<em>v</em><sub><em>s</em><sub>2</sub></sub>,…,<em>v</em><sub><em>s</em><sub><em>n</em></sub></sub>) = ∏<sub><em>s</em> ∈ Samples</sub><em>p</em><sub><em>e</em><em>r</em><em>r</em><em>o</em><em>r</em></sub>(<em>v</em><sub><em>s</em></sub>)</span></p>
+<p>And therefore:</p>
+<p><span class="math display">SomEVS(<em>v</em><sub><em>s</em><sub>1</sub></sub>,<em>v</em><sub><em>s</em><sub>2</sub></sub>,…,<em>v</em><sub><em>s</em><sub><em>n</em></sub></sub>) = ∑<sub><em>s</em> ∈ Samples</sub>SomEVS(<em>v</em><sub><em>s</em></sub>)</span></p>
+<p>This allows the summation (Eq. 8) of the SomEVS score across all supporting variants to assign a "PASS" filter, if it reached a joint SomEVS score threshold. This threshold can be set by the user and is 20 by default, which corresponds to an estimated error rate of 1%. These "recovered" variants need to pass a set of additional quality metrics related to depth of coverage, mapping quality and read position rank sum score.</p>
+<p>As an additional improvement, we also built multiallelic support into Strelka2 which originally only reports the most prevalent variant at a specific site. Within the two-pass analysis, we reconstruct the available evidence for a multiallelic variant at a called site from the allele-specific read counts and report the minor allele at this site, if there is sufficient support from other samples. This method allows recovery of minor alleles only if another sample has this variant called by Strelka2, as SomEVS scores are not available for minor alleles.</p>
+<h2 id="validation">Validation</h2>
+<div class="figure*">
+<p><embed src="Appendices/Variantcalling/Figure_1.pdf" /></p>
+</div>
+<h3 id="simulated-data">Simulated data</h3>
+<p>We first simulated a phylogeny with somatic and germline variants from ten tumour samples and one normal (Fig. 1A, S1A, B) (Supplementary methods). Germline variants were simulated at a uniform allele frequency of <span class="math inline">0.5</span>. Somatic VAFs were sampled from a custom distribution, modelled to favour low allele frequency variants to closely represent real world data (min VAF: <span class="math inline">0.001</span>; max VAF: <span class="math inline">1</span>; Fig. S1C, D). Paired-end sequencing reads with realistic error profiles were simulated for WGS data at 160X average coverage using the ART-MountRainier software <span class="citation" data-cites="Huang2011">(Huang et al. 2011)</span>. The simulated reads were aligned to GRCh38 and both germline and somatic variants from the phylogeny were spiked into the aligned reads using Bamsurgeon <span class="citation" data-cites="Ewing2015">(Ewing et al. 2015)</span>. We compared the workflows for FreeBayes and Strelka2 with and without our extensions for joint variant calling on the simulated datasets. The performance of Mutect2 joint variant calling was also assessed using its proposed best practice workflow. As both Mutect2 and FreeBayes do not return a verdict for each individual sample, we needed to assign each sample in the multi-sample VCF its own FILTER value. We called a somatic variant as present in a sample, if there were at least two reads supporting it for this sample and the overall FILTER showed a “PASS“, which was the same cut-off used in the refiltering step in the Strelka2-pass workflow.</p>
+<p>While the precision of each method without our extensions was greater than <span class="math inline">99.8%</span>, they all missed at least 25% of all variants in the samples (i.e recall <span class="math inline"> ≤ 75%</span>). In contrast, the recall of the modified workflows increased to <span class="math inline"> ≈ 95%</span> with only a minute decrease in the precision for both FreeBayes and Strelka2 (Fig. S2). Mutect2 however, had virtually no change in precision, but the recall actually decreased from <span class="math inline"> ≈ 75%</span> to <span class="math inline"> ≈ 41%</span> when analysing the samples jointly (Fig. S2B). Additionally, with our modified workflows, true positive variants were called with VAFs as low as 0.008 (median detected VAF <span class="math inline"> ≥ 0.14</span> for joint sample analysis and <span class="math inline"> ≥ 0.21</span> for single tumour-normal pair analysis), enabling improved distinction between true variants and technical errors (Fig. S3). This improvement in performance for Strelka2 is only achieved after the refiltering step and not just a result of the second pass (Fig. S4) (Supplementary Methods).</p>
+<p>The performance of joint variant calling in Mutect2 was inferior compared to all other methods (Fig. S2A, B). This was primarily due to the "clustered_events" filter in Mutect2, which excluded the majority of false negative variants, with negligible contribution to the exclusion of true negative variants (Fig. S5A, B). This result was unexpected as the simulated variants were evenly distributed along the genome and the corresponding allele frequencies were sampled randomly (Fig. S1D).</p>
+<p>Since the extent of the improvement in our joint calling workflows is bound by the number of shared variants between samples, we sub-sampled the simulated dataset, to show the effect of incomplete sampling on our methods, which is more likely in clinical settings. Furthermore, the evolutionary distance between the related samples in addition to the number of samples, has a major impact on the number of shared variants, as only variants acquired between the germline and the most recent common ancestor (MRCA), will benefit from the joint analysis. Therefore, we selected three sample subsets which included two, three and five samples with high evolutionary distance to show the minimum expected improvement (Fig. 1A, B). There was a clear linear improvement for both FreeBayesSomatic and Strelka2Pass when increasing the number of samples even if they had a distant evolutionary relationship. In contrast, when using only two samples with a small evolutionary distance, the increase in performance was almost as large as when jointly analysing all 10 available samples. This shows that samples with a high number of shared variants will perform better in joint calling workflows (Fig. S6).</p>
+<h3 id="clinical-data">Clinical data</h3>
+<p>To validate the performance of our new workflows, we then analysed WGS and whole-exome sequencing (WES) data of multi-region tumour samples from eight patients, with multiple tumour sites (average 7 samples per patient; total number of samples 55), enrolled in a rapid autopsy program conducted at the Peter MacCallum Cancer Centre (Table S1 and Supplementary methods) <span class="citation" data-cites="Solomon2020 Vergara2021">(Solomon et al. 2020; Vergara et al. 2021)</span>. The published studies had multiple somatic variants from the clinical samples orthogonally validated through targeted amplicon sequencing (TAS). We used these TAS-validated variants as the gold standard to evaluate the performance of different workflows, acknowledging that the technical biases inherent to TAS data are different to those present in WGS and WES (Fig. S7) and that there would be sampling biases depending on different tumour cells analysed in each data type.</p>
+<p>In concordance with the results of the simulated data, our improved workflows found additional variants in all but one patient (Fig. 1D, S8) (total additional variants Strelka2Pass: <span class="math inline">64</span>; FreeBayesSomatic: <span class="math inline">85</span>) with only a slight drop in precision for FreeBayesSomatic (mean: <span class="math inline">0.94</span> vs. <span class="math inline">0.88</span>) and Strelka2Pass (mean: <span class="math inline">0.97</span> vs. <span class="math inline">0.92</span>). Since the panel of variants validated by TAS was limited (<span class="math inline">7108</span> bp for patients CA-B through -H), this increase in detected variants suggests that a high number of shared variants in samples are missed with current approaches, which in turn leads to an overestimation of tumour heterogeneity between samples, as these variants are thought to not be present rather than undetected.</p>
+<p>Even though the number of shared variants is a major influencing factor when jointly calling variants, low cellularity samples benefit more from the joint calling, as conventional methods cannot reliably distinguish low allele frequency variants from noise. Through a joint analysis approach, the number of recovered variants is higher in low cellularity samples, which indicates, that especially for clinical samples with variable tumour purity, joint analysis can have a major impact on improving performance (Fig. 1E, S9).</p>
+<p>Mutect2 in contrast, did not show significant improvement in any sample in its joint calling configuration, but showed inferior performance compared to the tumour-normal pairwise approach in two samples (Fig. S8E), similar to its decreased performance in the simulated data (Fig. S2). This was due to true variants being removed by the internal filters of the tool (Fig. S5C, D). This is in stark contrast to our novel workflows, where the joint analysis preserves all called sites from the pairwise method and finds additional variants. Overall, Mutect2 found less validated variants in all patients than both Strelka2Pass (mean: <span class="math inline">2.2</span>) and FreeBayesSomatic (mean: <span class="math inline">2.5</span>) with comparable levels of precision (Fig. S8, S10) but longer run times (Table S2).</p>
+<p>Our improved workflow also enabled the discovery of multiallelic variants with Strelka2, which led to the discovery of on average <span class="math inline">42</span> additional variants (min: <span class="math inline">1</span>; max: <span class="math inline">535</span>) in the analysed WES and <span class="math inline">987</span> additional variants in the WGS (min: <span class="math inline">81</span>; max <span class="math inline">2329</span>). These variants are strong indicators of sub clonal structure and could be invaluable for the study of evolutionary trajectories in cancer.</p>
+<h2 id="discussion">Discussion</h2>
+<p>Here we present an extension to two widely used variant callers, enabling them to analyse multiple related tumour samples and improve the sensitivity of detecting low allele frequency variants. This is highly relevant in clinical settings where low tumour purities in samples is a common occurrence. These workflows are an important step to satisfy the current unmet need for multi-sample tumour variant calling. While we have showcased their improvements in patient sequencing data, additional validation on larger clinical datasets is warranted to ensure the methodology performs robustly in real world settings. Importantly, these workflows are fully containerised and can be run through Janis <span class="citation" data-cites="Lupat2021">(Lupat et al. 2021)</span> on almost any high-performance computing environment, as well as cloud services. Each workflow is highly optimised and parallelised to facilitate the analysis of the large amount of data joint variant calling requires. The workflow specification also allows the easy adjustment of parameters to enable customisation for the user’s needs and priorities, whereas building an ensemble workflow using multiple callers is up to the discretion of the user (Fig. S11).</p>
+<h2 class="unnumbered" id="acknowledgements">Acknowledgements</h2>
+<p>The authors would like to thank all patients who provided tissue samples utilised in this study. The authors acknowledge Dr Lavinia Tan for assistance provided with the collection of patient clinical samples.</p>
+<h2 class="unnumbered" id="funding">Funding</h2>
+<p>This work was supported by the National Health and Medical Research Council [grant numbers 1196755 to S.J.D, 1158345 to S.J.D and B.J.S, 1194783 to S.Q.W, 1173450 to B.J.S]; and CSL Centenary Fellowship to S.J.D; Victorian Cancer Agency [grant numbers 19008 to D.C, 19002 to S.Q.W]</p>
+<h2 class="unnumbered" id="conflicts-of-interest">Conflicts of Interest</h2>
+<p>S.J.D has been a member of advisory boards for AstraZeneca and Inivata. The S.J.D. lab has received funding from Cancer Therapeutics CRC and Roche-Genentech. B.J.S. has been a member of advisory boards for AstraZeneca, Roche-Genentech, Pfizer, Novartis, Amgen, Bristol Myers Squibb and Merk</p>
+<h2 class="unnumbered" id="data-availability">Data availability</h2>
+<p>The simulated data and the respective final variant calling files underlying this article are available from Figshare at <a href="https://melbourne.figshare.com"><code>https://melbourne.figshare.com</code></a>, and can be accessed with <a href="https://doi.org/10.26188/13635186"><code>https://doi.org/10.26188/13635186</code></a> for the dataset and <a href="https://doi.org/10.26188/13635187"><code>https://doi.org/10.26188/13635187</code></a> for the called variants.<br />
+The biological data underlying this article are available at the European Genome-Phenome Archive (EGA) at <a href="https://ega-archive.org"><code>https://ega-archive.org</code></a>, and can be accessed with study id <a href="https://ega-archive.org/studies/EGAS00001004023">EGAS00001004023</a> and <a href="https://ega-archive.org/studies/EGAS00001004950">EGAS00001004950</a>.</p>
+<p><span id="Bibliography" label="Bibliography">[Bibliography]</span></p>
+<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
+<div id="ref-Alexandrov2015" class="csl-entry" role="doc-biblioentry">
+Alexandrov, Ludmil B, Philip H Jones, David C Wedge, Julian E Sale, Peter J Campbell, Serena Nik-Zainal, and Michael R Stratton. 2015. <span>“Clock-Like Mutational Processes in Human Somatic Cells.”</span> <em>Nature Genetics</em> 47 (12): 1402–7. <a href="https://doi.org/10.1038/ng.3441">https://doi.org/10.1038/ng.3441</a>.
+</div>
+<div id="ref-Arai1994" class="csl-entry" role="doc-biblioentry">
+Arai, T., T. Kuroishi, Y. Saito, Y. Kurita, T. Naruke, and M. Kaneko. 1994. <span>“<a href="https://www.ncbi.nlm.nih.gov/pubmed/8072198">Tumor Doubling Time and Prognosis in Lung Cancer Patients: Evaluation from Chest Films and Clinical Follow-up Study</a>.”</span> <em>Japanese Journal of Clinical Oncology</em> 24 (August): 199–204.
+</div>
+<div id="ref-Benjamin2019" class="csl-entry" role="doc-biblioentry">
+Benjamin, David, Takuto Sato, Kristian Cibulskis, Gad Getz, Chip Stewart, and Lee Lichtenstein. 2019. <span>“Calling Somatic <span>SNVs</span> and Indels with Mutect2.”</span> <em>bioRxiv</em>, December. <a href="https://doi.org/10.1101/861054">https://doi.org/10.1101/861054</a>.
+</div>
+<div id="ref-Bonev2016" class="csl-entry" role="doc-biblioentry">
+Bonev, Boyan, and Giacomo Cavalli. 2016. <span>“Organization and Function of the 3d Genome.”</span> <em>Nature Reviews Genetics</em> 17 (11): 661–78. <a href="https://doi.org/10.1038/nrg.2016.112">https://doi.org/10.1038/nrg.2016.112</a>.
+</div>
+<div id="ref-Bray2016" class="csl-entry" role="doc-biblioentry">
+Bray, Nicolas L, Harold Pimentel, Páll Melsted, and Lior Pachter. 2016. <span>“Near-Optimal Probabilistic <span>RNA</span>-Seq Quantification.”</span> <em>Nature Biotechnology</em> 34 (5): 525–27. <a href="https://doi.org/10.1038/nbt.3519">https://doi.org/10.1038/nbt.3519</a>.
+</div>
+<div id="ref-BrianOConnor2020" class="csl-entry" role="doc-biblioentry">
+Brian O’Connor, Geraldine van der Auwera. 2020. <em>Genomics in the Cloud</em>. O’Reilly UK Ltd. <a href="https://www.oreilly.com/library/view/genomics-in-the/9781491975183/">https://www.oreilly.com/library/view/genomics-in-the/9781491975183/</a>.
+</div>
+<div id="ref-Burr2019" class="csl-entry" role="doc-biblioentry">
+Burr, Marian L., Christina E. Sparbier, Kah Lok Chan, Yih-Chih Chan, Ariena Kersbergen, Enid Y. N. Lam, Elizabeth Azidis-Yates, et al. 2019. <span>“An Evolutionarily Conserved Function of Polycomb Silences the <span>MHC</span> Class i Antigen Presentation Pathway and Enables Immune Evasion in Cancer.”</span> <em>Cancer Cell</em> 36 (4): 385–401.e8. <a href="https://doi.org/10.1016/j.ccell.2019.08.008">https://doi.org/10.1016/j.ccell.2019.08.008</a>.
+</div>
+<div id="ref-Caravagna2020" class="csl-entry" role="doc-biblioentry">
+Caravagna, Giulio, Guido Sanguinetti, Trevor A. Graham, and Andrea Sottoriva. 2020. <span>“The <span>MOBSTER</span> r Package for Tumour Subclonal Deconvolution from Bulk <span>DNA</span> Whole-Genome Sequencing Data.”</span> <em>BMC Bioinformatics</em> 21 (1). <a href="https://doi.org/10.1186/s12859-020-03863-1">https://doi.org/10.1186/s12859-020-03863-1</a>.
+</div>
+<div id="ref-Cereda2012" class="csl-entry" role="doc-biblioentry">
+Cereda, Anna, and John C Carey. 2012. <span>“Trisomy 18 Syndrome.”</span> In <em>Atlas of Genetic Diagnosis and Counseling</em>, 7:990–96. 1. Humana Press. <a href="https://doi.org/10.1186/1750-1172-7-81">https://doi.org/10.1186/1750-1172-7-81</a>.
+</div>
+<div id="ref-Chapman2020" class="csl-entry" role="doc-biblioentry">
+Chapman, Brad, Rory Kirchner, Lorena Pantano, Sergey Naumenko, Matthias De Smet, Luca Beltrame, Tetiana Khotiainsteva, et al. 2021. <span>“Bcbio/Bcbio-Nextgen: V1.2.4.”</span> Zenodo. <a href="https://doi.org/10.5281/ZENODO.3564938">https://doi.org/10.5281/ZENODO.3564938</a>.
+</div>
+<div id="ref-Chen2020a" class="csl-entry" role="doc-biblioentry">
+Chen, Zixi, Yuchen Yuan, Xiaoshi Chen, Jiayun Chen, Shudai Lin, Xingsong Li, and Hongli Du. 2020. <span>“Systematic Comparison of Somatic Variant Calling Performance Among Different Sequencing Depth and Mutation Frequency.”</span> <em>Scientific Reports</em> 10 (1). <a href="https://doi.org/10.1038/s41598-020-60559-5">https://doi.org/10.1038/s41598-020-60559-5</a>.
+</div>
+<div id="ref-Chiang2015" class="csl-entry" role="doc-biblioentry">
+Chiang, Colby, Ryan M Layer, Gregory G Faust, Michael R Lindberg, David B Rose, Erik P Garrison, Gabor T Marth, Aaron R Quinlan, and Ira M Hall. 2015. <span>“<span>SpeedSeq</span>: Ultra-Fast Personal Genome Analysis and Interpretation.”</span> <em>Nature Methods</em> 12 (10): 966–68. <a href="https://doi.org/10.1038/nmeth.3505">https://doi.org/10.1038/nmeth.3505</a>.
+</div>
+<div id="ref-Church1984" class="csl-entry" role="doc-biblioentry">
+Church, G. M., and W. Gilbert. 1984. <span>“Genomic Sequencing.”</span> <em>Proceedings of the National Academy of Sciences</em> 81 (7): 1991–95. <a href="https://doi.org/10.1073/pnas.81.7.1991">https://doi.org/10.1073/pnas.81.7.1991</a>.
+</div>
+<div id="ref-Church1988" class="csl-entry" role="doc-biblioentry">
+Church, G., and S Kieffer-Higgins. 1988. <span>“Multiplex <span>DNA</span> Sequencing.”</span> <em>Science</em> 240 (April): 185–88. <a href="https://doi.org/10.1126/science.3353714">https://doi.org/10.1126/science.3353714</a>.
+</div>
+<div id="ref-Cooke2021" class="csl-entry" role="doc-biblioentry">
+Cooke, Daniel P., David C. Wedge, and Gerton Lunter. 2021. <span>“A Unified Haplotype-Based Method for Accurate and Comprehensive Variant Calling.”</span> <em>Nature Biotechnology</em> 39 (7): 885–92. <a href="https://doi.org/10.1038/s41587-021-00861-3">https://doi.org/10.1038/s41587-021-00861-3</a>.
+</div>
+<div id="ref-2014" class="csl-entry" role="doc-biblioentry">
+<span>“ctDNA Is a Specific and Sensitive Biomarker in Multiple Human Cancers.”</span> 2014. <em>Cancer Discovery</em> 4 (4, 4): OF8. <a href="https://doi.org/10.1158/2159-8290.CD-RW2014-051">https://doi.org/10.1158/2159-8290.CD-RW2014-051</a>.
+</div>
+<div id="ref-Dan2012" class="csl-entry" role="doc-biblioentry">
+Dan, Shan, Wei Wang, Jinghui Ren, Yali Li, Hua Hu, Zhengfeng Xu, Tze Kin Lau, et al. 2012. <span>“Clinical Application of Massively Parallel Sequencing-Based Prenatal Noninvasive Fetal Trisomy Test for Trisomies 21 and 18 in 11<span></span>105 Pregnancies with Mixed Risk Factors.”</span> <em>Prenatal Diagnosis</em> 32 (13): 1225–32. <a href="https://doi.org/10.1002/pd.4002">https://doi.org/10.1002/pd.4002</a>.
+</div>
+<div id="ref-Darwin2010" class="csl-entry" role="doc-biblioentry">
+Darwin, Charles. 2010. <span>“On the Origin of Species by Means of Natural Selection, or the Preservation of Favoured Races in the Struggle for Life.”</span> In <em>Evolutionary Writings</em>. Oxford University Press. <a href="https://doi.org/10.1093/owc/9780199580149.003.0005">https://doi.org/10.1093/owc/9780199580149.003.0005</a>.
+</div>
+<div id="ref-DePristo2011" class="csl-entry" role="doc-biblioentry">
+DePristo, Mark A, Eric Banks, Ryan Poplin, Kiran V Garimella, Jared R Maguire, Christopher Hartl, Anthony A Philippakis, et al. 2011. <span>“A Framework for Variation Discovery and Genotyping Using Next-Generation <span>DNA</span> Sequencing Data.”</span> <em>Nature Genetics</em> 43 (5): 491–98. <a href="https://doi.org/10.1038/ng.806">https://doi.org/10.1038/ng.806</a>.
+</div>
+<div id="ref-Deshwar2015" class="csl-entry" role="doc-biblioentry">
+Deshwar, Amit G, Shankar Vembu, Christina K Yung, Gun Ho Jang, Lincoln Stein, and Quaid Morris. 2015. <span>“<span>PhyloWGS</span>: Reconstructing Subclonal Composition and Evolution from Whole-Genome Sequencing of Tumors.”</span> <em>Genome Biology</em> 16 (1). <a href="https://doi.org/10.1186/s13059-015-0602-8">https://doi.org/10.1186/s13059-015-0602-8</a>.
+</div>
+<div id="ref-Diehl2008" class="csl-entry" role="doc-biblioentry">
+Diehl, Frank, Kerstin Schmidt, Michael A Choti, Katharine Romans, Steven Goodman, Meng Li, Katherine Thornton, et al. 2008. <span>“Circulating Mutant <span>DNA</span> to Assess Tumor Dynamics.”</span> <em>Nature Medicine</em> 14 (9): 985–90. <a href="https://doi.org/10.1038/nm.1789">https://doi.org/10.1038/nm.1789</a>.
+</div>
+<div id="ref-ElKebir2018" class="csl-entry" role="doc-biblioentry">
+El-Kebir, Mohammed, Gryte Satas, and Benjamin J. Raphael. 2018. <span>“Inferring Parsimonious Migration Histories for Metastatic Cancers”</span> 50 (5): 718–26. <a href="https://doi.org/10.1038/s41588-018-0106-z">https://doi.org/10.1038/s41588-018-0106-z</a>.
+</div>
+<div id="ref-Ewing2015" class="csl-entry" role="doc-biblioentry">
+Ewing, Adam D, Kathleen E Houlahan, Yin Hu, Kyle Ellrott, Cristian Caloian, Takafumi N Yamaguchi, J Christopher Bare, et al. 2015. <span>“Combining Tumor Genome Simulation with Crowdsourcing to Benchmark Somatic Single-Nucleotide-Variant Detection.”</span> <em>Nature Methods</em> 12 (7): 623–30. <a href="https://doi.org/10.1038/nmeth.3407">https://doi.org/10.1038/nmeth.3407</a>.
+</div>
+<div id="ref-Felsenstein1981" class="csl-entry" role="doc-biblioentry">
+Felsenstein, Joseph. 1981. <span>“Evolutionary Trees from <span>DNA</span> Sequences: A Maximum Likelihood Approach.”</span> <em>Journal of Molecular Evolution</em> 17 (6): 368–76. <a href="https://doi.org/10.1007/bf01734359">https://doi.org/10.1007/bf01734359</a>.
+</div>
+<div id="ref-Flensburg2020" class="csl-entry" role="doc-biblioentry">
+Flensburg, Christoffer, Tobias Sargeant, Alicia Oshlack, and Ian J. Majewski. 2020. <span>“<span>SuperFreq</span>: Integrated Mutation Detection and Clonal Tracking in Cancer.”</span> Edited by Florian Markowetz. <em>PLOS Computational Biology</em> 16 (2): e1007603. <a href="https://doi.org/10.1371/journal.pcbi.1007603">https://doi.org/10.1371/journal.pcbi.1007603</a>.
+</div>
+<div id="ref-Fouad2017" class="csl-entry" role="doc-biblioentry">
+Fouad, Yousef Ahmed, and Carmen Aanei. 2017. <span>“<a href="https://www.ncbi.nlm.nih.gov/pubmed/28560055">Revisiting the Hallmarks of Cancer.</a>”</span> <em>American Journal of Cancer Research</em> 7: 1016–36.
+</div>
+<div id="ref-Frey2021" class="csl-entry" role="doc-biblioentry">
+Frey, Laura, Natalia Ziętara, Marcin Łyszkiewicz, Benjamin Marquardt, Yoko Mizoguchi, Monika I. Linder, Yanshan Liu, et al. 2021. <span>“Mammalian <span>VPS</span>45 Orchestrates Trafficking Through the Endosomal System.”</span> <em>Blood</em> 137 (14): 1932–44. <a href="https://doi.org/10.1182/blood.2020006871">https://doi.org/10.1182/blood.2020006871</a>.
+</div>
+<div id="ref-Galili2015" class="csl-entry" role="doc-biblioentry">
+Galili, Tal. 2015. <span>“Dendextend: An r Package for Visualizing, Adjusting and Comparing Trees of Hierarchical Clustering”</span> 31 (22): 3718–20. <a href="https://doi.org/10.1093/bioinformatics/btv428">https://doi.org/10.1093/bioinformatics/btv428</a>.
+</div>
+<div id="ref-Garrison2012" class="csl-entry" role="doc-biblioentry">
+Garrison, Erik, and Gabor Marth. 2012. <span>“Haplotype-Based Variant Detection from Short-Read Sequencing.”</span> <em>arXiv Preprint arXiv:1207.3907 [q-Bio.GN]</em>, July. <a href="https://arxiv.org/abs/http://arxiv.org/abs/1207.3907v2">https://arxiv.org/abs/http://arxiv.org/abs/1207.3907v2</a>.
+</div>
+<div id="ref-GATKTeam2020" class="csl-entry" role="doc-biblioentry">
+GATK Team. 2020. <span>“Mutect2 Multi-Sample.”</span> September 25, 2020. <a href="https://gatk.broadinstitute.org/hc/en-us/community/posts/360062528691">https://gatk.broadinstitute.org/hc/en-us/community/posts/360062528691</a>.
+</div>
+<div id="ref-GATKTeam2021" class="csl-entry" role="doc-biblioentry">
+———. 2021a. <span>“Panel of Normals (PON).”</span> July 23, 2021. <a href="https://gatk.broadinstitute.org/hc/en-us/articles/360035890631">https://gatk.broadinstitute.org/hc/en-us/articles/360035890631</a>.
+</div>
+<div id="ref-GATKTeam2021a" class="csl-entry" role="doc-biblioentry">
+———. 2021b. <span>“Somatic Calling Is NOT Simply a Difference Between Two Callsets.”</span> September 15, 2021. <a href="https://gatk.broadinstitute.org/hc/en-us/articles/360035890491">https://gatk.broadinstitute.org/hc/en-us/articles/360035890491</a>.
+</div>
+<div id="ref-Gerstung2020" class="csl-entry" role="doc-biblioentry">
+Gerstung, Moritz, Clemency Jolly, Ignaty Leshchiner, Stefan C. Dentro, Santiago Gonzalez, Daniel Rosebrock, Thomas J. Mitchell, et al. 2020. <span>“The Evolutionary History of 2,658 Cancers.”</span> <em>Nature</em> 578 (7793): 122–28. <a href="https://doi.org/10.1038/s41586-019-1907-7">https://doi.org/10.1038/s41586-019-1907-7</a>.
+</div>
+<div id="ref-Gottlieb1962" class="csl-entry" role="doc-biblioentry">
+Gottlieb, Marvin I., Kurt Hirschhorn, Herbert L. Cooper, Nevanka Lusskin, Ralph E. Moloshok, and Horace L. Hodes. 1962. <span>“Trisomy-17 Syndrome.”</span> <em>The American Journal of Medicine</em> 33 (5): 763–73. <a href="https://doi.org/10.1016/0002-9343(62)90253-x">https://doi.org/10.1016/0002-9343(62)90253-x</a>.
+</div>
+<div id="ref-Hamming1950" class="csl-entry" role="doc-biblioentry">
+Hamming, R. W. 1950. <span>“Error Detecting and Error Correcting Codes.”</span> <em>Bell System Technical Journal</em> 29 (2): 147–60. <a href="https://doi.org/10.1002/j.1538-7305.1950.tb00463.x">https://doi.org/10.1002/j.1538-7305.1950.tb00463.x</a>.
+</div>
+<div id="ref-Hammond2017" class="csl-entry" role="doc-biblioentry">
+Hammond, Colin M., Caroline B. Strømme, Hongda Huang, Dinshaw J. Patel, and Anja Groth. 2017. <span>“Histone Chaperone Networks Shaping Chromatin Function.”</span> <em>Nature Reviews Molecular Cell Biology</em> 18 (3): 141–58. <a href="https://doi.org/10.1038/nrm.2016.159">https://doi.org/10.1038/nrm.2016.159</a>.
+</div>
+<div id="ref-Hanage2006" class="csl-entry" role="doc-biblioentry">
+Hanage, William P., Christophe Fraser, and Brian G. Spratt. 2006. <span>“The Impact of Homologous Recombination on the Generation of Diversity in Bacteria.”</span> <em>Journal of Theoretical Biology</em> 239 (2): 210–19. <a href="https://doi.org/10.1016/j.jtbi.2005.08.035">https://doi.org/10.1016/j.jtbi.2005.08.035</a>.
+</div>
+<div id="ref-Hanahan2000" class="csl-entry" role="doc-biblioentry">
+Hanahan, Douglas, and Robert A Weinberg. 2000. <span>“The Hallmarks of Cancer.”</span> <em>Cell</em> 100 (1): 57–70. <a href="https://doi.org/10.1016/s0092-8674(00)81683-9">https://doi.org/10.1016/s0092-8674(00)81683-9</a>.
+</div>
+<div id="ref-Hanahan2011" class="csl-entry" role="doc-biblioentry">
+Hanahan, Douglas, and Robert A. Weinberg. 2011. <span>“Hallmarks of Cancer: The Next Generation.”</span> <em>Cell</em> 144 (5): 646–74. <a href="https://doi.org/10.1016/j.cell.2011.02.013">https://doi.org/10.1016/j.cell.2011.02.013</a>.
+</div>
+<div id="ref-Hasegawa1985" class="csl-entry" role="doc-biblioentry">
+Hasegawa, Masami, Hirohisa Kishino, and Taka-aki Yano. 1985. <span>“Dating of the Human-Ape Splitting by a Molecular Clock of Mitochondrial <span>DNA</span>.”</span> <em>Journal of Molecular Evolution</em> 22 (2): 160–74. <a href="https://doi.org/10.1007/bf02101694">https://doi.org/10.1007/bf02101694</a>.
+</div>
+<div id="ref-Hu2019" class="csl-entry" role="doc-biblioentry">
+Hu, Zheng, Jie Ding, Zhicheng Ma, Ruping Sun, Jose A. Seoane, J. Scott Shaffer, Carlos J. Suarez, et al. 2019. <span>“Quantitative Evidence for Early Metastatic Seeding in Colorectal Cancer.”</span> <em>Nature Genetics</em> 51 (7): 1113–22. <a href="https://doi.org/10.1038/s41588-019-0423-x">https://doi.org/10.1038/s41588-019-0423-x</a>.
+</div>
+<div id="ref-Huang2011" class="csl-entry" role="doc-biblioentry">
+Huang, Weichun, Leping Li, Jason R. Myers, and Gabor T. Marth. 2011. <span>“<span>ART</span>: A Next-Generation Sequencing Read Simulator.”</span> <em>Bioinformatics</em> 28 (4): 593–94. <a href="https://doi.org/10.1093/bioinformatics/btr708">https://doi.org/10.1093/bioinformatics/btr708</a>.
+</div>
+<div id="ref-Hulten2008" class="csl-entry" role="doc-biblioentry">
+Hultén, Maj A, Suketu D Patel, Maira Tankimanova, Magnus Westgren, Nikos Papadogiannakis, Anna Jonsson, and Erik Iwarsson. 2008. <span>“On the Origin of Trisomy 21 down Syndrome.”</span> <em>Molecular Cytogenetics</em> 1 (1): 21. <a href="https://doi.org/10.1186/1755-8166-1-21">https://doi.org/10.1186/1755-8166-1-21</a>.
+</div>
+<div id="ref-Illumina2020" class="csl-entry" role="doc-biblioentry">
+Illumina, Inc. 2020. <span>“How Short Inserts Affect Sequencing Performance.”</span> September 2020. <a href="https://sapac.support.illumina.com/bulletins/2020/12/how-short-inserts-affect-sequencing-performance.html">https://sapac.support.illumina.com/bulletins/2020/12/how-short-inserts-affect-sequencing-performance.html</a>.
+</div>
+<div id="ref-Jiang2016" class="csl-entry" role="doc-biblioentry">
+Jiang, Yuchao, Yu Qiu, Andy J. Minn, and Nancy R. Zhang. 2016. <span>“Assessing Intratumor Heterogeneity and Tracking Longitudinal and Spatial Clonal Evolutionary History by Next-Generation Sequencing”</span> 113 (37): E5528–37. <a href="https://doi.org/10.1073/pnas.1522203113">https://doi.org/10.1073/pnas.1522203113</a>.
+</div>
+<div id="ref-Josephidou2015" class="csl-entry" role="doc-biblioentry">
+Josephidou, Malvina, Andy G. Lynch, and Simon Tavaré. 2015. <span>“<span class="nocase">multiSNV</span>: A Probabilistic Approach for Improving Detection of Somatic Point Mutations from Multiple Related Tumour Samples.”</span> <em>Nucleic Acids Research</em> 43 (9): e61–61. <a href="https://doi.org/10.1093/nar/gkv135">https://doi.org/10.1093/nar/gkv135</a>.
+</div>
+<div id="ref-Karczewski2020" class="csl-entry" role="doc-biblioentry">
+Karczewski, Konrad J., Laurent C. Francioli, Grace Tiao, Beryl B. Cummings, Jessica Alföldi, Qingbo Wang, Ryan L. Collins, et al. 2020. <span>“The Mutational Constraint Spectrum Quantified from Variation in 141,456 Humans.”</span> <em>Nature</em> 581 (7809): 434–43. <a href="https://doi.org/10.1038/s41586-020-2308-7">https://doi.org/10.1038/s41586-020-2308-7</a>.
+</div>
+<div id="ref-Karimnezhad2020" class="csl-entry" role="doc-biblioentry">
+Karimnezhad, Ali, Gareth A. Palidwor, Kednapa Thavorn, David J. Stewart, Pearl A. Campbell, Bryan Lo, and Theodore J. Perkins. 2020. <span>“Accuracy and Reproducibility of Somatic Point Mutation Calling in Clinical-Type Targeted Sequencing Data.”</span> <em>BMC Med Genomics</em> 13 (1). <a href="https://doi.org/10.1186/s12920-020-00803-z">https://doi.org/10.1186/s12920-020-00803-z</a>.
+</div>
+<div id="ref-Kim2018" class="csl-entry" role="doc-biblioentry">
+Kim, Sangtae, Konrad Scheffler, Aaron L. Halpern, Mitchell A. Bekritsky, Eunho Noh, Morten Källberg, Xiaoyu Chen, et al. 2018. <span>“Strelka2: Fast and Accurate Calling of Germline and Somatic Variants.”</span> <em>Nature Methods</em> 15 (8): 591–94. <a href="https://doi.org/10.1038/s41592-018-0051-x">https://doi.org/10.1038/s41592-018-0051-x</a>.
+</div>
+<div id="ref-Kong2013" class="csl-entry" role="doc-biblioentry">
+Kong, Ying, Jennifer H. Ma, Keisha Warren, Raymond S. W. Tsang, Donald E. Low, Frances B. Jamieson, David C. Alexander, and Weilong Hao. 2013. <span>“Homologous Recombination Drives Both Sequence Diversity and Gene Content Variation in Neisseria Meningitidis.”</span> <em>Genome Biology and Evolution</em> 5 (9): 1611–27. <a href="https://doi.org/10.1093/gbe/evt116">https://doi.org/10.1093/gbe/evt116</a>.
+</div>
+<div id="ref-Lai2016" class="csl-entry" role="doc-biblioentry">
+Lai, Zhongwu, Aleksandra Markovets, Miika Ahdesmaki, Brad Chapman, Oliver Hofmann, Robert McEwen, Justin Johnson, Brian Dougherty, J. Carl Barrett, and Jonathan R. Dry. 2016. <span>“<span>VarDict</span>: A Novel and Versatile Variant Caller for Next-Generation Sequencing in Cancer Research.”</span> <em>Nucleic Acids Research</em> 44 (11): e108–8. <a href="https://doi.org/10.1093/nar/gkw227">https://doi.org/10.1093/nar/gkw227</a>.
+</div>
+<div id="ref-Lander2001" class="csl-entry" role="doc-biblioentry">
+Lander, Eric S., Lauren M. Linton, Bruce Birren, Chad Nusbaum, Michael C. Zody, Jennifer Baldwin, Keri Devon, et al. 2001. <span>“Initial Sequencing and Analysis of the Human Genome.”</span> <em>Nature</em> 409 (6822): 860–921. <a href="https://doi.org/10.1038/35057062">https://doi.org/10.1038/35057062</a>.
+</div>
+<div id="ref-Langmead2018" class="csl-entry" role="doc-biblioentry">
+Langmead, Ben, Christopher Wilks, Valentin Antonescu, and Rone Charles. 2018. <span>“Scaling Read Aligners to Hundreds of Threads on General-Purpose Processors.”</span> Edited by John Hancock. <em>Bioinformatics</em> 35 (3): 421–32. <a href="https://doi.org/10.1093/bioinformatics/bty648">https://doi.org/10.1093/bioinformatics/bty648</a>.
+</div>
+<div id="ref-Leong2018" class="csl-entry" role="doc-biblioentry">
+Leong, Tracy L., Velimir Gayevskiy, Daniel P. Steinfort, Marc R. De Massy, Alvaro Gonzalez-Rajal, Kieren D. Marini, Emily Stone, et al. 2018. <span>“Deep Multi-Region Whole-Genome Sequencing Reveals Heterogeneity and Gene-by-Environment Interactions in Treatment-Naive, Metastatic Lung Cancer.”</span> <em>Oncogene</em> 38 (10): 1661–75. <a href="https://doi.org/10.1038/s41388-018-0536-1">https://doi.org/10.1038/s41388-018-0536-1</a>.
+</div>
+<div id="ref-Leshchiner2018" class="csl-entry" role="doc-biblioentry">
+Leshchiner, Ignaty, Dimitri Livitz, Justin F. Gainor, Daniel Rosebrock, Oliver Spiro, Aina Martinez, Edmund Mroz, et al. 2018. <span>“Comprehensive Analysis of Tumour Initiation, Spatial and Temporal Progression Under Multiple Lines of Treatment.”</span> <em>bioRxiv</em>, December. <a href="https://doi.org/10.1101/508127">https://doi.org/10.1101/508127</a>.
+</div>
+<div id="ref-Li2013" class="csl-entry" role="doc-biblioentry">
+Li, Heng. 2013. <span>“Aligning Sequence Reads, Clone Sequences and Assembly Contigs with BWA-MEM,”</span> March. <a href="https://arxiv.org/abs/1303.3997">https://arxiv.org/abs/1303.3997</a>.
+</div>
+<div id="ref-Liang1998" class="csl-entry" role="doc-biblioentry">
+Liang, F., M. Han, P. J. Romanienko, and M. Jasin. 1998. <span>“Homology-Directed Repair Is a Major Double-Strand Break Repair Pathway in Mammalian Cells.”</span> <em>Proceedings of the National Academy of Sciences</em> 95 (9): 5172–77. <a href="https://doi.org/10.1073/pnas.95.9.5172">https://doi.org/10.1073/pnas.95.9.5172</a>.
+</div>
+<div id="ref-Lilley2000" class="csl-entry" role="doc-biblioentry">
+Lilley, David M. J. 2000. <span>“Structures of Helical Junctions in Nucleic Acids.”</span> <em>Quarterly Reviews of Biophysics</em> 33 (2): 109–59. <a href="https://doi.org/10.1017/s0033583500003590">https://doi.org/10.1017/s0033583500003590</a>.
+</div>
+<div id="ref-Luczak2017" class="csl-entry" role="doc-biblioentry">
+Luczak, Brian B, Benjamin T James, and Hani Z Girgis. 2017. <span>“A Survey and Evaluations of Histogram-Based Statistics in Alignment-Free Sequence Comparison.”</span> <em>Briefings in Bioinformatics</em> 20 (4): 1222–37. <a href="https://doi.org/10.1093/bib/bbx161">https://doi.org/10.1093/bib/bbx161</a>.
+</div>
+<div id="ref-Lupat2021" class="csl-entry" role="doc-biblioentry">
+Lupat, Richard, Michael Franklin, Evan Thomas, Juny Kesumadewi, Jiaan Yu, Mohammad Bhuyan, Tony Papenfuss, Daniel Park, Bernard Pope, and Jason Li. 2021. <span>“Janis: A Python Framework for Portable Pipelines.”</span> Zenodo. <a href="https://doi.org/10.5281/ZENODO.4427231">https://doi.org/10.5281/ZENODO.4427231</a>.
+</div>
+<div id="ref-Ma2020" class="csl-entry" role="doc-biblioentry">
+Ma, Chunhua, Xueling Yang, Wenge Xing, Haipeng Yu, Tongguo Si, and Zhi Guo. 2020. <span>“Detection of Circulating Tumor <span>DNA</span> from Non-Small Cell Lung Cancer Brain Metastasis in Cerebrospinal Fluid Samples.”</span> <em>Thoracic Cancer</em> 11 (3): 588–93. <a href="https://doi.org/10.1111/1759-7714.13300">https://doi.org/10.1111/1759-7714.13300</a>.
+</div>
+<div id="ref-Marass2016" class="csl-entry" role="doc-biblioentry">
+Marass, Francesco, Florent Mouliere, Ke Yuan, Nitzan Rosenfeld, and Florian Markowetz. 2016. <span>“A Phylogenetic Latent Feature Model for Clonal Deconvolution.”</span> <em>The Annals of Applied Statistics</em> 10 (4). <a href="https://doi.org/10.1214/16-aoas986">https://doi.org/10.1214/16-aoas986</a>.
+</div>
+<div id="ref-Mardis2008" class="csl-entry" role="doc-biblioentry">
+Mardis, Elaine R. 2008. <span>“Next-Generation <span>DNA</span> Sequencing Methods.”</span> <em>Annual Review of Genomics and Human Genetics</em> 9 (1): 387–402. <a href="https://doi.org/10.1146/annurev.genom.9.081307.164359">https://doi.org/10.1146/annurev.genom.9.081307.164359</a>.
+</div>
+<div id="ref-Mayer2014" class="csl-entry" role="doc-biblioentry">
+Mayer, Klaus F. X., Jane Rogers, Jaroslav Doležel, Curtis Pozniak, Kellye Eversole, Catherine Feuillet, Bikram Gill, et al. 2014. <span>“A Chromosome-Based Draft Sequence of the Hexaploid Bread Wheat (Triticum Aestivum) Genome.”</span> <em>Science</em> 345 (6194): 1251788–88. <a href="https://doi.org/10.1126/science.1251788">https://doi.org/10.1126/science.1251788</a>.
+</div>
+<div id="ref-Mihaescu2007" class="csl-entry" role="doc-biblioentry">
+Mihaescu, Radu, Dan Levy, and Lior Pachter. 2007. <span>“Why Neighbor-Joining Works.”</span> <em>Algorithmica</em> 54 (1): 1–24. <a href="https://doi.org/10.1007/s00453-007-9116-4">https://doi.org/10.1007/s00453-007-9116-4</a>.
+</div>
+<div id="ref-Miura2018" class="csl-entry" role="doc-biblioentry">
+Miura, Sayaka, Karen Gomez, Oscar Murillo, Louise A Huuki, Tracy Vu, Tiffany Buturla, and Sudhir Kumar. 2018. <span>“Predicting Clone Genotypes from Tumor Bulk Sequencing of Multiple Samples.”</span> Edited by John Hancock, June. <a href="https://doi.org/10.1093/bioinformatics/bty469">https://doi.org/10.1093/bioinformatics/bty469</a>.
+</div>
+<div id="ref-Miura2020" class="csl-entry" role="doc-biblioentry">
+Miura, Sayaka, Tracy Vu, Jiamin Deng, Tiffany Buturla, Olumide Oladeinde, Jiyeong Choi, and Sudhir Kumar. 2020. <span>“Power and Pitfalls of Computational Methods for Inferring Clone Phylogenies and Mutation Orders from Bulk Sequencing Data.”</span> <em>Scientific Reports</em> 10 (1). <a href="https://doi.org/10.1038/s41598-020-59006-2">https://doi.org/10.1038/s41598-020-59006-2</a>.
+</div>
+<div id="ref-Molina2008" class="csl-entry" role="doc-biblioentry">
+Molina, Julian R., Ping Yang, Stephen D. Cassivi, Steven E. Schild, and Alex A. Adjei. 2008. <span>“Non-Small Cell Lung Cancer: Epidemiology, Risk Factors, Treatment, and Survivorship.”</span> <em>Mayo Clinic Proceedings</em> 83 (5): 584–94. <a href="https://doi.org/10.4065/83.5.584">https://doi.org/10.4065/83.5.584</a>.
+</div>
+<div id="ref-Moore2021" class="csl-entry" role="doc-biblioentry">
+Moore, Luiza, Alex Cagan, Tim H. H. Coorens, Matthew D. C. Neville, Rashesh Sanghvi, Mathijs A. Sanders, Thomas R. W. Oliver, et al. 2021. <span>“The Mutational Landscape of Human Somatic and Germline Cells.”</span> <em>Nature</em>, August. <a href="https://doi.org/10.1038/s41586-021-03822-7">https://doi.org/10.1038/s41586-021-03822-7</a>.
+</div>
+<div id="ref-Nicolaides2013" class="csl-entry" role="doc-biblioentry">
+Nicolaides, Kypros H., Argyro Syngelaki, Ghalia Ashoor, Cahit Birdir, and Gisele Touzet. 2013. <span>“Noninvasive Prenatal Testing for Fetal Trisomies in a Routinely Screened First-Trimester Population.”</span> <em>Obstetrical &amp; Gynecological Survey</em> 68 (3): 173–75. <a href="https://doi.org/10.1097/ogx.0b013e318285bf66">https://doi.org/10.1097/ogx.0b013e318285bf66</a>.
+</div>
+<div id="ref-Ondov2016" class="csl-entry" role="doc-biblioentry">
+Ondov, Brian D., Todd J. Treangen, Páll Melsted, Adam B. Mallonee, Nicholas H. Bergman, Sergey Koren, and Adam M. Phillippy. 2016. <span>“Mash: Fast Genome and Metagenome Distance Estimation Using <span>MinHash</span>.”</span> <em>Genome Biology</em> 17 (1). <a href="https://doi.org/10.1186/s13059-016-0997-x">https://doi.org/10.1186/s13059-016-0997-x</a>.
+</div>
+<div id="ref-Otto2007" class="csl-entry" role="doc-biblioentry">
+Otto, Sarah P. 2007. <span>“The Evolutionary Consequences of Polyploidy.”</span> <em>Cell</em> 131 (3): 452–62. <a href="https://doi.org/10.1016/j.cell.2007.10.022">https://doi.org/10.1016/j.cell.2007.10.022</a>.
+</div>
+<div id="ref-Padmanabhan1974" class="csl-entry" role="doc-biblioentry">
+Padmanabhan, R., E. Jay, and R. Wu. 1974. <span>“Chemical Synthesis of a Primer and Its Use in the Sequence Analysis of the Lysozyme Gene of Bacteriophage T4.”</span> <em>Proceedings of the National Academy of Sciences</em> 71 (6): 2510–14. <a href="https://doi.org/10.1073/pnas.71.6.2510">https://doi.org/10.1073/pnas.71.6.2510</a>.
+</div>
+<div id="ref-Patro2017" class="csl-entry" role="doc-biblioentry">
+Patro, Rob, Geet Duggal, Michael I Love, Rafael A Irizarry, and Carl Kingsford. 2017. <span>“Salmon Provides Fast and Bias-Aware Quantification of Transcript Expression.”</span> <em>Nature Methods</em> 14 (4): 417–19. <a href="https://doi.org/10.1038/nmeth.4197">https://doi.org/10.1038/nmeth.4197</a>.
+</div>
+<div id="ref-Payne2018" class="csl-entry" role="doc-biblioentry">
+Payne, Alexander, Nadine Holmes, Vardhman Rakyan, and Matthew Loose. 2018. <span>“<span>BulkVis</span>: A Graphical Viewer for Oxford Nanopore Bulk <span>FAST</span>5 Files.”</span> Edited by Inanc Birol. <em>Bioinformatics</em> 35 (13): 2193–98. <a href="https://doi.org/10.1093/bioinformatics/bty841">https://doi.org/10.1093/bioinformatics/bty841</a>.
+</div>
+<div id="ref-Pratanwanich2021" class="csl-entry" role="doc-biblioentry">
+Pratanwanich, Ploy N., Fei Yao, Ying Chen, Casslynn W. Q. Koh, Yuk Kei Wan, Christopher Hendra, Polly Poon, et al. 2021. <span>“Identification of Differential <span>RNA</span> Modifications from Nanopore Direct <span>RNA</span> Sequencing with <span class="nocase">xPore</span>.”</span> <em>Nature Biotechnology</em>, July. <a href="https://doi.org/10.1038/s41587-021-00949-w">https://doi.org/10.1038/s41587-021-00949-w</a>.
+</div>
+<div id="ref-Saitou1987" class="csl-entry" role="doc-biblioentry">
+Saitou, N, and M Nei. 1987. <span>“The Neighbor-Joining Method: A New Method for Reconstructing Phylogenetic Trees.”</span> <em>Molecular Biology and Evolution</em>, July. <a href="https://doi.org/10.1093/oxfordjournals.molbev.a040454">https://doi.org/10.1093/oxfordjournals.molbev.a040454</a>.
+</div>
+<div id="ref-Sanger1975" class="csl-entry" role="doc-biblioentry">
+Sanger, F., and A. R. Coulson. 1975. <span>“A Rapid Method for Determining Sequences in <span>DNA</span> by Primed Synthesis with <span>DNA</span> Polymerase.”</span> <em>Journal of Molecular Biology</em> 94 (3): 441–48. <a href="https://doi.org/10.1016/0022-2836(75)90213-2">https://doi.org/10.1016/0022-2836(75)90213-2</a>.
+</div>
+<div id="ref-Sanger1977" class="csl-entry" role="doc-biblioentry">
+Sanger, F., S. Nicklen, and A. R. Coulson. 1977. <span>“<span>DNA</span> Sequencing with Chain-Terminating Inhibitors.”</span> <em>Proceedings of the National Academy of Sciences</em> 74 (12): 5463–67. <a href="https://doi.org/10.1073/pnas.74.12.5463">https://doi.org/10.1073/pnas.74.12.5463</a>.
+</div>
+<div id="ref-Schirmer2016" class="csl-entry" role="doc-biblioentry">
+Schirmer, Melanie, Rosalinda D’Amore, Umer Z. Ijaz, Neil Hall, and Christopher Quince. 2016. <span>“Illumina Error Profiles: Resolving Fine-Scale Variation in Metagenomic Sequencing Data.”</span> <em><span>BMC</span> Bioinformatics</em> 17 (1). <a href="https://doi.org/10.1186/s12859-016-0976-y">https://doi.org/10.1186/s12859-016-0976-y</a>.
+</div>
+<div id="ref-Schwarzenbach2011" class="csl-entry" role="doc-biblioentry">
+Schwarzenbach, Heidi, Dave S. B. Hoon, and Klaus Pantel. 2011. <span>“Cell-Free Nucleic Acids as Biomarkers in Cancer Patients.”</span> <em>Nature Reviews Cancer</em> 11 (6): 426–37. <a href="https://doi.org/10.1038/nrc3066">https://doi.org/10.1038/nrc3066</a>.
+</div>
+<div id="ref-Shamseldin2015" class="csl-entry" role="doc-biblioentry">
+Shamseldin, Hanan E., Maha Tulbah, Wesam Kurdi, Maha Nemer, Nada Alsahan, Elham Al Mardawi, Ola Khalifa, et al. 2015. <span>“Identification of Embryonic Lethal Genes in Humans by Autozygosity Mapping and Exome Sequencing in Consanguineous Families.”</span> <em>Genome Biology</em> 16 (1). <a href="https://doi.org/10.1186/s13059-015-0681-6">https://doi.org/10.1186/s13059-015-0681-6</a>.
+</div>
+<div id="ref-Shibata2010" class="csl-entry" role="doc-biblioentry">
+Shibata, D. 2010. <span>“Mutation and Epigenetic Molecular Clocks in Cancer.”</span> <em>Carcinogenesis</em> 32 (2): 123–28. <a href="https://doi.org/10.1093/carcin/bgq239">https://doi.org/10.1093/carcin/bgq239</a>.
+</div>
+<div id="ref-Siegel2018" class="csl-entry" role="doc-biblioentry">
+Siegel, Rebecca L., Kimberly D. Miller, and Ahmedin Jemal. 2018. <span>“Cancer Statistics, 2018.”</span> <em><span>CA</span>: A Cancer Journal for Clinicians</em> 68 (1): 7–30. <a href="https://doi.org/10.3322/caac.21442">https://doi.org/10.3322/caac.21442</a>.
+</div>
+<div id="ref-Sinden1994" class="csl-entry" role="doc-biblioentry">
+Sinden, Richard R. 1994. <span>“Introduction to the Structure, Properties, and Reactions of <span>DNA</span>.”</span> In <em><span>DNA</span> Structure and Function</em>, 1–57. Elsevier. <a href="https://doi.org/10.1016/b978-0-08-057173-7.50006-7">https://doi.org/10.1016/b978-0-08-057173-7.50006-7</a>.
+</div>
+<div id="ref-Sokal1958" class="csl-entry" role="doc-biblioentry">
+Sokal, Robert Reuven, and Charles Duncan Michener. 1958. <em>A Statistical Method for Evaluating Systematic Relationships</em>. Vol. 38.2. University of Kansas Science Bulletin 22. University of Kansas.
+</div>
+<div id="ref-Solomon2020" class="csl-entry" role="doc-biblioentry">
+Solomon, Benjamin J., Lavinia Tan, Jessica J. Lin, Stephen Q. Wong, Sebastian Hollizeck, Kevin Ebata, Brian B. Tuch, et al. 2020. <span>“<span>RET</span> Solvent Front Mutations Mediate Acquired Resistance to Selective <span>RET</span> Inhibition in <span>RET</span>-Driven Malignancies.”</span> <em>Journal of Thoracic Oncology</em> 15 (4): 541–49. <a href="https://doi.org/10.1016/j.jtho.2020.01.006">https://doi.org/10.1016/j.jtho.2020.01.006</a>.
+</div>
+<div id="ref-Sprouffske2018" class="csl-entry" role="doc-biblioentry">
+Sprouffske, Kathleen, José Aguilar-Rodrı́guez, Paul Sniegowski, and Andreas Wagner. 2018. <span>“High Mutation Rates Limit Evolutionary Adaptation in Escherichia Coli.”</span> Edited by Ivan Matic. <em><span>PLOS</span> Genetics</em> 14 (4): e1007324. <a href="https://doi.org/10.1371/journal.pgen.1007324">https://doi.org/10.1371/journal.pgen.1007324</a>.
+</div>
+<div id="ref-Stoler2021" class="csl-entry" role="doc-biblioentry">
+Stoler, Nicholas, and Anton Nekrutenko. 2021. <span>“Sequencing Error Profiles of Illumina Sequencing Instruments.”</span> <em><span>NAR</span> Genomics and Bioinformatics</em> 3 (1). <a href="https://doi.org/10.1093/nargab/lqab019">https://doi.org/10.1093/nargab/lqab019</a>.
+</div>
+<div id="ref-Straiton2019" class="csl-entry" role="doc-biblioentry">
+Straiton, Jenny, Tristan Free, Abigail Sawyer, and Joseph Martin. 2019. <span>“From Sanger Sequencing to Genome Databases and Beyond.”</span> <em><span>BioTechniques</span></em> 66 (2): 60–63. <a href="https://doi.org/10.2144/btn-2019-0011">https://doi.org/10.2144/btn-2019-0011</a>.
+</div>
+<div id="ref-Sun2007" class="csl-entry" role="doc-biblioentry">
+Sun, Sophie, Joan H. Schiller, and Adi F. Gazdar. 2007. <span>“Lung Cancer in Never Smokers <span></span> a Different Disease.”</span> <em>Nature Reviews Cancer</em> 7 (10): 778–90. <a href="https://doi.org/10.1038/nrc2190">https://doi.org/10.1038/nrc2190</a>.
+</div>
+<div id="ref-Tan2019" class="csl-entry" role="doc-biblioentry">
+Tan, L., S. Sandhu, R. J. Lee, J. Li, J. Callahan, S. Ftouni, N. Dhomen, et al. 2019. <span>“Prediction and Monitoring of Relapse in Stage <span>III</span> Melanoma Using Circulating Tumor <span>DNA</span>.”</span> <em>Annals of Oncology</em> 30 (5): 804–14. <a href="https://doi.org/10.1093/annonc/mdz048">https://doi.org/10.1093/annonc/mdz048</a>.
+</div>
+<div id="ref-Tarabichi2021" class="csl-entry" role="doc-biblioentry">
+Tarabichi, Maxime, Adriana Salcedo, Amit G. Deshwar, Máire Ni Leathlobhair, Jeff Wintersinger, David C. Wedge, Peter Van Loo, Quaid D. Morris, and Paul C. Boutros. 2021. <span>“A Practical Guide to Cancer Subclonal Reconstruction from DNA Sequencing.”</span> <em>Nature Methods</em> 18 (2, 2): 144–55. <a href="https://doi.org/10.1038/s41592-020-01013-2">https://doi.org/10.1038/s41592-020-01013-2</a>.
+</div>
+<div id="ref-Tateoka1975" class="csl-entry" role="doc-biblioentry">
+Tateoka, Tuguo. 1975. <span>“A Contribution to the Taxonomy of <span class="nocase">theAgrostis</span> Mertensii-Flaccida Complex (Poaceae) in Japan.”</span> <em>The Botanical Magazine Tokyo</em> 88 (2): 65–87. <a href="https://doi.org/10.1007/bf02491243">https://doi.org/10.1007/bf02491243</a>.
+</div>
+<div id="ref-TaylorWeiner2018" class="csl-entry" role="doc-biblioentry">
+Taylor-Weiner, Amaro, Chip Stewart, Thomas Giordano, Mendy Miller, Mara Rosenberg, Alyssa Macbeth, Niall Lennon, et al. 2018. <span>“<span>DeTiN</span>: Overcoming Tumor-in-Normal Contamination.”</span> <em>Nature Methods</em> 15 (7): 531–34. <a href="https://doi.org/10.1038/s41592-018-0036-9">https://doi.org/10.1038/s41592-018-0036-9</a>.
+</div>
+<div id="ref-Toptas2018" class="csl-entry" role="doc-biblioentry">
+Toptaş, Berke Ç, Goran Rakocevic, Péter Kómár, and Deniz Kural. 2018. <span>“Comparing Complex Variants in Family Trios.”</span> Edited by Oliver Stegle. <em>Bioinformatics</em>, June. <a href="https://doi.org/10.1093/bioinformatics/bty443">https://doi.org/10.1093/bioinformatics/bty443</a>.
+</div>
+<div id="ref-Trivers1976" class="csl-entry" role="doc-biblioentry">
+Trivers, R., and H Hare. 1976. <span>“Haploidploidy and the Evolution of the Social Insect.”</span> <em>Science</em> 191 (4224): 249–63. <a href="https://doi.org/10.1126/science.1108197">https://doi.org/10.1126/science.1108197</a>.
+</div>
+<div id="ref-Veeneman2015" class="csl-entry" role="doc-biblioentry">
+Veeneman, Brendan A., Sudhanshu Shukla, Saravana M. Dhanasekaran, Arul M. Chinnaiyan, and Alexey I. Nesvizhskii. 2015. <span>“Two-Pass Alignment Improves Novel Splice Junction Quantification.”</span> <em>Bioinformatics</em> 32 (October): 43–49. <a href="https://doi.org/10.1093/bioinformatics/btv642">https://doi.org/10.1093/bioinformatics/btv642</a>.
+</div>
+<div id="ref-Venter2001" class="csl-entry" role="doc-biblioentry">
+Venter, J. Craig, Mark D. Adams, Eugene W. Myers, Peter W. Li, Richard J. Mural, Granger G. Sutton, Hamilton O. Smith, et al. 2001. <span>“The Sequence of the Human Genome.”</span> <em>Science</em> 291 (5507): 1304–51. <a href="https://doi.org/10.1126/science.1058040">https://doi.org/10.1126/science.1058040</a>.
+</div>
+<div id="ref-Vergara2021" class="csl-entry" role="doc-biblioentry">
+Vergara, Ismael A., Christopher P. Mintoff, Shahneen Sandhu, Lachlan McIntosh, Richard J. Young, Stephen Q. Wong, Andrew Colebatch, et al. 2021. <span>“Evolution of Late-Stage Metastatic Melanoma Is Dominated by Aneuploidy and Whole Genome Doubling.”</span> <em>Nature Communications</em> 12 (1). <a href="https://doi.org/10.1038/s41467-021-21576-8">https://doi.org/10.1038/s41467-021-21576-8</a>.
+</div>
+<div id="ref-Vienne2018" class="csl-entry" role="doc-biblioentry">
+Vienne, Damien M de. 2018. <span>“Tanglegrams Are Misleading for Visual Evaluation of Tree Congruence.”</span> Edited by Jeffrey Townsend 36 (1): 174–76. <a href="https://doi.org/10.1093/molbev/msy196">https://doi.org/10.1093/molbev/msy196</a>.
+</div>
+<div id="ref-Wang2018" class="csl-entry" role="doc-biblioentry">
+Wang, Di, Xiaohui Niu, Zhijie Wang, Cheng-Li Song, Zhen Huang, Ke-Neng Chen, Jianchun Duan, et al. 2018. <span>“Multiregion Sequencing Reveals the Genetic Heterogeneity and Evolutionary History of Osteosarcoma and Matched Pulmonary Metastases.”</span> <em>Cancer Research</em> 79 (1): 7–20. <a href="https://doi.org/10.1158/0008-5472.can-18-1086">https://doi.org/10.1158/0008-5472.can-18-1086</a>.
+</div>
+<div id="ref-Watson1953" class="csl-entry" role="doc-biblioentry">
+Watson, J. D., and F. H. C. Crick. 1953. <span>“Molecular Structure of Nucleic Acids: A Structure for Deoxyribose Nucleic Acid.”</span> <em>Nature</em> 171 (4356): 737–38. <a href="https://doi.org/10.1038/171737a0">https://doi.org/10.1038/171737a0</a>.
+</div>
+<div id="ref-Werner2020" class="csl-entry" role="doc-biblioentry">
+Werner, Benjamin, Jack Case, Marc J. Williams, Ketevan Chkhaidze, Daniel Temko, Javier Fernández-Mateos, George D. Cresswell, et al. 2020. <span>“Measuring Single Cell Divisions in Human Tissues from Multi-Region Sequencing Data.”</span> <em>Nature Communications</em> 11 (1). <a href="https://doi.org/10.1038/s41467-020-14844-6">https://doi.org/10.1038/s41467-020-14844-6</a>.
+</div>
+<div id="ref-Yoon2019" class="csl-entry" role="doc-biblioentry">
+Yoon, Sang Eun, Won Seog Kim, Seok Jin Kim, Young Hyeh Ko, Kim Yeon Jeong, and Park Donghyun. 2019. <span>“Clinical Application of Circulating Tumor <span>DNA</span> in Plasma of Patients with Primary Central Nervous System Lymphoma.”</span> <em>Blood</em> 134 (Supplement<span>_</span>1): 1491–91. <a href="https://doi.org/10.1182/blood-2019-130075">https://doi.org/10.1182/blood-2019-130075</a>.
+</div>
+<div id="ref-Zuckerkandl1962" class="csl-entry" role="doc-biblioentry">
+Zuckerkandl, Emile, and Linus Pauling. 1962. <span>“Molecular Disease, Evolution, and Genic Heterogeneity.”</span> <em>Horizons in Biochemistry</em>, 189--225.
+</div>
+</div>
+</body>
+</html>
