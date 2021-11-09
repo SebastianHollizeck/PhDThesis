@@ -6,9 +6,10 @@ But all those methods are ultimately based on the somatic variants found in the 
 
 In this section I will highlight for a few examples on how big the effect can be for methods, like phylogenetic reconstruction and clonal decomposition, which use somatic variants as input.
 
-\subsection[Polygenetic reconstruction]{Phylogenetic reconstruction}
+
+\subsection[Phylogenetic reconstruction]{Phylogenetic reconstruction}
 \label{variantcalling-sec:phylo}
-As this work is not about the advantages and shortcomings of different phylogenetics reconstruction tools, we will not show a comprehensive amount of these tools, but rather focus on the results.  For this reason, we chose to use neighbour joining (NJ) \cite{Saitou1987}, because it is fast, readily available in most phylogenetic reconstruction toolkits and if the input distance is correct, the output will be correct. And even, if the distance is not 100\% correct, if the distance is ``nearly additive`` and the input distances are not far off the real distance, the tree topology will still be reconstructed correctly \cite{Mihaescu2007}. Lastly, in contrast to many other methods like UPGMA and WPGMA \cite{Sokal1958}, NJ does not assume an equal mutation rate of each sample, because we know, that the molecular clock hypothesis \cite{Zuckerkandl1962} is not valid for different lineages of cancers \cite{Shibata2010}.
+As this work is not about the advantages and shortcomings of different phylogenetic reconstruction tools, we will not show a comprehensive amount of these tools, but rather focus on the results.  For this reason, we chose to use neighbour joining (NJ) \cite{Saitou1987}, because it is fast, readily available in most phylogenetic reconstruction tool kits and if the input distance is correct, the output will be correct. And even, if the distance is not 100\% correct, if the distance is ``nearly additive`` and the input distances are not far off the real distance, the tree topology will still be reconstructed correctly \cite{Mihaescu2007}. Lastly, in contrast to many other methods like UPGMA and WPGMA \cite{Sokal1958}, NJ does not assume an equal mutation rate of each sample, because we know, that the molecular clock hypothesis \cite{Zuckerkandl1962} is not valid for different lineages of cancers \cite{Shibata2010}.
 
 While there are lots of distance measures for DNA sequences, which allow accounting for different probabilities of transitions and transversions as well as uneven base composition, models like F81 \cite{Felsenstein1981} or HKY85 \cite{Hasegawa1985} are only really designed for germline mutations and are not easily applicable for subclonal somatic mutations, which is why we decided to first transform the variants present in all samples into a binary occurrence vector and then calculating the Hamming distance \cite{Hamming1950} between all samples. This generates a maximum parsimony approach and the branch length of the trees will be directly translatable to the amount of variants which are different between samples. 
 
@@ -34,10 +35,28 @@ Secondly, there have been topological changes, which generate a bifuricating edg
 
 One example of this is ``l-liver-3`` which was a singleton, almost an outlier, in the pairwise reconstructed tree but is clustered together with ``r-liver-2`` and ``r-liver-3``. Generally, there have been additional changes, which make the topology more granular. Where all of the ``l-liver-*`` samples were shown as an almost linear branching off the main stem, they are now further subdivided and each show distinct mutations, like ``l-liver-2`` and ``l-liver-5`` (\autoref{fig:tanglePhyloCa99}).
 
-\todo[color=orange, inline]{show before vs after for phylogenetic reconstruction}
+
+\section[Longitudinal analysis]{Longitudinal analysis - something for the ages }
+\label{variantcalling-sec:longitudinal}
+
+While the initial motivation for the development of these workflows was the analysis of multi-region, so spatial, samples from the same patient coming from the CASCADE rapid autopsy program, a longitudinal application of these methods for the joint analysis of diagnostic and relapse sample, or even the repeated testing of ctDNA are quite worth thinking about. In this part, I will present work using the published workflows on a longitudinal datasets, which highlights the flexibility and wide spread use of our new methods.
+
+Specifically, I will show the analysis of longitudinal ctDNA WES of patient ``CA-F`` from the manuscript (\autoref{ch:appendixManuscript}). in a study of late stage melanoma patients, \Citeauthor{Tan2019} identified ctDNA sequencing as a way to stratify patients into high and low risk of relapse and therefore inform adjuvant therapy \cite{Tan2019}. In this analysis we aim to improve the quality of detection of low allele frequency somatic variants. This would enable the detection of variants from brains metastasis, as the blood brain barrier decreases the availability of DNA fragments from lesions in the brains in the normal blood stream \cite{2014}, however it is detectable with sensitive enough methods \cite{Yoon2019,Ma2020}.
 
 
 \subsection[Clonal deconvolution]{Clonal deconvolution}
 \label{variantcalling-sec:clonal}
 
-\todo[color=orange, inline]{show before vs after for clonal deconvolution}
+Finally, the holy grail of analysis of multiple related samples from the same patient is the clonal deconvolution, where subclonal reoccurring patterns of mutations are detected. These can be linked to either parallel evolution through positive selection pressure, like a targeted drug or to the process of developing Metastases where a piece of the cancer ``breaks`` off and grows at a different site.
+Surprisingly, as it shares the same issues as the joint somatic variant calling of needing deeply sequenced data from multiple samples of the same organism, there is a plethora of algorithms and methods available for clonal deconvolution. Since 2015 PhyloWGS \cite{Deshwar2015}, Canopy \cite{Jiang2016}, CLOE \cite{Marass2016}, CloneFinder \cite{Miura2018}, Machina \cite{ElKebir2018} and MOBSTER \cite{Caravagna2020}. Underlying these models is a form of clustering variants with similar variant allele frequency together, to reduce the combinatorial space and enhance the confidence in the signal \cite{Tarabichi2021}. However even though there is a high number of tools, the challenge to select the right tool is substantial, especially since all of them have up and downsides \cite{Miura2020}. In this work we decided to use PhylogicNDT \cite{Leshchiner2018} as it has been shown to work well on clinical samples \cite{Gerstung2020} and does not have the restriction for the input to be from copy number neutral areas which many of the other tools have.
+
+The analysis was conducted by transforming the variants called with the joint workflows as well as the default pairwise analysis into the required MAF file format without the cancer cell fraction part, in order to let PhylogicNDT calculate those on the fly. The local copy numbers for each variants are generated by intersecting the called segments from sequenza with the position of the variants. Variants which could not be assigned a local copy number change were discarded from the analysis.
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=.99\linewidth]{Figures/clonalDeconv.pdf}
+\caption[Reconstructed clonal trees for joint and pairwise variant calling]{Reconstructed clonal trees from PhylogicNDT; Blue circle at top depicts the germline/normal state. The coloured edges with the same coloured circle represents a distinct subclone of the parent from which the edge emerges; The number in braces next to the edge is the number of mutations which define this subclone with an added gene symbol added, if there is a cancer driver gene mutation. The left part shows the result when using the default pairwise method of Strelka2 and the right side uses the results from the Strelka2Pass workflow}\label{fig:clonaldeconv}
+\end{figure}
+
+
+\autoref{fig:clonaldeconv} shows the highest parsimony clonal tree reconstructed by PhylogicNDT for the pairwise as well as the joint variant calling. As the copynumber calling information is the same for both inputs, the only difference is in the called variants. While there was no subclonal structure detected at all for the pairwise analysis, there is a highly variable structure detected using the jointly called variants.
