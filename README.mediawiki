@@ -1,36 +1,4 @@
-<span> '''DNA''' &amp; '''D'''eoxyribo'''N'''ucleic '''A'''cid<br />
-'''RNA''' &amp; '''R'''ibo'''N'''ucleic '''A'''cid<br />
-'''cfDNA''' &amp; '''c'''ell '''f'''ree '''DNA'''<br />
-'''ctDNA''' &amp; '''c'''irculating '''t'''umour '''DNA'''<br />
-'''bp''' &amp; '''b'''ase '''p'''air<br />
-'''ChIP''' &amp; '''Ch'''romatin '''I'''mmuno'''P'''recipitation<br />
-'''WGS''' &amp; '''W'''hole '''G'''enome '''S'''equencing<br />
-'''WES''' &amp; '''W'''hole '''E'''xome '''S'''equencing<br />
-'''SCLC''' &amp; '''S'''mall '''C'''ell '''L'''ung '''C'''ancer<br />
-'''NSCLC''' &amp; '''N'''on-'''S'''mall '''C'''ell '''L'''ung '''C'''ancer<br />
-'''RAID''' &amp; '''R'''edundant '''A'''rray of '''I'''ndependent '''D'''isks<br />
-'''SNP''' &amp; '''S'''ingle '''N'''ucleotide '''P'''olymorphism<br />
-'''InDel''' &amp; '''In'''sertion or '''Del'''etion<br />
-'''SV''' &amp; '''S'''tructural '''V'''ariant<br />
-'''PON''' &amp; '''P'''anel '''O'''f '''N'''ormals<br />
-'''GATK''' &amp; '''G'''enome '''A'''nalysis '''T'''ool'''K'''it<br />
-'''NJ''' &amp; '''N'''eighbour '''J'''oining<br />
-'''UPGMA''' &amp; '''U'''nweighted '''P'''air '''G'''roup '''M'''ethod with '''A'''rithmetic mean<br />
-'''WPGMA''' &amp; '''W'''eighted '''P'''air '''G'''roup '''M'''ethod with '''A'''rithmetic mean<br />
-'''F81''' &amp; '''F'''elsenstein 19'''81''' model<br />
-'''HKY85''' &amp; '''H'''asegawa, '''K'''ishino and '''Y'''ano 19'''85''' model<br />
-'''HPC''' &amp; '''H'''igh '''P'''erformance '''C'''omputing<br />
-</span>
-
-<span> Speed of Light &amp; <math display="inline">c</math> &amp; <math display="inline">=</math> &amp; <math display="inline">2.997\ 924\ 58\times10^{8}\ \mbox{ms}^{-\mbox{s}}</math> (exact)<br />
-</span>
-
-<span> <math display="inline">a</math> &amp; distance &amp; m<br />
-<math display="inline">P</math> &amp; power &amp; W (Js<math display="inline">^{-1}</math>)<br />
-&amp; &amp;<br />
-<math display="inline">\omega</math> &amp; angular frequency &amp; rads<math display="inline">^{-1}</math><br />
-</span>
-
+= Development of new methods for accurate estimation of tumour heterogeneity =
 <div class="savequote">
 
 “Begin at the beginning,“ the King said, very gravely, “and go on till you come to the end: then stop.“
