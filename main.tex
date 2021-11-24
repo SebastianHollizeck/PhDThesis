@@ -24,6 +24,18 @@
 
 %better fonts
 \usepackage{lmodern}
+%\usepackage[proportional,scaled=1.064]{erewhon}
+%\usepackage{heuristica}
+%\usepackage[heuristica,vvarbb,bigdelims]{newtxmath}
+%\usepackage[T1]{fontenc}
+
+\usepackage[light]{CrimsonPro}
+\usepackage[T1]{fontenc}
+%% The font package uses mweights.sty which has som issues with the
+%% \normalfont command. The following two lines fixes this issue.
+\let\oldnormalfont\normalfont
+\def\normalfont{\oldnormalfont\mdseries}
+
 
 \usepackage[usenames,dvipsnames]{xcolor}
 
@@ -44,6 +56,12 @@
 
 %setup the links the right way
 \hypersetup{urlcolor=blue, colorlinks=true}  % Colours hyperlinks in blue, but this can be distracting if there are many links.
+
+%autoref shouldnt say subsection and subsubsection and section should be upper case
+\renewcommand{\sectionautorefname}{Section}
+\let\subsectionautorefname\sectionautorefname
+\let\subsubsectionautorefname\sectionautorefname
+
 %make the font normal
 \urlstyle{rm}
 
@@ -67,8 +85,6 @@
 \renewcommand{\chapterheadendvskip}{\vspace*{0.7\baselineskip}}
 
 
-
-
 % allow marks and todos !!! REMOVE FOR FINAL VERSION !!!
 \setlength{\marginparwidth}{2cm}
 
@@ -87,6 +103,15 @@
 
 %inline lists
 \usepackage[inline]{enumitem}
+
+%tables with multirows
+\usepackage{array}
+\newcommand{\PreserveBackslash}[1]{\let\temp=\\#1\let\\=\temp}
+\newcolumntype{C}[1]{>{\PreserveBackslash\centering}p{#1}}
+\newcolumntype{R}[1]{>{\PreserveBackslash\raggedleft}p{#1}}
+\newcolumntype{L}[1]{>{\PreserveBackslash\raggedright}p{#1}}
+
+\usepackage{multirow}
 
 %% ----------------------------------------------------------------
 
@@ -200,6 +225,7 @@
 \textbf{F81} & \textbf{F}elsenstein 19\textbf{81} model \\
 \textbf{HKY85} & \textbf{H}asegawa, \textbf{K}ishino and \textbf{Y}ano 19\textbf{85} model\\
 \textbf{HPC} & \textbf{H}igh \textbf{P}erformance \textbf{C}omputing \\
+\textbf{MRCA} & \textbf{M}ost \textbf{R}ecent \textbf{C}ommon \textbf{A}ncestor \\
 
 }
 

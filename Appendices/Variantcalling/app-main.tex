@@ -2,7 +2,7 @@
 \chapter[Strelka2Pass and FreeBayesSomatic publication]{Custom workflows to improve joint variant calling from multiple related tumour samples: FreeBayesSomatic and Strelka2Pass}
 \label{ch:appendixManuscript}
 
-This appendix contains the manuscript published at \textit{Bioinformatics} in an non journal style format. It can also be found at \href{https://doi.org/10.1093/bioinformatics/btab606/6361543}{10.1093/bioinformatics/btab606/6361543} for a paper style version.
+This appendix contains the manuscript published at \textit{Bioinformatics} in an non journal style format with the supplementary methods and figures. It can also be found at \href{https://doi.org/10.1093/bioinformatics/btab606/6361543}{10.1093/bioinformatics/btab606/6361543} for a paper style version.
 \vspace{1em}
 \hrule
 \vspace{2em}
@@ -49,25 +49,25 @@ To enable highly sensitive, fast and accurate variant detection from multiple re
 
 \section{Materials and methods}
 \subsection{FreeBayesSomatic workflow}
-The original FreeBayes algorithm can jointly evaluate multiple samples but routinely it does not perform somatic variant calling on tumour-normal pairs. We introduce FreeBayesSomatic which allows concurrent analysis of multiple tumour samples by adapting concepts from SpeedSeq \parencite{Chiang2015} which differentiates the likelihood of a variant between tumour and normal samples instead of imposing an absolute filter for all variants called in the normal. Hence, for each genotype (GT) at SNV sites, FreeBayesSomatic first calculates the difference in likelihoods (LOD) between the normal (Eq.~1\vphantom{\ref{eq:01}}) and the tumour (Eq.~2\vphantom{\ref{eq:02}}) samples genotype likelihoods (GL) with g$_{0}$ describing the reference genotype.
+The original FreeBayes algorithm can jointly evaluate multiple samples but routinely it does not perform somatic variant calling on tumour-normal pairs. We introduce FreeBayesSomatic which allows concurrent analysis of multiple tumour samples by adapting concepts from SpeedSeq \parencite{Chiang2015} which differentiates the likelihood of a variant between tumour and normal samples instead of imposing an absolute filter for all variants called in the normal. Hence, for each genotype (GT) at SNV sites, FreeBayesSomatic first calculates the difference in likelihoods (LOD) between the normal (\autoref{A:eq:01}) and the tumour (\autoref{A:eq:02}) samples genotype likelihoods (GL) with g$_{0}$ describing the reference genotype.
 
 
 \begin{align}
-\text{LOD}_{\text{normal}} &= \max_{g_i \in \text{GT}} \left( \text{GL}(g_0) - \text{GL}(g_i) \right) \label{eq:01}\\
-\text{LOD}_{\text{tumour}} &= \min_{s \in \text{Samples}} \left( \min_{g_i \in \text{GT}} \left( \text{GL}_s(g_i) - \text{GL}_s(g_0) \right) \right) \label{eq:02}\\
-\text{somaticLOD} & := \left( \text{LOD}_{\text{normal}} \geq 3.5 \land \text{LOD}_{\text{tumour}} \geq 3.5 \right) \label{eq:03}
+\text{LOD}_{\text{normal}} &= \max_{g_i \in \text{GT}} \left( \text{GL}(g_0) - \text{GL}(g_i) \right) \label{A:eq:01}\\
+\text{LOD}_{\text{tumour}} &= \min_{s \in \text{Samples}} \left( \min_{g_i \in \text{GT}} \left( \text{GL}_s(g_i) - \text{GL}_s(g_0) \right) \right) \label{A:eq:02}\\
+\text{somaticLOD} & := \left( \text{LOD}_{\text{normal}} \geq 3.5 \land \text{LOD}_{\text{tumour}} \geq 3.5 \right) \label{A:eq:03}
 \end{align}
 
 Next, the variant allele frequencies (VAF) in both the tumour and the normal samples are compared at each site.
 
 
 \begin{align}
-\text{VAF}_{\text{tumour}} &= \max_{s \in \text{Samples}} ( \text{VAF}_s) \label{eq:04}\\
+\text{VAF}_{\text{tumour}} &= \max_{s \in \text{Samples}} ( \text{VAF}_s) \label{A:eq:04}\\
 \text{somaticVAF} & := \left( \text{VAF}_{\text{normal}} \leq 0.001 ~\lor \right. \nonumber \\
- & \left. ( \text{VAF}_{\text{tumour}} \geq 2.7 \cdot \text{VAF}_{\text{normal}}) \right) \label{eq:05}
+ & \left. ( \text{VAF}_{\text{tumour}} \geq 2.7 \cdot \text{VAF}_{\text{normal}}) \right) \label{A:eq:05}
 \end{align}
 
-A variant is classified as somatic when both somaticLOD as well as somatic VAF pass the criteria somaticLOD (Eq.~3\vphantom{\ref{eq:03}}) and somaticVAF (Eq.~5\vphantom{\ref{eq:05}}).
+A variant is classified as somatic when both somaticLOD as well as somatic VAF pass the criteria somaticLOD (\autoref{A:eq:03}) and somaticVAF (\autoref{A:eq:05}).
 
 The thresholds chosen for both LOD and VAF calculations were previously fitted by the blue-collar bioinformatics workflow for the DREAM synthetic 3 dataset using the SpeedSeq likelihood difference approach \parencite{Chapman2020} and were selected to identify high confidence variants.
 
@@ -77,31 +77,31 @@ In contrast to FreeBayes, whilst Strelka2 has a multiple-sample mode for germlin
 The method re-evaluates the likelihood of each variant, by integrating every genotype from each tumour-normal pair. This step can "call" a variant ($v$) in a sample that initially did not present enough evidence to pass the Strelka2 internal filtering using two conditions: 1) if this variant was called as a proper "PASS" by Strelka2 in any other tumour sample, or 2) if the integrated evidence for this variant across all tumour-normal pairs reached a sufficiently high level. The second condition was based on the somatic evidence score (SomEVS) reported by Strelka2, which is the logarithm of the probability of the variant $v$ being an artefact.
 
 \begin{equation}
-p_{error}(v) = 10^{\left( \frac{-\text{SomEVS}(v)}{10} \right)} \label{eq:06}
+p_{error}(v) = 10^{\left( \frac{-\text{SomEVS}(v)}{10} \right)} \label{A:eq:06}
 \end{equation}
 
 While the germline sample is shared between all processes, we can approximate these individual probabilities as being independent, since one variant calling process is agnostic of the other. Hence, we derive the following:
 
 \begin{equation}
-p_{error}(v_{s_1},v_{s_2},\ldots,v_{s_n}) = \prod_{s \in \text{Samples}} p_{error}(v_{s}) \label{eq:07}
+p_{error}(v_{s_1},v_{s_2},\ldots,v_{s_n}) = \prod_{s \in \text{Samples}} p_{error}(v_{s}) \label{A:eq:07}
 \end{equation}
 
 And therefore:
 
 \begin{equation}
-\text{SomEVS}(v_{s_1},v_{s_2},\ldots,v_{s_n}) = \sum_{s \in \text{Samples}} \text{SomEVS}(v_{s}) \label{eq:08}
+\text{SomEVS}(v_{s_1},v_{s_2},\ldots,v_{s_n}) = \sum_{s \in \text{Samples}} \text{SomEVS}(v_{s}) \label{A:eq:08}
 \end{equation}
 
-This allows the summation (Eq.~8\vphantom{\ref{eq:08}}) of the SomEVS score across all supporting variants to assign a "PASS" filter, if it reached a joint SomEVS score threshold. This threshold can be set by the user and is 20 by default, which corresponds to an estimated error rate of 1\%. These "recovered" variants need to pass a set of additional quality metrics related to depth of coverage, mapping quality and read position rank sum score.
+This allows the summation (\autoref{A:eq:08}) of the SomEVS score across all supporting variants to assign a "PASS" filter, if it reached a joint SomEVS score threshold. This threshold can be set by the user and is 20 by default, which corresponds to an estimated error rate of 1\%. These "recovered" variants need to pass a set of additional quality metrics related to depth of coverage, mapping quality and read position rank sum score.
 
 As an additional improvement, we also built multiallelic support into Strelka2 which originally only reports the most prevalent variant at a specific site. Within the two-pass analysis, we reconstruct the available evidence for a multiallelic variant at a called site from the allele-specific read counts and report the minor allele at this site, if there is sufficient support from other samples. This method allows recovery of minor alleles only if another sample has this variant called by Strelka2, as SomEVS scores are not available for minor alleles.
 
 \section{Validation}
 
-\begin{figure*}[!tpb]
+\begin{figure*}[!ht]
 \centering
   \includegraphics[width=\textwidth]{Appendices/Variantcalling/Figure_1}\vspace*{-12pt}
-  \caption[Figure 1 Comparison of joint multi-sample variant calling and single tumour-normal paired calling methods]{Comparison of joint multi-sample variant calling and single tumour-normal paired calling methods; A) Simulated phylogeny highlighting two samples with high evolutionary distance (sim-a and sim-j) where MRCA denotes the most recent common ancestor. B) Recall estimates of FreeBayes and Strelka2, run in individual tumour-normal paired and joint calling configurations using two (sim-a and sim-j), three (sim-a, sim-g and sim-j), five (sim-a, sim-c, sim-f, sim-h and sim-j) and all ten tumour samples. C) Precision of Strelka2 and D) Number of variants called by Strelka2 run in both tumour-normal paired (grey) and added with joint calling configurations (blue), which have been validated by targeted amplicon sequencing (TAS). E) Correlation between cellularity and proportion of variants found only with joint calling using Strelka2Pass for clinical samples; grey area shows the "$95\%$" confidence interval for the linear model fit (dotted line).}\label{fig:01}
+  \caption[Comparison of joint multi-sample variant calling and single tumour-normal paired calling methods]{Comparison of joint multi-sample variant calling and single tumour-normal paired calling methods; A) Simulated phylogeny highlighting two samples with high evolutionary distance (sim-a and sim-j) where MRCA denotes the most recent common ancestor. B) Recall estimates of FreeBayes and Strelka2, run in individual tumour-normal paired and joint calling configurations using two (sim-a and sim-j), three (sim-a, sim-g and sim-j), five (sim-a, sim-c, sim-f, sim-h and sim-j) and all ten tumour samples. C) Precision of Strelka2 and D) Number of variants called by Strelka2 run in both tumour-normal paired (grey) and added with joint calling configurations (blue), which have been validated by targeted amplicon sequencing (TAS). E) Correlation between cellularity and proportion of variants found only with joint calling using Strelka2Pass for clinical samples; grey area shows the "$95\%$" confidence interval for the linear model fit (dotted line).}\label{A:fig:01}
 \end{figure*}
 
 \subsection{Simulated data}
@@ -144,8 +144,197 @@ The simulated data and the respective final variant calling files underlying thi
 The biological data underlying this article are available at the European Genome-Phenome Archive (EGA) at \href{https://ega-archive.org}{\nolinkurl{https://ega-archive.org}}, and can be accessed with study id \href{https://ega-archive.org/studies/EGAS00001004023}{EGAS00001004023} and \href{https://ega-archive.org/studies/EGAS00001004950}{EGAS00001004950}.
 
 
-
-
 %\end{multicols}
 
-\todo[inline]{think about if its smart to put the supp data in here as well}
+% its chapter * so it doesnt get the numbering update
+\chapter*{Supplementary data}
+\label{ch:appendixManuscriptSuppData}
+
+\begin{figure}[!ht]
+\centering
+  \includegraphics[width=\textwidth]{Appendices/Variantcalling/supp/S1}
+  \caption[Characteristics of simulated data]{Characteristics of simulated data: A) Simulated phylogeny of samples B) Number of simulated germline and somatic variants per sample C) Variant allele frequency distribution of simulated variants per sample D) Distance to nearest variant in each sample.}\label{A:fig:S01}
+\end{figure}
+
+\begin{figure}[!ht]
+\centering
+  \includegraphics[width=\textwidth]{Appendices/Variantcalling/supp/S2}
+  \caption[Performance of workflows using simulated data]{Performance of workflows using simulated data: A) Precision and B) Recall of Mutect2, FreeBayes and Strelka2, run in single tumour-normal paired and joint calling configurations.}\label{A:fig:S02}
+\end{figure}
+
+\begin{figure}[!ht]
+\centering
+  \includegraphics[width=\textwidth]{Appendices/Variantcalling/supp/S3}
+  \caption[Variant allele frequencies (VAF) of variants detected by joint sample analysis]{Variant allele frequencies (VAF) of variants detected by joint sample analysis; A) VAF distribution of true positive variants additionally detected by Strelka2pass B) and FreeBayesSomatic C) VAF distribution of false positive variants additionally detected by FreeBayesSomatic D) and Strelka2pass E) VAF distribution of false negatives not called by FreeBayesSomatic F) and Strelka2pass.}\label{A:fig:S03}
+\end{figure}
+
+\begin{figure}[!ht]
+\centering
+  \includegraphics[width=\textwidth]{Appendices/Variantcalling/supp/S4}
+  \caption[Performance of individual steps in the Strelka2pass workflow using the simulated data]{Performance of individual steps in the Strelka2pass workflow using the simulated data: A) Precision and B) Recall of tumour-normal paired analysis, two-pass step without refiltering (supplying variants from all tumour-normal pairs for evaluation) and two-pass step with refiltering (the final workflow)}\label{A:fig:S04}
+\end{figure}
+
+\begin{figure}[!ht]
+\centering
+  \includegraphics[width=\textwidth]{Appendices/Variantcalling/supp/S5}
+  \caption[Summary of variant filters assigned by Mutect2]{Summary of variant filters assigned by Mutect2; The counts for each filter type are denoted by black boxplots with white circles depicting the median values. The fitted distribution of variant counts outlines each boxplot; A) Counts of filter assignments for false negative variants and B) true negative variants called by Mutect2 C) Filter assignment for all variants reported for sequenced patient data sequenced with WGS or D) WES.}\label{A:fig:S05}
+\end{figure}
+
+\begin{figure}[!ht]
+\centering
+  \includegraphics[width=\textwidth]{Appendices/Variantcalling/supp/S6}
+  \caption[Assessing the performance of different workflows using tumour samples with different evolutionary relationships in the simulated data]{Assessing the performance of different workflows using tumour samples with different evolutionary relationships in the simulated data; A) Simulated phylogeny highlighting two samples with high evolutionary distance (sim-a and sim-j) where MRCA denotes the most recent common ancestor. B) Precision and C) Recall estimates of FreeBayes and Strelka, run in individual tumour-normal paired and joint calling configurations using two (sim-a and sim-j), three (sim-a, sim-g and sim-j), five (sim-a, sim-c, sim-f, sim-h and sim-j) and all ten tumour samples D) Simulated phylogeny highlighting two samples with low evolutionary distance (sim-a and sim-b). E) Precision and F) Recall estimates for FreeBayes and Strelka run in individual tumour-normal paired and joint calling configurations. The plots compare the performance of these workflows when using two evolutionary distant samples (sim-a and sim-j), two evolutionary close samples (sim-a and sim-b) and all ten tumour samples.}\label{A:fig:S06}
+\end{figure}
+
+
+\begin{figure}[!ht]
+\centering
+  \includegraphics[width=\textwidth]{Appendices/Variantcalling/supp/S7}
+  \caption[Correlation of variant allele frequencies in validation]{Correlation of variant allele frequencies (VAF) from WES and WGS data against targeted amplicon sequencing VAF values with fitted violin plots of each individual distribution. Grey background shows 95\% confidence interval for the fit of the linear model (dotted line).}\label{A:fig:S07}
+\end{figure}
+
+\begin{figure}[!ht]
+\centering
+  \includegraphics[width=\textwidth]{Appendices/Variantcalling/supp/S8}
+  \caption[Performance of the different workflows using clinical samples from eight cancer patients]{Performance of the different workflows using clinical samples from eight cancer patients: A) Number of variants called by Strelka2 run in the tumour-normal paired (grey) and joint calling configurations, which have been validated by targeted amplicon sequencing (TAS). The same for C) FreeBayes and E) Mutect2 workflows. Precision of tumour-normal paired and joint analysis of TAS validated clinical data for B) Strelka2, D) FreeBayes and F) Mutect2; Sup. Table 1 provides the sample naming map to the original publications.}\label{A:fig:S08}
+\end{figure}
+
+\begin{figure}[!ht]
+\centering
+  \includegraphics[width=\textwidth]{Appendices/Variantcalling/supp/S9}
+  \caption[Correlation between cellularity and proportion of variants found only with joint calling using FreeBayesSomatic]{Correlation between cellularity and proportion of variants found only with joint calling using FreeBayesSomatic. Grey background shows 95\% confidence interval for fit of linear model (dotted line)}\label{A:fig:S09}
+\end{figure}
+
+\begin{figure}[!ht]
+\centering
+  \includegraphics[width=\textwidth]{Appendices/Variantcalling/supp/S10}
+  \caption{Improvement in recall using FreeBayesSomatic and Strelka2pass over Mutect2 in the clinical samples.}\label{A:fig:S10}
+\end{figure}
+
+\begin{figure}[!ht]
+\centering
+  \includegraphics[width=\textwidth]{Appendices/Variantcalling/supp/S11}
+  \caption[Performance of ensemble variant calling strategies]{Performance of ensemble variant calling strategies. A) Precision and B) Recall of variant detection using the joint multi-sample calling of each tool separately and compared to using Majority-vote ensemble calling (variant is called by at least two callers), Freeka2 (variant is called by both FreeBayesSomatic and Strelka2pass) and Superset (variant is called by either FreeBayesSomatic or Strelka2pass) for the simulated dataset D) Number of TAS validated variants found in the clinical samples with Majority-vote and Superset methods and the corresponding D) Precision estimates.}\label{A:fig:S11}
+\end{figure}
+
+
+\begin{table}[!ht]
+\caption[Sample name mapping]{Sample naming map relating to previously published datasets. The first column contains sample names as they appear in this work, and the third column denotes how the samples are referred to in the original studies. Forth column shows the type of sequencing WES: whole-exome sequencing; WGS: whole genome sequencing.}\label{A:tab:S1}
+\centering
+\footnotesize
+\begin{tabular}{c|c|l|c}
+\textbf{SAMPLE NAME} & \textbf{PUBLISHED STUDY} & \textbf{ORIGINAL NAME} & \textbf{SEQUENCING TYPE} \\
+\hline
+CA-A-1	& \multirow{8}{*}{\citeauthor*{Solomon2020} \cite{Solomon2020}} &  Case 1 Left liver 1	& \multirow{8}{*}{WGS} \\
+CA-A-2	& &	Case 1 Right occipital & \\
+CA-A-3	& &	Case 1 Right liver 2	 &\\
+CA-A-4	& &	Case 1 Right pleura	 &\\
+CA-A-5	& &	Case 1 Left lower lung lobe	 &\\
+CA-A-6	& &	Case 1 Left liver 5	 &\\
+CA-A-7	& &	Case 1 Right liver 3	 &\\
+CA-A-8	& &	Case 1 Left liver 2	 &\\
+\hline
+CA-B-1 & \multirow{47}{*}{\citeauthor*{Vergara2021} \cite{Vergara2021}} & CAS-B-21-L-LUNG & \multirow{6}{*}{WES} \\ 
+CA-B-2 & & CAS-B-22-R-LUNG	&  \\ 
+CA-B-3 & & CAS-B-14B37035-1B &  \\ 
+CA-B-4 & & CAS-B-Primary-1 &  \\ 
+CA-B-5 & & CAS-B-15B08317-3A &  \\ 
+CA-B-6 & & CAS-B-14B37035-1C &  \\ 
+\cline{1-1}\cline{3-4}
+CA-C-1 & & CAS-A-FR07935894 & \multirow{7}{*}{WGS} \\ 
+CA-C-2 & & CAS-A-FR07935905 &  \\ 
+CA-C-3 & & CAS-A-FR07935906 &  \\ 
+CA-C-4 & & CAS-A-FR07935907 &  \\ 
+CA-C-5 & & CAS-A-FR07935908 &  \\ 
+CA-C-6 & & CAS-A-FR07935916 &  \\ 
+CA-C-7 & & CAS-A-FR07935918 &  \\ 
+\cline{1-1}\cline{3-4}
+CA-D-1 & & CAS-G-91-2 & \multirow{8}{*}{WES}\\ 
+CA-D-2 & & CAS-G-75 &  \\ 
+CA-D-3 & & CAS-G-74 &  \\ 
+CA-D-4 & & CAS-G-71 &  \\ 
+CA-D-5 & & CAS-G-91 &  \\ 
+CA-D-6 & & CAS-G-76 &  \\ 
+CA-D-7 & & CAS-G-94 &  \\ 
+CA-D-8 & & CAS-G-72 &  \\ 
+\cline{1-1}\cline{3-4}
+CA-E-1 & & CAS-D-70 & \multirow{7}{*}{WES}\\ 
+CA-E-2 & & CAS-D-61-3 &  \\ 
+CA-E-3 & & CAS-D-66 &  \\ 
+CA-E-4 & & CAS-D-68 &  \\ 
+CA-E-5 & & CAS-D-64 &  \\ 
+CA-E-6 & & CAS-D-61-2 &  \\ 
+CA-E-7 & & CAS-D-62 &  \\ 
+\cline{1-1}\cline{3-4}
+CA-F-1 & & CAS-C-41 & \multirow{7}{*}{WES}\\ 
+CA-F-2 & & CAS-C-40-Fresh &  \\ 
+CA-F-3 & & CAS-C-37 &  \\ 
+CA-F-4 & & CAS-C-44 &  \\ 
+CA-F-5 & & CAS-C-42-Fresh &  \\ 
+CA-F-6 & & CAS-C-43-Fresh &  \\ 
+CA-F-7 & & CAS-C-46-Primary &  \\ 
+\cline{1-1}\cline{3-4}
+CA-G-1 & & CAS-F-FR07935922 & \multirow{6}{*}{WGS}\\ 
+CA-G-2 & & CAS-F-FR07935915 &  \\ 
+CA-G-3 & & CAS-F-FR07935913 &  \\ 
+CA-G-4 & & CAS-F-FR07935909 &  \\ 
+CA-G-5 & & CAS-F-FR07935904 &  \\ 
+CA-G-6 & & CAS-F-FR07935903 &  \\ 
+\cline{1-1}\cline{3-4}
+CA-H-1 & & CAS-E-1 & \multirow{6}{*}{WES}\\ 
+CA-H-2 & & CAS-E-3 &  \\ 
+CA-H-3 & & CAS-E-4 &  \\ 
+CA-H-4 & & CAS-E-10 &  \\ 
+CA-H-5 & & CAS-E-6 &  \\ 
+CA-H-6 & & CAS-E-8 &  \\ 
+\hline
+\end{tabular}
+\end{table}
+
+%get rid of all the floats we accumulated
+\clearpage
+
+\begin{table}[!ht]
+\caption[Runtime of different workflows on simulated data]{Runtime of different workflows on simulated data; The runtimes were generated on the Peter MacCallum Cancer Centre HPC cluster with Intel(R) Xeon(R) CPU E5-2660 v3 @ 2.60GHz. The times are displayed in single CPU runtime, but each workflow is highly parallelised, such that the user runtime is far lower.}\label{A:tab:S2}
+\centering
+\begin{tabular}{r | C{0.1\textwidth} | C{0.1\textwidth} | C{0.1\textwidth} | C{0.1\textwidth} | }
+ & \multicolumn{4}{c}{\textbf{Number of tumour samples used for joint calling}}\\
+ \cline{2-5}
+ \textbf{Method} & 2 & 3 & 5 & 10 \\
+ \hline\hline
+ FreeBayesSomatic & 562h & 811h	 & 1185h & 2292h \\
+ \hline
+Strelka2Pass & 310h & 	465h & 776h & 1552h \\
+ \hline
+Mutect2 & - & - & - & 28418h \\
+ \hline
+\end{tabular}
+\end{table}
+
+
+
+\section{Supplementary methods}
+\label{A:varcalling:supmethods}
+\subsection{Alignment of clinical data}
+Detailed information on processing of the clinical sequencing datasets was published previously \cite{Solomon2020,Vergara2021}. Briefly, reads were aligned to GRCh38 for patient CAS-A and GRCh37 for patients CAS-B through CAS-H using BWA version 0.7.17 \cite{Li2009} allowing the use of alternative contigs. Reads were then marked as duplicates with Picard software (v2.17.3). 
+
+\subsection{Validation of clinical data}
+\label{A:varcalling:clinical}
+Detailed information on targeted amplicon sequencing of patient samples can be found in the original publications \cite{Solomon2020,Vergara2021}. A SNV called in WES with any workflow was considered a true positive when the adjusted p-value calculated through an exact binomial test was lower than 0.05 on the TAS data. The probability of success for this test was estimated as the number of bases different from the reference divided by the total number of sequenced bases (0.001) and the number of trials was the read depth covering the variant. For indels, a variant was considered to be validated if either of the panel variant callers primal (in house) or canary \cite{Doig2017} called the same variant. 
+
+Only amplicons with an average mapping rate of at least 80\% over all samples, as well as an average coverage of more than 300 were considered for further analysis. WES variants were first subsetted to be within the area of the respective amplicons.
+
+\subsection{Purity estimation with sequenza}
+For CA-A the sequenza-utils python program was used to generate input files for the sequenza R program on the aligned BAM files \cite{Favero2015}. Kmin and gamma were set to 100 and 500 respectively to discourage a highly fragmented result.  For CA-B through -H the reported tumour purities were used from the publication \cite{Vergara2021}.
+
+\subsection{Performance of individual steps in Strelka2Pass}
+\label{A:varcalling:steps}
+As each of the three steps potentially has implications for the performance, we assessed the improvement provided by each step in the Strelka2pass workflow. \autoref{A:fig:S04} shows, that there is no change in either precision or recall just by supplying variants from all tumour-normal pairs for a second round of evaluation. However, there is a >20\% improvement in recall when coupling this to the refiltering step that we have built into the workflow. 
+
+\subsection{Ensemble workflows – user suggestions}
+An overall workflow can contain any number of additional variant callers, when not restricted to callers with joint analysis capability. Importantly, there is no benefit of jointly analysing samples with Mutect2, and it may decrease the performance in some cases. Each of our presented workflows outperformed Mutect2 on the data shown here, so when assembling an ensemble method, these methods, should have a higher confidence assigned to them in joint analysis cases, than tumour-normal pair approaches.
+
+Depending on the end needs of the user, an ensemble workflow can be optimised towards precision or recall. In \autoref{A:fig:S11} we show the performance changes improvement that can be achieved by combining Mutect2 in tumour-normal paired analysis with the two new workflows FreeBayesSomatic and Strelka2Pass. First, in a “best of three” majority vote, where the variant needs to be called by two out of three variant callers, we enhance the precision of each of the individual tools, with slightly lower recall.
+On the other hand, with the super set approach, where any variant called in either FreeBayesSomatic or Strelka2Pass is included in the end result, this improves the recall even further, but slightly reduces the precision. This approach has the additional benefit of not needing to run Mutect2 which is an order of magnitude slower in our tests, than Strelka2Pass and FreeBayesSomatic (\autoref{A:tab:S2}).
+The usage of these workflows can be easily integrated into existing workflows and  can be customised to the needs of the user.
+
