@@ -1,8 +1,9 @@
 \section{Publication}
+\label{variantcalling-sec:publication}
 
 The full publication about joint somatic variant calling can be found at \href{https://doi.org/10.1093/bioinformatics/btab606}{\nolinkurl{https://doi.org/10.1093/bioinformatics/btab606}} and non-journal formatted version is also attached as \autoref{ch:appendixManuscript} with all supplementary methods.
 
-However in this section, I will parts of the paper to make this work as standalone and easy to read as possible. References to supplementary data will be prefixed with the letter \ref{ch:appendixManuscript} in the text.
+References to supplementary data will be prefixed with the letter \ref{ch:appendixManuscript} in the text.
 
 \subsection{Summary}
 To enable highly sensitive, fast and accurate variant detection from multiple related tumour samples, we have developed joint variant calling extensions to two widely used single-sample algorithms, FreeBayes \parencite{Garrison2012} and Strelka2 \parencite{Kim2018}. Using both simulated and clinical sequencing data, we show that these workflows are highly accurate and can detect variants at much lower variant allele frequencies than other commonly used methods.
@@ -58,7 +59,7 @@ As an additional improvement, we also built multiallelic support into Strelka2 w
 
 \subsection{Validation}
 
-As new methods are always a good idea, because the challenge previous assumptions and can be a step forward for the field by just showing that simpler models can have the same performance, all methods should be validated against the gold standard methods in the field with data which allows objective measures to be used. For germline variant calling there have been multiple challenges and specifically designed test datasets, but these predefined datasets do not exist for the somatic equivalent. This issue is even more pronounced, as we do not only need a tumour-normal pair, but we need the multiple tumour samples in the dataset to be related. To allow a fair comparison, I first generated a fully synthetic dataset, where every variant is known and fully defined (\autoref{variantcalling-sec:simdata}) to allow a general performance assessment of the methods. Then to ensure that these metrics also hold true in real world data, we then re-analysed previously published datasets which have orthogonal validation in the form of targeted amplicon sequencing (TAS) (\autoref{variantcalling-sec:realdata}).
+As new methods are always a good idea, because they challenge previous assumptions and can be a step forward for the field by just showing that simpler models can have the same performance, all methods should be validated against the gold standard methods in the field with data which allows objective measures to be used. For germline variant calling there have been multiple challenges and specifically designed test datasets, but these predefined datasets do not exist for the somatic equivalent. This issue is even more pronounced, as we do not only need a tumour-normal pair, but we need the multiple tumour samples in the dataset to be related. To allow a fair comparison, I first generated a fully synthetic dataset, where every variant is known and fully defined (\autoref{variantcalling-sec:simdata}) to allow a general performance assessment of the methods. Then to ensure that these metrics also hold true in real world data, we then re-analysed previously published datasets which have orthogonal validation in the form of targeted amplicon sequencing (TAS) (\autoref{variantcalling-sec:realdata}).
 
 \begin{figure*}[!tpb]
 \centering
