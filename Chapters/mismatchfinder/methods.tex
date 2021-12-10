@@ -1,0 +1,9 @@
+\section{Methods}
+\label{mmf-sec:methods}
+
+With the change from a variant focused approach to a read based method, this new method will call ``mismatches`` of a read from the reference genome, rather than a variant. This has the advantage of not requiring a matched normal and its use for virtually any sequencing data source, be it TAS, WES, WGS or even nanopore sequencing\footnote{however nanopore is not really usefull due to the short fragments naturally occuring in cfDNA}. However it also means, that the error supression method, which are usually used by variant calling methods like read position ranks sum (RPRS) or strand bias are not useable, which leads to a higher degree of background noise. In the following sections I will describe how we filter and curate the found mismatches to retain as much signal as possible.
+
+\subsection[Consensus reads]{Consensus reads - what happens when the sequencer isn't sure}
+\label{mmf-sec:consensus}
+
+\todo[inline]{write about the consensus building process with some figures}

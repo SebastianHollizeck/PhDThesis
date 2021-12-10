@@ -47,13 +47,13 @@
 \btypeout{Preface}
 \addtotoc{Preface}
 \thispagestyle{plain}
-\null\vfil
-%\vskip 60\p@
+\null
+\vskip 60\p@
 \begin{center}{\huge\bf Preface\par}\end{center}
 %\vskip 60\p@
 {\normalsize #1}
 \vfil\vfil\null
-%\cleardoublepage
+\cleardoublepage
 }
 
 \newcommand\btypeout[1]{\bhrule\typeout{\space #1}\bhrule}
@@ -86,8 +86,10 @@
 \rhead[\fancyplain{}{\sl{\leftmark}}]{\rm\thepage}
 \chead{}\lfoot{}\rfoot{}\cfoot{}
 \pagestyle{fancy}
-\renewcommand{\chaptermark}[1]{\btypeout{\thechapter\space #1}\markboth{\@chapapp\ \thechapter\ #1}{\@chapapp\ \thechapter\ #1}}
-\renewcommand{\sectionmark}[1]{}
+\newcommand{\currchapter}{}
+\renewcommand{\chaptermark}[1]{\btypeout{\thechapter\space #1}\markboth{\@chapapp~\thechapter\ #1}{\@chapapp~\thechapter\ #1}
+\renewcommand{\currchapter}{#1}}
+\renewcommand{\sectionmark}[1]{\markright{\@chapapp~\thechapter~\currchapter{}: #1}{}}
 \renewcommand{\subsectionmark}[1]{}
 \def\cleardoublepage{\clearpage\if@twoside \ifodd\c@page\else
 \hbox{}
@@ -167,10 +169,10 @@
 \examiner    {}
 \degree      {Doctor of Philosophy}
 \authors     {}
-\university  {\texorpdfstring{\href{University Web Site URL Here (include http://)}
+\university  {\texorpdfstring{\href{https://www.unimelb.edu.au/}
                 {The University of Melbourne}}
                 {The University of Melbourne}}
-\UNIVERSITY  {\texorpdfstring{\href{University Web Site URL Here (include http://)}
+\UNIVERSITY  {\texorpdfstring{\href{https://www.unimelb.edu.au/}
                 {THE UNIVERSITY OF MELBOURNE}}
                 {THE UNIVERSITY OF MELBOURNE}}
 \school  {\texorpdfstring{\href{School Web Site URL Here (include http://)}
@@ -179,9 +181,9 @@
 \SCHOOL  {\texorpdfstring{\href{School Web Site URL Here (include http://)}
                 {SCHOOL NAME (IN BLOCK CAPITALS)}}
                 {SCHOOL NAME (IN BLOCK CAPITALS)}}
-\group       {\texorpdfstring{\href{Research Group Web Site URL Here (include http://)}
-                {Research Group Name}}
-                {Research Group Name}}
+\group       {\texorpdfstring{\href{https://www.thedawsonlab.com/sarah-jane-dawson}
+                {S-J. Dawson lab}}
+                {S-J. Dawson lab}}}
 \GROUP       {\texorpdfstring{\href{Research Group Web Site URL Here (include http://)}
                 {RESEARCH GROUP NAME (IN BLOCK CAPITALS)}}
                 {RESEARCH GROUP NAME (IN BLOCK CAPITALS)}}
