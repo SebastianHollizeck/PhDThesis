@@ -89,7 +89,8 @@
 \newcommand{\currchapter}{}
 \renewcommand{\chaptermark}[1]{\btypeout{\thechapter\space #1}\markboth{\@chapapp~\thechapter\ #1}{\@chapapp~\thechapter\ #1}
 \renewcommand{\currchapter}{#1}}
-\renewcommand{\sectionmark}[1]{\markright{\@chapapp~\thechapter~\currchapter{}: #1}{}}
+%\renewcommand{\sectionmark}[1]{\markright{\@chapapp~\thechapter~\currchapter{}: #1}{}}
+\renewcommand{\sectionmark}[1]{\markright{#1}{}}
 \renewcommand{\subsectionmark}[1]{}
 \def\cleardoublepage{\clearpage\if@twoside \ifodd\c@page\else
 \hbox{}
@@ -183,7 +184,7 @@
                 {SCHOOL NAME (IN BLOCK CAPITALS)}}
 \group       {\texorpdfstring{\href{https://www.thedawsonlab.com/sarah-jane-dawson}
                 {S-J. Dawson lab}}
-                {S-J. Dawson lab}}}
+                {S-J. Dawson lab}}
 \GROUP       {\texorpdfstring{\href{Research Group Web Site URL Here (include http://)}
                 {RESEARCH GROUP NAME (IN BLOCK CAPITALS)}}
                 {RESEARCH GROUP NAME (IN BLOCK CAPITALS)}}

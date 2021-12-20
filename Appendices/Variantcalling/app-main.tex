@@ -1,4 +1,3 @@
-
 \chapter[Strelka2Pass and FreeBayesSomatic publication]{Custom workflows to improve joint variant calling from multiple related tumour samples: FreeBayesSomatic and Strelka2Pass}
 \label{ch:appendixManuscript}
 
@@ -7,7 +6,7 @@ This appendix contains the manuscript published at \textit{Bioinformatics} in an
 \hrule
 \vspace{2em}
 
-{\Large \textbf{Hollizeck S.$^{1,2}$, Wong S.Q.$^{1,2}$, Solomon B.$^{1,2}$, Chandrananda D.$^{1,2}$, and Dawson S-J.$^{1,2,3,*}$}}
+{\Large \textbf{Hollizeck S.$^{1,2}$, Wong S.Q.$^{1,2}$, Solomon B.$^{1,2}$, Chandrananda D.$^{1,2,*}$, and Dawson S-J.$^{1,2,3,*}$}}
 
 {
 $^1$ Peter MacCallum Cancer Centre, Melbourne 3000, Victoria, Australia\\
@@ -222,73 +221,76 @@ The biological data underlying this article are available at the European Genome
 \begin{table}[!ht]
 \caption[Sample name mapping]{Sample naming map relating to previously published datasets. The first column contains sample names as they appear in this work, and the third column denotes how the samples are referred to in the original studies. Forth column shows the type of sequencing WES: whole-exome sequencing; WGS: whole genome sequencing.}\label{A:tab:S1}
 \centering
+%wont fit this on the page otherwise
 \footnotesize
+\rowcolors{2}{white}{gray!15}
 \begin{tabular}{c|c|l|c}
+\toprule
 \textbf{SAMPLE NAME} & \textbf{PUBLISHED STUDY} & \textbf{ORIGINAL NAME} & \textbf{SEQUENCING TYPE} \\
-\hline
-CA-A-1	& \multirow{8}{*}{\citeauthor*{Solomon2020} \cite{Solomon2020}} &  Case 1 Left liver 1	& \multirow{8}{*}{WGS} \\
-CA-A-2	& &	Case 1 Right occipital & \\
-CA-A-3	& &	Case 1 Right liver 2	 &\\
-CA-A-4	& &	Case 1 Right pleura	 &\\
-CA-A-5	& &	Case 1 Left lower lung lobe	 &\\
-CA-A-6	& &	Case 1 Left liver 5	 &\\
-CA-A-7	& &	Case 1 Right liver 3	 &\\
-CA-A-8	& &	Case 1 Left liver 2	 &\\
-\hline
-CA-B-1 & \multirow{47}{*}{\citeauthor*{Vergara2021} \cite{Vergara2021}} & CAS-B-21-L-LUNG & \multirow{6}{*}{WES} \\ 
-CA-B-2 & & CAS-B-22-R-LUNG	&  \\ 
-CA-B-3 & & CAS-B-14B37035-1B &  \\ 
-CA-B-4 & & CAS-B-Primary-1 &  \\ 
-CA-B-5 & & CAS-B-15B08317-3A &  \\ 
-CA-B-6 & & CAS-B-14B37035-1C &  \\ 
-\cline{1-1}\cline{3-4}
-CA-C-1 & & CAS-A-FR07935894 & \multirow{7}{*}{WGS} \\ 
-CA-C-2 & & CAS-A-FR07935905 &  \\ 
-CA-C-3 & & CAS-A-FR07935906 &  \\ 
-CA-C-4 & & CAS-A-FR07935907 &  \\ 
-CA-C-5 & & CAS-A-FR07935908 &  \\ 
-CA-C-6 & & CAS-A-FR07935916 &  \\ 
-CA-C-7 & & CAS-A-FR07935918 &  \\ 
-\cline{1-1}\cline{3-4}
-CA-D-1 & & CAS-G-91-2 & \multirow{8}{*}{WES}\\ 
-CA-D-2 & & CAS-G-75 &  \\ 
-CA-D-3 & & CAS-G-74 &  \\ 
-CA-D-4 & & CAS-G-71 &  \\ 
-CA-D-5 & & CAS-G-91 &  \\ 
-CA-D-6 & & CAS-G-76 &  \\ 
-CA-D-7 & & CAS-G-94 &  \\ 
-CA-D-8 & & CAS-G-72 &  \\ 
-\cline{1-1}\cline{3-4}
-CA-E-1 & & CAS-D-70 & \multirow{7}{*}{WES}\\ 
-CA-E-2 & & CAS-D-61-3 &  \\ 
-CA-E-3 & & CAS-D-66 &  \\ 
-CA-E-4 & & CAS-D-68 &  \\ 
-CA-E-5 & & CAS-D-64 &  \\ 
-CA-E-6 & & CAS-D-61-2 &  \\ 
-CA-E-7 & & CAS-D-62 &  \\ 
-\cline{1-1}\cline{3-4}
-CA-F-1 & & CAS-C-41 & \multirow{7}{*}{WES}\\ 
-CA-F-2 & & CAS-C-40-Fresh &  \\ 
-CA-F-3 & & CAS-C-37 &  \\ 
-CA-F-4 & & CAS-C-44 &  \\ 
-CA-F-5 & & CAS-C-42-Fresh &  \\ 
-CA-F-6 & & CAS-C-43-Fresh &  \\ 
-CA-F-7 & & CAS-C-46-Primary &  \\ 
-\cline{1-1}\cline{3-4}
-CA-G-1 & & CAS-F-FR07935922 & \multirow{6}{*}{WGS}\\ 
-CA-G-2 & & CAS-F-FR07935915 &  \\ 
-CA-G-3 & & CAS-F-FR07935913 &  \\ 
-CA-G-4 & & CAS-F-FR07935909 &  \\ 
-CA-G-5 & & CAS-F-FR07935904 &  \\ 
-CA-G-6 & & CAS-F-FR07935903 &  \\ 
-\cline{1-1}\cline{3-4}
-CA-H-1 & & CAS-E-1 & \multirow{6}{*}{WES}\\ 
-CA-H-2 & & CAS-E-3 &  \\ 
-CA-H-3 & & CAS-E-4 &  \\ 
-CA-H-4 & & CAS-E-10 &  \\ 
-CA-H-5 & & CAS-E-6 &  \\ 
-CA-H-6 & & CAS-E-8 &  \\ 
-\hline
+\midrule
+CA-A-1	&  \cellcolor{white} & Case 1 Left liver 1	& \cellcolor{green!9}\\
+CA-A-2	& \cellcolor{white} &	Case 1 Right occipital & \cellcolor{green!9}\\
+CA-A-3	& \cellcolor{white} &	Case 1 Right liver 2	 & \cellcolor{green!9}\\
+CA-A-4	& \cellcolor{white} &	Case 1 Right pleura	 & \cellcolor{green!9}\\
+CA-A-5	& \cellcolor{white} &	Case 1 Left lower lung lobe	 & \cellcolor{green!9}\\
+CA-A-6	& \cellcolor{white} &	Case 1 Left liver 5	 & \cellcolor{green!9}\\
+ CA-A-7	& \cellcolor{white} &	Case 1 Right liver 3	 & \cellcolor{green!9}\\
+CA-A-8	& \cellcolor{white} \multirow{-8}{*}{\citeauthor*{Solomon2020} \cite{Solomon2020}} &	Case 1 Left liver 2	 &  \cellcolor{green!9}\multirow{-8}{*}{WGS}\\
+\hhline{-|-|-|-}
+CA-B-1 &  \cellcolor{white} &CAS-B-21-L-LUNG & \cellcolor{blue!9}\\ 
+CA-B-2 &  \cellcolor{white} &CAS-B-22-R-LUNG	& \cellcolor{blue!9} \\ 
+CA-B-3 &  \cellcolor{white} &CAS-B-14B37035-1B & \cellcolor{blue!9} \\ 
+CA-B-4 &  \cellcolor{white} &CAS-B-Primary-1 & \cellcolor{blue!9} \\ 
+CA-B-5 &  \cellcolor{white} &CAS-B-15B08317-3A & \cellcolor{blue!9} \\ 
+CA-B-6 &  \cellcolor{white} &CAS-B-14B37035-1C & \cellcolor{blue!9}\multirow{-6}{*}{WES} \\ 
+\hhline{-|~|-|-}
+CA-C-1 &  \cellcolor{white} &CAS-A-FR07935894 & \cellcolor{green!9} \\ 
+CA-C-2 &  \cellcolor{white} &CAS-A-FR07935905 & \cellcolor{green!9} \\ 
+CA-C-3 &  \cellcolor{white} &CAS-A-FR07935906 & \cellcolor{green!9} \\ 
+CA-C-4 &  \cellcolor{white} &CAS-A-FR07935907 & \cellcolor{green!9} \\ 
+CA-C-5 &  \cellcolor{white} &CAS-A-FR07935908 & \cellcolor{green!9} \\ 
+CA-C-6 &  \cellcolor{white} &CAS-A-FR07935916 & \cellcolor{green!9} \\ 
+CA-C-7 &  \cellcolor{white} &CAS-A-FR07935918 & \cellcolor{green!9}\multirow{-7}{*}{WGS} \\ 
+\hhline{-|~|-|-}
+CA-D-1 &  \cellcolor{white} &CAS-G-91-2 & \cellcolor{blue!9}\\ 
+CA-D-2 &  \cellcolor{white} &CAS-G-75 & \cellcolor{blue!9} \\ 
+CA-D-3 &  \cellcolor{white} &CAS-G-74 & \cellcolor{blue!9} \\ 
+CA-D-4 &  \cellcolor{white} &CAS-G-71 &  \cellcolor{blue!9}\\ 
+CA-D-5 &  \cellcolor{white} &CAS-G-91 &  \cellcolor{blue!9}\\ 
+CA-D-6 &  \cellcolor{white} &CAS-G-76 & \cellcolor{blue!9} \\ 
+CA-D-7 &  \cellcolor{white} &CAS-G-94 & \cellcolor{blue!9} \\ 
+CA-D-8 &  \cellcolor{white} &CAS-G-72 & \cellcolor{blue!9}\multirow{-8}{*}{WES}\\ 
+\hhline{-|~|-|-}
+CA-E-1 &  \cellcolor{white} &CAS-D-70 & \cellcolor{blue!9}\\ 
+CA-E-2 &  \cellcolor{white} &CAS-D-61-3 & \cellcolor{blue!9} \\ 
+CA-E-3 &  \cellcolor{white} &CAS-D-66 & \cellcolor{blue!9} \\ 
+CA-E-4 &  \cellcolor{white} &CAS-D-68 & \cellcolor{blue!9} \\ 
+CA-E-5 &  \cellcolor{white} &CAS-D-64 &  \cellcolor{blue!9}\\ 
+CA-E-6 &  \cellcolor{white} &CAS-D-61-2 &  \cellcolor{blue!9}\\ 
+CA-E-7 &  \cellcolor{white} &CAS-D-62 & \cellcolor{blue!9} \multirow{-7}{*}{WES}\\ 
+\hhline{-|~|-|-}
+CA-F-1 &  \cellcolor{white} &CAS-C-41 & \cellcolor{blue!9}\\ 
+CA-F-2 &  \cellcolor{white} &CAS-C-40-Fresh & \cellcolor{blue!9} \\ 
+CA-F-3 &  \cellcolor{white} &CAS-C-37 & \cellcolor{blue!9} \\ 
+CA-F-4 &  \cellcolor{white} &CAS-C-44 & \cellcolor{blue!9} \\ 
+CA-F-5 &  \cellcolor{white} &CAS-C-42-Fresh & \cellcolor{blue!9} \\ 
+CA-F-6 &  \cellcolor{white} &CAS-C-43-Fresh & \cellcolor{blue!9} \\ 
+CA-F-7 &  \cellcolor{white} &CAS-C-46-Primary & \cellcolor{blue!9} \multirow{-7}{*}{WES}\\ 
+\hhline{-|~|-|-}
+CA-G-1 &  \cellcolor{white} &CAS-F-FR07935922 & \cellcolor{green!9}\\ 
+CA-G-2 &  \cellcolor{white} &CAS-F-FR07935915 & \cellcolor{green!9} \\ 
+CA-G-3 &  \cellcolor{white} &CAS-F-FR07935913 & \cellcolor{green!9} \\ 
+CA-G-4 &  \cellcolor{white} &CAS-F-FR07935909 & \cellcolor{green!9} \\ 
+CA-G-5 &  \cellcolor{white} &CAS-F-FR07935904 & \cellcolor{green!9} \\ 
+CA-G-6 &  \cellcolor{white} &CAS-F-FR07935903 & \cellcolor{green!9}\multirow{-6}{*}{WGS} \\ 
+\hhline{-|~|-|-}
+CA-H-1 &  \cellcolor{white} &CAS-E-1 & \cellcolor{blue!9}\\ 
+CA-H-2 &  \cellcolor{white} &CAS-E-3 & \cellcolor{blue!9} \\ 
+CA-H-3 &  \cellcolor{white} &CAS-E-4 & \cellcolor{blue!9} \\ 
+CA-H-4 &  \cellcolor{white} &CAS-E-10 & \cellcolor{blue!9} \\ 
+CA-H-5 &  \cellcolor{white} &CAS-E-6 & \cellcolor{blue!9} \\ 
+CA-H-6 & \cellcolor{white}\multirow{-47}{*}{\citeauthor*{Vergara2021} \cite{Vergara2021}} & CAS-E-8 & \cellcolor{blue!9} \multirow{-6}{*}{WES}\\ 
+\bottomrule
 \end{tabular}
 \end{table}
 
@@ -298,17 +300,21 @@ CA-H-6 & & CAS-E-8 &  \\
 \begin{table}[!ht]
 \caption[Runtime of different workflows on simulated data]{Runtime of different workflows on simulated data; The runtimes were generated on the Peter MacCallum Cancer Centre HPC cluster with Intel(R) Xeon(R) CPU E5-2660 v3 @ 2.60GHz. The times are displayed in single CPU runtime, but each workflow is highly parallelised, such that the user runtime is far lower.}\label{A:tab:S2}
 \centering
-\begin{tabular}{r | C{0.1\textwidth} | C{0.1\textwidth} | C{0.1\textwidth} | C{0.1\textwidth} | }
+\begin{tabular}{r | R{0.12\textwidth} | R{0.12\textwidth} | R{0.12\textwidth} | R{0.12\textwidth} |}
+\toprule
  & \multicolumn{4}{c}{\textbf{Number of tumour samples used for joint calling}}\\
  \cline{2-5}
  \textbf{Method} & 2 & 3 & 5 & 10 \\
  \hline\hline
- FreeBayesSomatic & 562h & 811h	 & 1185h & 2292h \\
+ \rowcolor{gray!15}
+ FreeBayesSomatic & \num{562}h & \num{811}h & \num{1185}h & \num{2292}h \\
  \hline
-Strelka2Pass & 310h & 	465h & 776h & 1552h \\
+Strelka2Pass & \num{310}h & 	\num{465}h & \num{776}h & \num{1552}h \\
  \hline
-Mutect2 & - & - & - & 28418h \\
+ \rowcolor{gray!15}
+Mutect2 & - & - & - & \num{28418}h \\
  \hline
+ \bottomrule
 \end{tabular}
 \end{table}
 

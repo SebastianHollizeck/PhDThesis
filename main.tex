@@ -37,7 +37,12 @@
 \def\normalfont{\oldnormalfont\mdseries}
 
 
-\usepackage[usenames,dvipsnames]{xcolor}
+\usepackage[usenames,dvipsnames,table]{xcolor}
+%allow clines with background colours
+\usepackage{hhline}
+
+%make numbers nicer
+\usepackage{siunitx}
 
 %reference managing
 \usepackage[sorting=none, citestyle=numeric, backend=biber]{biblatex}
@@ -126,12 +131,13 @@
 \frontmatter      % Begin Roman style (i, ii, iii, iv...) page numbering
 
 %
-\UNIVERSITY{{THE UNIVERSITY OF MELBOURNE }}    
+\UNIVERSITY{{THE UNIVERSITY OF MELBOURNE}}
+\university{{The University of Melbourne}}   
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Update your department and school here:
-\department{{Sir Peter MacCallum department of Oncology}}
-\school{{Melbourne School of Awesome}}
+\department{{The Sir Peter MacCallum Department of Oncology}}
+\school{{Melbourne Medical School}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %
@@ -147,7 +153,8 @@
 \date       {\today}
 \subject    {}
 \keywords   {cancer evolution, cancer heterogeneity, ctDNA, variant calling}
-\supervisors{Sarah-Jane Dawson, Dineika Chandrananda, Ben Solomon}
+\supervisor {Sarah-Jane Dawson, Dineika Chandrananda, Ben Solomon}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \maketitle
@@ -208,16 +215,20 @@
 \listofsymbols{ll}  % Include a list of Abbreviations (a table of two columns)
 {
 % \textbf{Acronym} & \textbf{W}hat (it) \textbf{S}tands \textbf{F}or \\
+\textbf{BAM} & \textbf{B}inary \textbf{A}lignment \textbf{M}ap \\
 \textbf{bp} & \textbf{b}ase \textbf{p}air\\
+\textbf{BQ} & \textbf{B}ase \textbf{Q}uality\\
 \textbf{cfDNA} & \textbf{c}ell \textbf{f}ree \textbf{DNA} \\
 \textbf{ChIP} & \textbf{Ch}romatin \textbf{I}mmuno\textbf{P}recipitation\\
 \textbf{ctDNA} & \textbf{c}irculating \textbf{t}umour \textbf{DNA}\\
+\textbf{DBS} & \textbf{D}ouble \textbf{B}ase \textbf{S}ubstitution \\
 \textbf{DNA} & \textbf{D}eoxyribo\textbf{N}ucleic \textbf{A}cid \\
 \textbf{F81} & \textbf{F}elsenstein 19\textbf{81} model \\
 \textbf{GATK} & \textbf{G}enome \textbf{A}nalysis \textbf{T}ool\textbf{K}it \\
 \textbf{HKY85} & \textbf{H}asegawa, \textbf{K}ishino and \textbf{Y}ano 19\textbf{85} model\\
 \textbf{HPC} & \textbf{H}igh \textbf{P}erformance \textbf{C}omputing \\
 \textbf{InDel} & \textbf{In}sertion or \textbf{Del}etion \\
+\textbf{MQ} & \textbf{M}apping \textbf{Q}uality \\
 \textbf{MRCA} & \textbf{M}ost \textbf{R}ecent \textbf{C}ommon \textbf{A}ncestor \\
 \textbf{NGS} & \textbf{N}ext \textbf{G}eneration \textbf{S}equencing \\
 \textbf{NJ} & \textbf{N}eighbour \textbf{J}oining \\
@@ -226,11 +237,16 @@
 \textbf{PON} & \textbf{P}anel \textbf{O}f \textbf{N}ormals \\
 \textbf{RAID} & \textbf{R}edundant \textbf{A}rray of \textbf{I}ndependent \textbf{D}isks \\
 \textbf{RNA} & \textbf{R}ibo\textbf{N}ucleic \textbf{A}cid \\
+\textbf{ROI} & \textbf{R}egion \textbf{O}f \textbf{I}nterest \\
+\textbf{RPRS} & \textbf{R}ead \textbf{P}osition \textbf{R}ank \textbf{S}um \\
+\textbf{SBS} & \textbf{S}ingle \textbf{B}ase \textbf{S}ubstitution \\
 \textbf{SCLC} & \textbf{S}mall \textbf{C}ell \textbf{L}ung \textbf{C}ancer\\
 \textbf{SNP} & \textbf{S}ingle \textbf{N}ucleotide \textbf{P}olymorphism\\
 \textbf{SV} & \textbf{S}tructural \textbf{V}ariant \\
+\textbf{TAS} & \textbf{T}argeted \textbf{A}mplicon \textbf{S}equencing \\
 \textbf{TKI} & \textbf{T}yrosine \textbf{K}inase \textbf{I}nhibitor \\
 \textbf{UPGMA} & \textbf{U}nweighted \textbf{P}air \textbf{G}roup \textbf{M}ethod with \textbf{A}rithmetic mean \\
+\textbf{UV} & \textbf{U}ltra \textbf{V}iolet light\\
 \textbf{WES} & \textbf{W}hole \textbf{E}xome \textbf{S}equencing\\
 \textbf{WGS} & \textbf{W}hole \textbf{G}enome \textbf{S}equencing\\
 \textbf{WPGMA} & \textbf{W}eighted \textbf{P}air \textbf{G}roup \textbf{M}ethod with \textbf{A}rithmetic mean \\
@@ -270,9 +286,9 @@ $\omega$ & angular frequency & rads$^{-1}$ \\
 \pagestyle{fancy}  % Return the page headers back to the "fancy" style
 
 %setup so that the header shows the chapter and the footer shows the page number
-\fancyhead[RO]{\rightmark}
-\fancyhead[LE]{\leftmark}
-\fancyhead[RE,LO]{}
+\fancyhead[RO,LE]{\leftmark}
+%\fancyhead[LE]{\leftmark}
+\fancyhead[RE,LO]{\rightmark}
 \fancyfoot[LE,RO]{\thepage}
 \fancyfoot[RE,LO]{}
 
@@ -298,12 +314,18 @@ $\omega$ & angular frequency & rads$^{-1}$ \\
 
 %% ----------------------------------------------------------------
 % Now begin the Appendices, including them as separate files
+%clear all floats etc
+\afterpage{\cleardoublepage}
 
 \addtocontents{toc}{\vspace{2em}} % Add a gap in the Contents, for aesthetics
 
 \appendix % Cue to tell LaTeX that the following 'chapters' are Appendices
+%add a "header line" for the Appendicies
+\addcontentsline{toc}{chapter}{Appendices}
 
 \input{Appendices/Variantcalling/app-main.tex}	% Appendix Title
+
+\input{Appendices/Mismatchfinder/app-main.tex}
 
 %\input{Appendices/AppendixB} % Appendix Title
 
