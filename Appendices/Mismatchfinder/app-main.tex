@@ -1,0 +1,96 @@
+\chapter{MisMatchFinder - supplementary methods}
+\label{ch-mmfSuppMeth}
+
+\section{ROI bed files generation}
+\label{ch-mmfAppendix:bedfiles}
+
+To ensure optimal mapping rates and no mapping related mismatches, the analysis is restricted to high mappability areas of the genome. These areas were defined as regions, where a k-mer of 100bp has a 85\% or higher unique mappability rate. The mappability tracks were first computed with GEM \cite{Derrien2012} and then collated converted to a bed file with R just like in the best practice instructions of QDNAseq \cite{Scheinin2014} for creating a new bin annotation. This method is only required for GRCh38 \cite{Schneider2017} as so far, the UCSC data track is only available for GRCh37 \cite{Church2011}.
+
+\section{Oligo-nucleotdie context normalisation}
+\label{ch-mmfAppendix:oligoNorm}
+The ROI restriction of the analysis from \autoref{ch-mmfAppendix:bedfiles} automatically leads to a different tri- and di-nucleotide context frequency in the analysed regions, than the rest of the genome, which was used to generate the original signatures \cite{Alexandrov2020}. For this reason, MisMatchFinder analyses the oligo-nucleotide composition of the analysed regions and generates weighted counts by adjusting for the differences. 
+
+The baseline frequencies of both di- and tri-nucleotides were generated with the function \textit{oligonucleotideFrequency} from the ``Biostrings`` library \cite{Pages2020} using the hg38 BSgenome \cite{Pages2020a}. The raw counts of the di- and tri-nucleotides can be seen in \autoref{A:mmf:tab:dicounts} and \autoref{A:mmf:tab:tricounts} respectively.
+
+
+
+
+
+\begin{table}[!ht]
+\caption[Dinucleotide counts of GRCh38]{Dinucleotide counts generated with Biostrings \cite{Pages2020} for GRCh38}\label{A:mmf:tab:dicounts}
+\centering
+\rowcolors{2}{gray!15}{white}
+\begin{tabular}{|C{0.2\linewidth} | R{0.2\textwidth}|}
+\toprule
+ \hline
+ \rowcolor{gray!50}
+ \textbf{DINUCLEOTIDE} & \textbf{COUNT}\\
+ \hline
+       AA   & \num{287025139} \\
+       AC   & \num{148150331} \\
+       AG   & \num{205752406} \\
+       AT   & \num{226225785} \\
+       CA   & \num{212880749} \\
+       CC   & \num{151236932} \\
+       CG   & \num{29401795} \\
+       CT   & \num{205524144} \\
+       GA   & \num{175847498} \\
+       GC   & \num{124732844} \\
+       GG   & \num{152432158} \\
+       GT   & \num{148502457} \\
+       TA   & \num{191400248} \\
+       TC   & \num{174923630} \\
+       TG   & \num{213928532} \\
+       TT   & \num{289690054} \\ 
+ \hline
+ \bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[!ht]
+\caption[Trinucleotide counts of GRCh38]{Trinucleotide counts generated with Biostrings \cite{Pages2020} for GRCh38}\label{A:mmf:tab:tricounts}
+\centering
+\rowcolors{2}{gray!15}{white}
+\begin{tabular}{|C{0.2\linewidth} | R{0.15\linewidth}| C{0.04\linewidth} |C{0.2\linewidth} | R{0.15\linewidth}|}
+\toprule
+ \hhline{|-|-|~|-|-|}
+ \rowcolor{gray!50}
+ \textbf{TRINUCLEOTIDE} & \textbf{COUNT} & \cellcolor{white} & \textbf{TRINUCLEOTIDE} & \textbf{COUNT}\\
+ \hhline{|-|-|~|-|-|}
+
+AAA & \num{ 112465943} & \cellcolor{white} & GAA & \num{ 58990420} \\
+AAC & \num{ 43532050} & \cellcolor{white} & GAC & \num{ 27737004} \\
+AAG & \num{ 58439928} & \cellcolor{white} & GAG & \num{ 49560877} \\
+AAT & \num{ 72587151} & \cellcolor{white} & GAT & \num{ 39559024} \\
+ACA & \num{ 59305516} & \cellcolor{white} & GCA & \num{ 42481943} \\
+ACC & \num{ 33784390} & \cellcolor{white} & GCC & \num{ 34497599} \\
+ACG & \num{ 7584302} & \cellcolor{white} & GCG & \num{ 7078395} \\
+ACT & \num{ 47476086} & \cellcolor{white} & GCT & \num{ 40674873} \\
+AGA & \num{ 65552680} & \cellcolor{white} & GGA & \num{ 46022042} \\
+AGC & \num{ 41073623} & \cellcolor{white} &GGC & \num{ 34474720} \\
+AGG & \num{ 51723263} & \cellcolor{white} &GGG & \num{ 38148838} \\
+AGT & \num{ 47402783} & \cellcolor{white} &GGT & \num{ 33786518} \\
+ATA & \num{ 60308591} & \cellcolor{white} &GTA & \num{ 33265786} \\
+ATC & \num{ 39076747} & \cellcolor{white} &GTC & \num{ 27466578} \\
+ATG & \num{ 53548035} & \cellcolor{white} &GTG & \num{ 44578403} \\
+ATT & \num{ 73292370} & \cellcolor{white} &GTT & \num{ 43191653} \\
+CAA & \num{ 55220609} & \cellcolor{white} &TAA & \num{ 60348082} \\
+CAC & \num{ 44001434} & \cellcolor{white} &TAC & \num{ 32879810} \\
+CAG & \num{ 59791771} & \cellcolor{white} &TAG & \num{ 37959659} \\
+CAT & \num{ 53866888} & \cellcolor{white} &TAT & \num{ 60212654} \\
+CCA & \num{ 53293160} & \cellcolor{white} &TCA & \num{ 57800075} \\
+CCC & \num{ 38036593} & \cellcolor{white} &TCC & \num{ 44918305} \\
+CCG & \num{ 8026845} & \cellcolor{white} &TCG & \num{ 6712244} \\
+CCT & \num{ 51880303} & \cellcolor{white} &TCT & \num{ 65492835} \\
+CGA & \num{ 6511692} & \cellcolor{white} &TGA & \num{ 57760931} \\
+CGC & \num{ 7021552} & \cellcolor{white} &TGC & \num{ 42162935} \\
+CGG & \num{ 8229568} & \cellcolor{white} &TGG & \num{ 54330453} \\
+CGT & \num{ 7638969} & \cellcolor{white} &TGT & \num{ 59674158} \\
+CTA & \num{ 37666053} & \cellcolor{white} &TTA & \num{ 60159779} \\
+CTC & \num{ 49481013} & \cellcolor{white} &TTC & \num{ 58899235} \\
+CTG & \num{ 59039769} & \cellcolor{white} &TTG & \num{ 56762262} \\
+CTT & \num{ 59337262} & \cellcolor{white} &TTT & \num{ 113868707} \\
+\hhline{|-|-|~|-|-|}
+\bottomrule
+\end{tabular}
+\end{table}
