@@ -14,8 +14,6 @@
 \graphicspath{Figures/}  % Location of the graphics files (set up for graphics to be in PDF format)
 %
 
-% hide anything lower than section in the TOC
-\setcounter{tocdepth}{2}
 
 % Include any extra LaTeX packages required
 \usepackage[english]{babel}
@@ -119,6 +117,15 @@
 \usepackage{multirow}
 
 
+%%% just in case we want a list of equations in the front
+\usepackage[subfigure,titles]{tocloft}
+\newcommand{\listequationsname}{List of Equations}
+\newlistof{myequations}{equ}{\listequationsname}
+\newcommand{\myequation}[2][A]{%
+	\addcontentsline{equ}{myequations}{\protect\numberline{#1}{\ignorespaces #2}}\par
+}
+
+
 
 %% ----------------------------------------------------------------
 
@@ -126,6 +133,9 @@
 %\hyphenation{mul-ti-sam-ple-va-ri-ant-call-ing}
 \Urlmuskip = 0mu plus 1mu
 
+
+% hide anything lower than section in the TOC
+\setcounter{tocdepth}{2}
 
 \begin{document}
 \frontmatter      % Begin Roman style (i, ii, iii, iv...) page numbering
@@ -208,6 +218,11 @@
 \lhead{\emph{List of Tables}}  % Set the left side page header to "List of Tables"
 \listoftables  % Write out the List of Tables
 
+%%-------------------------------------
+\lhead{\emph{List of Equations}}
+\listofmyequations
+\addtotoc{List of Equations}
+
 %% ----------------------------------------------------------------
 \setstretch{1.5}  % Set the line spacing to 1.5, this makes the following tables easier to read
 \clearpage  % Start a new page
@@ -247,6 +262,7 @@
 \textbf{TKI} & \textbf{T}yrosine \textbf{K}inase \textbf{I}nhibitor \\
 \textbf{UPGMA} & \textbf{U}nweighted \textbf{P}air \textbf{G}roup \textbf{M}ethod with \textbf{A}rithmetic mean \\
 \textbf{UV} & \textbf{U}ltra \textbf{V}iolet light\\
+\textbf{VCF} & \textbf{V}ariant \textbf{C}all \textbf{F}ormat\\
 \textbf{WES} & \textbf{W}hole \textbf{E}xome \textbf{S}equencing\\
 \textbf{WGS} & \textbf{W}hole \textbf{G}enome \textbf{S}equencing\\
 \textbf{WPGMA} & \textbf{W}eighted \textbf{P}air \textbf{G}roup \textbf{M}ethod with \textbf{A}rithmetic mean \\
@@ -257,28 +273,28 @@
 
 
 %% ----------------------------------------------------------------
-\clearpage  % Start a new page
-\lhead{\emph{Constants}}  % Set the left side page header to "Physical Constants"
-\listofconstants{lrcl}  % Include a list of Physical Constants (a four column table)
-{
-% Constant Name & Symbol & = & Constant Value (with units) \\
-Speed of Light & $c$ & $=$ & $2.997\ 924\ 58\times10^{8}\ \mbox{ms}^{-\mbox{s}}$ (exact)\\
-
-}
+%\clearpage  % Start a new page
+%\lhead{\emph{Constants}}  % Set the left side page header to "Physical Constants"
+%\listofconstants{lrcl}  % Include a list of Physical Constants (a four column table)
+%{
+%% Constant Name & Symbol & = & Constant Value (with units) \%\
+%Speed of Light & $c$ & $=$ & $2.997\ 924\ 58\times10^{8}\ \mbox{ms}^{-\mbox{s}}$ (exact)\\
+%
+%}
 
 %% ----------------------------------------------------------------
-\clearpage  %Start a new page
-\lhead{\emph{Symbols}}  % Set the left side page header to "Symbols"
-\listofnomenclature{lll}  % Include a list of Symbols (a three column table)
-{
-% symbol & name & unit \\
-$a$ & distance & m \\
-$P$ & power & W (Js$^{-1}$) \\
-& & \\ % Gap to separate the Roman symbols from the Greek
-$\omega$ & angular frequency & rads$^{-1}$ \\
-}
+%\clearpage  %Start a new page
+%\lhead{\emph{Symbols}}  % Set the left side page header to "Symbols"
+%\listofnomenclature{lll}  % Include a list of Symbols (a three column table)
+%{
+%% symbol & name & unit \\
+%$a$ & distance & m \\
+%$P$ & power & W (Js$^{-1}$) \\
+%& & \\ % Gap to separate the Roman symbols from the Greek
+%$\omega$ & angular frequency & rads$^{-1}$ \\
+%}
 %% ----------------------------------------------------------------
-% End of the pre-able, contents and lists of things
+% End of the pre-amble, contents and lists of things
 
 
 %% ----------------------------------------------------------------

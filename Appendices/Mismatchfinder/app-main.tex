@@ -6,7 +6,7 @@
 
 To ensure optimal mapping rates and no mapping related mismatches, the analysis is restricted to high mappability areas of the genome. These areas were defined as regions, where a k-mer of 100bp has a 85\% or higher unique mappability rate. The mappability tracks were first computed with GEM \cite{Derrien2012} and then collated converted to a bed file with R just like in the best practice instructions of QDNAseq \cite{Scheinin2014} for creating a new bin annotation. This method is only required for GRCh38 \cite{Schneider2017} as so far, the UCSC data track is only available for GRCh37 \cite{Church2011}.
 
-\section{Oligo-nucleotdie context normalisation}
+\section{Oligo-nucleotide context normalisation}
 \label{ch-mmfAppendix:oligoNorm}
 The ROI restriction of the analysis from \autoref{ch-mmfAppendix:bedfiles} automatically leads to a different tri- and di-nucleotide context frequency in the analysed regions, than the rest of the genome, which was used to generate the original signatures \cite{Alexandrov2020}. For this reason, MisMatchFinder analyses the oligo-nucleotide composition of the analysed regions and generates weighted counts by adjusting for the differences. 
 
@@ -94,3 +94,15 @@ CTT & \num{ 59337262} & \cellcolor{white} &TTT & \num{ 113868707} \\
 \bottomrule
 \end{tabular}
 \end{table}
+
+
+\section{Germline filtering with zarr}
+\label{ch-mmfAppendix:germlineFilter}
+As shown in \autoref{fig:mmf-mismatchrate}A, the amount of mismatches found in a 10x coverage sample can easily exceed $3$ million. In addition to that, the current gnomAD database contains $ \approx 707$ million variants. This means a normal merge for two datasets based on chromosomal position is not feasible for a normal compute resource in a acceptable time frame. To allow an easy query of mismatch positions against the full database, a zarr \cite{Miles2021}representation of the gnomAD VCF was generated. However in contrast to the out of the box indexing function shipped with skikit-allel \cite{Miles2021a} which was used to convert the vcf to zarr, the program uses its own index built with ncls, which is available through PyRanges \cite{Stovner2019}. The sections below outline first the conversion process with scikit-allel (\autoref{ch-mmfAppendix:zarr}) and then details the filtering in the MisMatchFinder program (\autoref{ch-mmfAppendix:filter})
+
+\subsection{Zarr conversion with scikit-allel}
+\label{ch-mmfAppendix:zarr}
+
+
+\subsection{MisMatchFinder filtering - the zarr API}
+\label{ch-mmfAppendix:filter}

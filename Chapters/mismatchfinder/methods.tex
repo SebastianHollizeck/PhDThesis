@@ -1,10 +1,54 @@
 \section{Methods}
 \label{mmf-sec:methods}
 
-With the change from a variant focused approach to a read based method, this new method will call ``mismatches`` of a read from the reference genome, rather than a variant. This has the advantage of not requiring a matched normal and its use for virtually any sequencing data source, be it TAS, WES, WGS or even nanopore sequencing\footnote{however nanopore is not really usefull due to the short fragments naturally occuring in cfDNA}. However it also means, that the error supression method, which are usually used by variant calling methods like read position ranks sum (RPRS) or strand bias are not useable, which leads to a higher degree of background noise. In the following sections I will describe how we filter and curate the found mismatches to retain as much signal as possible.
+With the change from a variant focused approach to a read based method, this new method will call ``mismatches`` of a read from the reference genome, rather than a variant. This has the advantage of not requiring a matched normal and its use for virtually any sequencing data source, be it TAS, WES, WGS or even nanopore sequencing\footnote{however nanopore is not really usefull due to the short fragments naturally occurring in cfDNA}. However it also means, that the error suppression method, which are usually used by variant calling methods like read position ranks sum (RPRS) or strand bias are not usable, which leads to a higher degree of background noise. In the following sections I will describe how we filter and curate the found mismatches to retain as much signal as possible.
+
+\subsection{Mathematical concept}
+\label{mmf-sec:concept}
+With the change from site based method, the concept of a mismatch from the reference needs to be introduced. A mismatch in the following is any position in an aligned read, which does not show the same base as the reference at the aligned position. The mismatch will inherit all the metrics of the read such as mapping quality, base quality and read position. 
+
+This then means, there are three sources of mismatches in a read, which are somatic variants, germline variants and sequencing errors (\autoref{mmf-eq:1}).
+\begin{equation}
+n(mismatches) = n(somatic~var.) + n(germline~var.)  + n(seq.~ error)
+\label{mmf-eq:1}
+\end{equation}
+\myequation[\ref{mmf-eq:1}]{MisMatchFinder: number of mismatches}
+
+With the sequencing error being a function of the sequencing machine and chemistry, the error rate should be a stable almost constant, when using the same sequencing machine and chemistry \cite{Schirmer2016,Stoler2021}. We can therefore reduce \autoref{mmf-eq:1} to
+\begin{equation}
+n(mismatches) = n(som.~var.) + n(germ.~var.)  + c_{seq.~err.}
+\label{mmf-eq:2}
+\end{equation}
+\myequation[\ref{mmf-eq:2}]{MisMatchFinder: sequencing error}
+
+Secondly, the number of germline variants is approximately the same between two people \cite{Auton2015}, which again simplifies \autoref{mmf-eq:2} by replacing $n(germline~var.)$.
+
+\begin{equation}
+n(mismatches) = n(som.~var.) + c_{germ.~var.} + c_{seq. err.}
+\label{mmf-eq:3}
+\end{equation}
+\myequation[\ref{mmf-eq:3}]{MisMatchFinder: germline variants}
+
+Of course, \autoref{mmf-eq:3} is a crude approximation and instead the constants are not real constants, but instead are better approximated with Gaussian distributions which leads to the following equation
+
+\begin{equation}
+n(mismatches) = n(som.~var.) + \mathcal{N}(\mu_{germ.~var.}, \sigma_{germ.~var.}^{2}) + \mathcal{N}(\mu_{seq.~err.}, \sigma_{seq.~err.}^{2})
+\label{mmf-eq:4}
+\end{equation}
+\myequation[\ref{mmf-eq:3}]{MisMatchFinder: number of mismatches with distributions}
+
+However, both \autoref{mmf-eq:3} and \ref{mmf-eq:4} allow to make the conclusion, that with small enough values for either $c_{germ.~var}/c_{seq.~err.}$ or $\mu_{germ.~var}/\mu_{seq.~err.}$ and $\sigma_{germ.~var}/\sigma_{seq.~err.}$ respectively, there is a linear correlation between the amount of mismatches on a read and the somatic variants it contains:
+
+\begin{equation}
+n(mismatches) \sim n(som.~var.)
+\label{mmf-eq:final}
+\end{equation}
+\myequation[\ref{mmf-eq:3}]{MisMatchFinder: number of mismatches correlation with somatic variants}
+
+\autoref{mmf-eq:final} allows us to both approximate tumour mutational burden as well as signatures from individual reads, which is independent from read depth and requires no matched normal sample for somatic variant calling.
 
 \subsection{Data preprocessing}
-As this new method has sophisticated internal measures to filter and process sequencing data, the steps for preprocessing are minimal: The reads only need to be aligned to a reference genome (\autoref{intro-sec:mapping}). For optimal mapping and additional noise reduction, paired end sequencing of at least 75 bp is suggested. This ensures a few bases overlap on the standard fragment length of less than 150b of ctDNA (\autoref{intro-sec:ctDNA}). Another optional suggested step is the duplication marking of the BAM file.
+As this new method has sophisticated internal measures to filter and process sequencing data, the steps for preprocessing are minimal: The reads only need to be aligned to a reference genome (\autoref{intro-sec:mapping}). For optimal mapping and additional noise reduction, paired end sequencing of at least 75 bp is suggested. This ensures a few bases overlap on the standard fragment length of less than 150bp of ctDNA (\autoref{intro-sec:ctDNA}). Another optional suggested step is the duplication marking of the BAM file.
 
 \subsection{Mismatch detection}
 In contrast to conventional variant calling approaches, which find regions of interest through pileups (position wise) and then realign reads in the surrounding area, to accurately estimate the most likely event that lead to the observed haplotype (\autoref{intro-sec:variantcalling}), with this new method, we take every individual read as a separate entity to fully span the heterogeneity of all cells and their genetic background. A sequencing reads ``MD``- and ``CIGAR``- tag from the preprocessed BAM file are used to reconstruct the sequence of the read and the positions, where the read shows a different base than the reference. These potential mismatch sites will then filtered in multiple steps to reduce the impact of both germline variants as well as sequencing errors
@@ -21,8 +65,13 @@ When paired end sequencing of ctDNA is analysed, the fraction of fragments where
 \begin{figure}[!ht]
 \centering
 \includegraphics[width=.99\linewidth]{Figures/ConsensusMethodMisMatchFinder.pdf}
-\caption[Schematic of consensus computation method for overlapping reads]{Schematic of consensus computation method for overlapping reads in MisMatchFinder; Read 1 and Read 2 depcit two overlapping paired end reads aligned to the reference sequence; Positions in the overlap are numbered for later referral; Read positions agreeing with the reference are coloured black, positions differeing from the reference but agreeing in both reads are coloured purple (position 3) and differences between reads are coloured in the respective read colours (blue and red, position 6); Calculation for the resulting base quality (BQ$_{cons}$ for each possibility is shown as formulas)}\label{fig:mmf-consensus}
+\caption[Schematic of consensus computation method for overlapping reads]{Schematic of consensus computation method for overlapping reads in MisMatchFinder; Read 1 and Read 2 depict two overlapping paired end reads aligned to the reference sequence; Positions in the overlap are numbered for later referral; Read positions agreeing with the reference are coloured black, positions differing from the reference but agreeing in both reads are coloured purple (position 3) and differences between reads are coloured in the respective read colours (blue and red, position 6); Calculation for the resulting base quality (BQ$_{cons}$ for each possibility is shown as formulas)}\label{fig:mmf-consensus}
 \end{figure}
 
+\subsection[Germline filtering]{Germline filtering - exclusion of normal variation}
+\label{mmf-sec:germline}
+
+To further enable the \autoref{mmf-sec:concept} claim that the germline is a very small constant, we need to remove as many mismatches as possible, which stem from germline variants. For this purpose, I built a zarr \cite{Miles2021} based storage system from the gnomAD database (v.3.1) \cite{Karczewski2020} using scikit-alel \cite{Miles2021a}.
+A in-depth explanation of the generation as well as a script for for an end user can be found in \autoref{ch-mmfAppendix:germlineFilter}.
 
 \todo[inline]{write about the germline filtering}

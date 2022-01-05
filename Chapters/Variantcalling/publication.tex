@@ -17,6 +17,10 @@ The original FreeBayes algorithm can jointly evaluate multiple samples but routi
 \text{LOD}_{\text{tumour}} &= \min_{s \in \text{Samples}} \left( \min_{g_i \in \text{GT}} \left( \text{GL}_s(g_i) - \text{GL}_s(g_0) \right) \right) \label{eq:02}\\
 \text{somaticLOD} & := \left( \text{LOD}_{\text{normal}} \geq 3.5 \land \text{LOD}_{\text{tumour}} \geq 3.5 \right) \label{eq:03}
 \end{align}
+%we have to specify them individualluy here, because align doesnt really allow it
+\myequation[\ref{eq:01}]{FreeBayesSomatic: LOD$_{normal}$}
+\myequation[\ref{eq:02}]{FreeBayesSomatic: LOD$_{tumour}$}
+\myequation[\ref{eq:03}]{FreeBayesSomatic: somaticLOD definition}
 
 Next, the variant allele frequencies (VAF) in both the tumour and the normal samples are compared at each site.
 
@@ -26,6 +30,8 @@ Next, the variant allele frequencies (VAF) in both the tumour and the normal sam
 \text{somaticVAF} & := \left( \text{VAF}_{\text{normal}} \leq 0.001 ~\lor \right. \nonumber \\
  & \left. ( \text{VAF}_{\text{tumour}} \geq 2.7 \cdot \text{VAF}_{\text{normal}}) \right) \label{eq:05}
 \end{align}
+\myequation[\ref{eq:04}]{FreeBayesSomatic: VAF$_{tumour}$}
+\myequation[\ref{eq:05}]{FreeBayesSomatic: somaticVAF definition}
 
 A variant is classified as somatic when both somaticLOD as well as somatic VAF pass the criteria somaticLOD (\autoref{eq:03}) and somaticVAF (\autoref{eq:05}).
 
@@ -39,18 +45,21 @@ The method re-evaluates the likelihood of each variant, by integrating every gen
 \begin{equation}
 p_{error}(v) = 10^{\left( \frac{-\text{SomEVS}(v)}{10} \right)} \label{eq:06}
 \end{equation}
+\myequation[\ref{eq:06}]{Strelka2Pass: pairwise error probability}
 
 While the germline sample is shared between all processes, we can approximate these individual probabilities as being independent, since one variant calling process is agnostic of the other. Hence, we derive the following:
 
 \begin{equation}
 p_{error}(v_{s_1},v_{s_2},\ldots,v_{s_n}) = \prod_{s \in \text{Samples}} p_{error}(v_{s}) \label{eq:07}
 \end{equation}
+\myequation[\ref{eq:07}]{Strelka2Pass: joint error probability}
 
 And therefore:
 
 \begin{equation}
 \text{SomEVS}(v_{s_1},v_{s_2},\ldots,v_{s_n}) = \sum_{s \in \text{Samples}} \text{SomEVS}(v_{s}) \label{eq:08}
 \end{equation}
+\myequation[\ref{eq:08}]{Strelka2Pass: joint SomEVS}
 
 This allows the summation (\autoref{eq:08}) of the SomEVS score across all supporting variants to assign a "PASS" filter, if it reached a joint SomEVS score threshold. This threshold can be set by the user and is 20 by default, which corresponds to an estimated error rate of 1\%. These "recovered" variants need to pass a set of additional quality metrics related to depth of coverage, mapping quality and read position rank sum score.
 
@@ -64,7 +73,7 @@ As new methods are always a good idea, because they challenge previous assumptio
 \begin{figure*}[!tpb]
 \centering
   \includegraphics[width=\textwidth]{Appendices/Variantcalling/Figure_1}\vspace*{-12pt}
-  \caption[Comparison of joint multi-sample variant calling and single tumour-normal paired calling methods]{Comparison of joint multi-sample variant calling and single tumour-normal paired calling methods; A) Simulated phylogeny highlighting two samples with high evolutionary distance (sim-a and sim-j) where MRCA denotes the most recent common ancestor. B) Recall estimates of FreeBayes and Strelka2, run in individual tumour-normal paired and joint calling configurations using two (sim-a and sim-j), three (sim-a, sim-g and sim-j), five (sim-a, sim-c, sim-f, sim-h and sim-j) and all ten tumour samples. C) Precision of Strelka2 and D) Number of variants called by Strelka2 run in both tumour-normal paired (grey) and added with joint calling configurations (blue), which have been validated by targeted amplicon sequencing (TAS). E) Correlation between cellularity and proportion of variants found only with joint calling using Strelka2Pass for clinical samples; grey area shows the "$95\%$" confidence interval for the linear model fit (dotted line).}\label{fig:varcalling:fig1}
+  \caption[Comparison of joint multi-sample and single tumour-normal paired variant calling methods]{Comparison of joint multi-sample variant calling and single tumour-normal paired calling methods; A) Simulated phylogeny highlighting two samples with high evolutionary distance (sim-a and sim-j) where MRCA denotes the most recent common ancestor. B) Recall estimates of FreeBayes and Strelka2, run in individual tumour-normal paired and joint calling configurations using two (sim-a and sim-j), three (sim-a, sim-g and sim-j), five (sim-a, sim-c, sim-f, sim-h and sim-j) and all ten tumour samples. C) Precision of Strelka2 and D) Number of variants called by Strelka2 run in both tumour-normal paired (grey) and added with joint calling configurations (blue), which have been validated by targeted amplicon sequencing (TAS). E) Correlation between cellularity and proportion of variants found only with joint calling using Strelka2Pass for clinical samples; grey area shows the "$95\%$" confidence interval for the linear model fit (dotted line).}\label{fig:varcalling:fig1}
 \end{figure*}
 
 \subsubsection{Simulated data}
