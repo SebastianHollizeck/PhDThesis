@@ -45,7 +45,7 @@ n(mismatches) \sim n(som.~var.)
 \end{equation}
 \myequation[\ref{mmf-eq:3}]{MisMatchFinder: number of mismatches correlation with somatic variants}
 
-\autoref{mmf-eq:final} allows us to both approximate tumour mutational burden as well as signatures from individual reads, which is independent from read depth and requires no matched normal sample for somatic variant calling.
+With the help of \autoref{mmf-eq:final} we can approximate tumour mutational burden and signatures from individual reads. This method is therefore independent from read depth and requires no matched normal sample for somatic variant calling.
 
 \subsection{Data preprocessing}
 As this new method has sophisticated internal measures to filter and process sequencing data, the steps for preprocessing are minimal: The reads only need to be aligned to a reference genome (\autoref{intro-sec:mapping}). For optimal mapping and additional noise reduction, paired end sequencing of at least 75 bp is suggested. This ensures a few bases overlap on the standard fragment length of less than 150bp of ctDNA (\autoref{intro-sec:ctDNA}). Another optional suggested step is the duplication marking of the BAM file.
@@ -74,4 +74,6 @@ When paired end sequencing of ctDNA is analysed, the fraction of fragments where
 To further enable the \autoref{mmf-sec:concept} claim that the germline is a very small constant, we need to remove as many mismatches as possible, which stem from germline variants. For this purpose, I built a zarr \cite{Miles2021} based storage system from the gnomAD database (v.3.1) \cite{Karczewski2020} using scikit-alel \cite{Miles2021a}.
 A in-depth explanation of the generation as well as a script for for an end user can be found in \autoref{ch-mmfAppendix:germlineFilter}.
 
-\todo[inline]{write about the germline filtering}
+This then allows very precise filtering of known germline variants sites from the analysis. The method allows the specification of an allele frequency to consider a variant to be filtered, however as baseline, it will filter all sites, which were detected in any sample in gnomAD. This even includes sites with low quality variants, as these are signs for sequencing or mapping complications, which will most likely interfere with our method as well.
+
+\todo[color=green,inline]{maybe move the simulation description here}

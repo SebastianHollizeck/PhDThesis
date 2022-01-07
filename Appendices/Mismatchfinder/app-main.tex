@@ -95,6 +95,8 @@ CTT & \num{ 59337262} & \cellcolor{white} &TTT & \num{ 113868707} \\
 \end{tabular}
 \end{table}
 
+\afterpage{\clearpage}
+
 
 \section{Germline filtering with zarr}
 \label{ch-mmfAppendix:germlineFilter}
@@ -102,7 +104,41 @@ As shown in \autoref{fig:mmf-mismatchrate}A, the amount of mismatches found in a
 
 \subsection{Zarr conversion with scikit-allel}
 \label{ch-mmfAppendix:zarr}
+While it is easy to access a zarr archive, both for reading and writing, once it is created, the generation requires time. The time is mostly computational and not so much development, as the scikit-allel package contains the function \lq$allel.vcf\_to\_zarr$\rq, which allows the direct conversion of VCF to zarr with only a few prerequisites. 
 
+Importantly, tabix \cite{Li2011} can be used to split the conversion into multiple parts by restricting the process to specific regions.
+
+\autoref{lst-mmfAppendix:zarr} shows the code used to convert chromosome \lq chr1 \rq from the downloaded gnomad vcf
+
+\begin{lstlisting}[language=Python, caption=scikit-allel conversion vcf\_to\_zarr, label={lst-mmfAppendix:zarr}]
+import scikit-allel as allel
+
+allel.vcf_to_zarr(input="gnomad.genomes.r3.1.2.sites.vcf.bgz", output="/out/put/folder/",  group="chr1", region="chr1", fields="*")
+\end{lstlisting}
+
+When MisMatchFinder is installed on your system, the function \lq$generateZarrStorage$\rq is a wrapper, which allows the parallel conversion as well to resume a failed or incomplete attempt. It is equivalent to the above code and has only usability and ease of access as priorities. This automated version will convert all fields, which include fields never used in MisMatchFinder to optimise the memory footprint of the zarr representation, the option fields in \autoref{lst-mmfAppendix:zarr} can be set to the value shown in \autoref{lst-mmfAppendix:fields}.
+\begin{lstlisting}[language=Python, caption=field options for reduced memory, label={lst-mmfAppendix:fields}]
+fields="['variants/CHROM', 'variants/POS', 'variants/REF', 'variants/ALT', 'variants/AF', 'variants/FILTER_PASS']"
+\end{lstlisting}
+Which contains only the information used in MisMatchFinder. The same result can be achieved with adding the option \lq --$mandatoryOnly$ \rq to the supplied wrapper.
+
+\todo[inline, color=red]{actually implement the wrapper i am talking about here}
 
 \subsection{MisMatchFinder filtering - the zarr API}
 \label{ch-mmfAppendix:filter}
+
+\subsection{Data simulation}
+\label{ch-mmfAppendix:simulation}
+This section contains all the additional information required to replicate the simulation of data used in the MisMatchFinder chapter (\autoref{ch:mmf})
+
+\subsection{Signature simulation - we can spike this punch}
+\label{ch-mmfAppendix:spikein}
+
+
+\chapter*{Supplementary Figures}
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=.99\linewidth]{Figures/SBS3Signature.pdf}
+\caption[Trinculeotide count contributions for single base substitution (SBS) signature 3]{Trinculeotide count contributions for SBS signature 3 (Defective homologous recombination-based DNA damage repair); values taken from \protect\textcite{Alexandrov2020}}\label{A:fig:sig3}
+\end{figure}
