@@ -6,6 +6,7 @@ While even very early on, researchers realised, that cancers have different morp
 Supplementary information and plots for this chapter are attached in the appendix and prepended with \ref{ch-mmfSuppMeth}.
 
 \subsection{Mutational signature analysis}
+\label{mmf-sec:signatureanalysis}
 Traditionally the cancer mutational signature analysis entails a somatic variant calling process (\autoref{intro-sec:variantcalling}) followed by a counting and deconstructing step, which assigns weights to the individual signatures. These signatures are precompiled list of mutation count relations (\autoref{fig:sig7a}). While the individual SNP already contains valuable information, there is an improvement in granularity when also counting the base up and downstream of the change. This expands the feature space of counts from the six base classes of SNPs (C>A, C>T, C>G, T>C, T>A, and T>G)to 96 unique trinucleotide contexts \cite{Alexandrov2013}. While there technically are six more base changes and many more trinucleotide contexts combinatorially possible, they can be collapsed into the afore mentioned ones by using the reverse complement.
 
 \begin{figure}[!ht]

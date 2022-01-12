@@ -1,10 +1,13 @@
 
-\section{Results - Simulated Data}
+\section{Results}
+\label{mmf-sec:results}
+In this section I will present the results when applying MisMatchFinder to various different datasets. First the evaluation of the method on simulated data, which allows accurate and definitive insight into the sensitivity and a proof of concept (\autoref{mmf-sec:simulated data}). Then the analysis of real world applications is displayed in \autoref{mmf-sec:realworld} demonstrating that the method does not only work in cleanly simulated data, but find clinically relevant insight in patient samples.
+
+\subsection{Simulated Data - the validation promised land}
 \label{mmf-sec:simulated data}
-\todo[inline]{probably make results its own section and then split into simulated and real world}
 Just like in \autoref{ch:variantcalling}, the novelty of the approach leads to the issue of no gold standard dataset, with which to evaluate the performance of a new method. While there are low coverage WGS datasets of cancer patients, none of them have validated signatures associated with them. So again simulated data is the optimal starting point to allow both optimisation of parameters as well as granular detection of artefacts which can originate from any step starting from sequencing over mapping to the signature deconvolution. 
 
-\subsection{Sequencing errors - there is always a cleaner data}
+\subsubsection{Sequencing errors - there is always a cleaner data}
 \label{mmf-sec:cleanSim}
 To judge the ability of our approach to filter out sequencing errors, we first simulated ``clean`` sequencing reads with neither germline or somatic variants with the ART simulation suite \cite{Huang2011}. As current estimates of Illumina sequencing is in the range of 1 in 666 to 1 in 1149 \cite{Stoler2021} which is significantly higher than even the highest tumour mutational burdens of  cancers (melanoma: 1 in 5k; tobacco smoking lung cancer: 1 in 100k) it is very important to be able to eliminate as much of the  background noise of sequencing errors as possible.
 
@@ -17,7 +20,7 @@ To judge the ability of our approach to filter out sequencing errors, we first s
 By only using high base quality mismatches, where both reads agree on the mismatch 99.98\% of all sequencing errors can be eliminated and only 1 in 10M bases will be wrongly counted as a variant (\autoref{fig:mmf-mismatchrate}). This false discovery rate is multiple orders of magnitude lower than before and in a similar range to normal mutationally driven cancers tumour mutational burden \cite{Alexandrov2020,Lawrence2013a}.
 
 
-\section{Spike-in signature detection}
+\subsubsection{Spike-in signature detection}
 \label{mmf-sec:simSingnatures}
 With the technical error eliminated in simulated data, the question was would our method work in a real world data, however to establish a baseline for detection limit and sensitivity of the method, we decided to first use a hybrid approach, were we spike-in somatic variants into a genuine low coverage WGS sequencing of a healthy control. That reduces the amount of unknown variability from other published datasets.
 
@@ -25,13 +28,52 @@ While it would be possible simulate the variants completely de novo, without any
 
 In the following section I will discuss the results for the simulation of the very prominent SBS7a signature (see \autoref{fig:sig7a})which is predominantly present in Melanoma (see \autoref{mmf-sec:melaSim}) and secondly the much flatter and more uniform SBS3 (see \autoref{A:fig:sig3}), which is a sign of defective homologous recombination in breast cancers (\autoref{mmf-sec:mbcSim})
 
-\subsection{Melanoma - UV exposure}
+\paragraph{Melanoma - UV exposure}
 \label{mmf-sec:melaSim}
 
+\todo[inline]{redo analysis with optimised (final) parameters}
 
 
 
-\subsection{BRCA1/2 - Defective homologous recombination-based DNA damage repair}
+
+\paragraph{BRCA1/2 - Defective homologous recombination-based DNA damage repair}
 \label{mmf-sec:mbcSim}
 
-\todo[inline]{show data with germline filtering}
+\todo[inline]{redo analysis with optimised (final) parameters}
+
+\subsubsection{Germline filtering}
+\label{mmf-sec:germlinefiltering}
+With real patient data, we can evaluate the effect of removing germline variants from the analysis is. For this I used the same simulated samples from above (\autoref{mmf-sec:simSingnatures}), where the reads are original ctDNA reads for a healthy person.
+
+\subsubsection{Germline artifacts}
+\label{mmf-sec:germlineArtifacts}
+Now that we have shown how important the germline filtering step is to enable the method, we were interested, how many germline variants of the sample were still retained after our filtering with known variants (\autoref{mmf-sec:germline}). For this purpose I called germline variants on the original healthy individual using Strelka2 and compared the called variants with the sites which MisMatchFinder found to be somatic (retained after germline filtering)
+\todo[inline,color=red]{do the analysis and make a figure}
+\todo[inline,color=green]{discuss if this might be interesting to do for more healthies}
+
+
+
+
+
+\subsection{Real world data - the only things that matters}
+\label{mmf-sec:realworld}
+
+\subsubsection{Healthy cohort}
+\label{mmf-sec:healthy}
+
+\todo[inline]{Add the health cohort in there/ possible age}
+
+\subsubsection{BRCA positive patient samples}
+\label{mmf-sec:brcapatients}
+The first dataset of patients is two previously published BRCA1/2 positive breast cancers\todo{are they actually published?}. The data contains matched tumour, germline and ctDNA sequencing as high depth WGS for both patients. With the matched normal, we can use the current standard protocol of somatic mutational pattern analysis (\autoref{mmf-sec:signatureanalysis}) and compare it with our new method. 
+
+As the sequencing data of the ctDNA is much higher depth than what is used in standard clinical practice, we down sample the data to 10x. By using numerous different seeds for the sampling, we can generate pseudo technical replicates of the sequencing (\autoref{ch-mmfAppendix:subsampling}), which then in term can give an approximation of the stability of the results for both the tissue and the ctDNA samples .
+
+\todo[inline]{add the subsampled data}
+
+\subsubsection{Melanoma patients}
+\label{mmf-sec:melpatients}
+
+
+\subsection{Summary}
+\todo[inline]{Dont know if we need this}
