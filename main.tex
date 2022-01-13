@@ -153,6 +153,32 @@
 \lstset{style=mystyle}
 
 
+
+%adjust the appendix page command, because its really boring and ugly by itself
+\renewcommand\appendixpage{
+  %\btypeout{\appendixpagename}
+  \thispagestyle{empty}
+  \null\vfil
+  \begin{center}
+    \setlength{\parskip}{0pt}
+    \bigskip
+    {\huge{\textit{\appendixpagename}} \par}
+    \medskip
+    {\normalsize by \authornames \par}
+    \bigskip
+    {contains:
+    \begin{itemize}[leftmargin=5.5cm]
+    	\item published manuscripts
+    	\item supplementary method
+    	\item supplementary figures
+    \end{itemize}
+    }
+  \end{center}
+  \vfil\vfil\vfil\null
+  \cleardoublepage
+}
+
+
 %% ----------------------------------------------------------------
 
 % custom hyphenation
@@ -230,22 +256,22 @@
 %% ----------------------------------------------------------------
 
 \pagestyle{fancy}  %The page style headers have been "empty" all this time, now use the "fancy" headers as defined before to bring them back
-
+\fancyhead[LO,RE]{}
 
 %% ----------------------------------------------------------------
-\lhead{\emph{Contents}}  % Set the left side page header to "Contents"
+\fancyhead[LE,RO]{\emph{Contents}}  % Set the left side page header to "Contents"
 \tableofcontents  % Write out the Table of Contents
 
 %% ----------------------------------------------------------------
-\lhead{\emph{List of Figures}}  % Set the left side page header to "List if Figures"
+\fancyhead[LE,RO]{\emph{List of Figures}}  % Set the left side page header to "List if Figures"
 \listoffigures  % Write out the List of Figures
 
 %% ----------------------------------------------------------------
-\lhead{\emph{List of Tables}}  % Set the left side page header to "List of Tables"
+\fancyhead[LE,RO]{\emph{List of Tables}}  % Set the left side page header to "List of Tables"
 \listoftables  % Write out the List of Tables
 
 %%-------------------------------------
-\lhead{\emph{List of Equations}}
+\fancyhead[LE,RO]{\emph{List of Equations}}
 \listofmyequations
 \addtotoc{List of Equations}
 
@@ -357,13 +383,34 @@
 %% ----------------------------------------------------------------
 % Now begin the Appendices, including them as separate files
 %clear all floats etc
-\afterpage{\cleardoublepage}
+%\afterpage{\cleardoublepage}
+\cleardoublepage
 
 \addtocontents{toc}{\vspace{2em}} % Add a gap in the Contents, for aesthetics
 
+%\backmatter
+
+%% ----------------------------------------------------------------
+\label{Bibliography}
+\fancyhead[LE,RO]{Bibliography}  % Change the left side page header to "Bibliography"
+\fancyhead[LO,RE]{}
+\printbibliography
+
+
+\cleardoublepage
+\addtocontents{toc}{\vspace{2em}}  % Add a gap in the Contents, for aesthetics
+
+
 \appendix % Cue to tell LaTeX that the following 'chapters' are Appendices
-%add a "header line" for the Appendicies
-\addcontentsline{toc}{chapter}{Appendices}
+\addappheadtotoc % add an entry to the TOC
+\appendixpage % add a seperation page (which we redesigned)
+
+
+\fancyhead[RO,LE]{\leftmark}
+%\fancyhead[LE]{\leftmark}
+\fancyhead[RE,LO]{\rightmark}
+\fancyfoot[LE,RO]{\thepage}
+\fancyfoot[RE,LO]{}
 
 \input{Appendices/Variantcalling/app-main.tex}	% Appendix Title
 
@@ -373,14 +420,9 @@
 
 %\input{Appendices/AppendixC} % Appendix Title
 
-\addtocontents{toc}{\vspace{2em}}  % Add a gap in the Contents, for aesthetics
-\backmatter
 
-%% ----------------------------------------------------------------
-\label{Bibliography}
-\fancyhead[LE,RO]{Bibliography}  % Change the left side page header to "Bibliography"
 
-\printbibliography
+
 
 \end{document}  % The End
 %% ----------------------------------------------------------------

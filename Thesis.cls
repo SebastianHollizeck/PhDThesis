@@ -123,6 +123,7 @@
 \renewcommand{\dbltopfraction}{.85}
 \renewcommand{\floatpagefraction}{0.75}
 \renewcommand{\dblfloatpagefraction}{.75}
+\usepackage[page]{appendix}
 \setcounter{topnumber}{9}
 \setcounter{bottomnumber}{9}
 \setcounter{totalnumber}{20}
@@ -405,6 +406,8 @@
   \btypeout{\bibname}
   \@mainmatterfalse}
 \endinput
+
+
 %%
 %% End of file `Thesis.cls'.
 
