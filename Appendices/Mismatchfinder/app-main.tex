@@ -133,9 +133,87 @@ This section contains all the additional information required to replicate the s
 
 \subsection{Signature simulation - we can spike this punch}
 \label{ch-mmfAppendix:spikein}
+This section describes the signature spike-in simulation. The full code of the variant selection is available in \autoref{lst-mmfAppendix:spikeInSelect} with the bamsurgeon code shown in \autoref{lst-mmfAppendix:spikeInMut}.
+
+For the selection of variants to spike-in with bamsurgeon, I use the fully annotated ``CosmicMutantExport.tsv`` from \href{https://cancer.sanger.ac.uk/cosmic/download}{\nolinkurl{https://cancer.sanger.ac.uk/cosmic/download}}, then restrict the list to SNPs. These are loaded into R and annotated with their tri-nucleotide context. Because the signatures are based on the pyrimidine nucleotides, the reverse complement is generated for variants with a purine in the center position.
+
+The sampling amount is calculated by using the intended signatures percentages (e.g. \autoref{fig:sig7a}, \autoref{A:fig:sig3}) and multiplying with the desired amount of variants, which can be derived from the chosen mutation rate in per million (\autoref{A:eq:desiredVars}).
+
+\begin{equation}
+n(variants) = \frac{mutation~rate}{1\cdot10^{6} \cdot genome~length}
+\label{A:eq:desiredVars}
+\end{equation}
+
+For our data, we assume a genome length of $3 \cdot 10^9$ and use four different mutations rates (0.1, 5, 25, 50 and 100). For the final sampling I used ``data.table`` and finally variants are assign an allele frequency of 0.1.
+
+
+\begin{lstlisting}[language=R, caption=spike-in variant selection, label={lst-mmfAppendix:spikeInSelect}]
+#get the snps
+bed <- data.table(read.table("/data/reference/dawson_labs/COSMIC/v92/CosmicMutantSNPs.bed", sep="\t"))
+colnames(bed) <- c("chr", "start", "end", "ref", "alt", "cancer", "status")
+
+#get the surrounding variants
+varTriNuc <- GRanges(seqnames=bed$chr, IRanges(start=(bed$start-1), end=(bed$end+1)))
+
+#select the right genome
+genome <- BSgenome.Hsapiens.UCSC.hg38::BSgenome.Hsapiens.UCSC.hg38
+
+#get trinucs
+seq <- Biostrings::getSeq(genome, varTriNuc)
+
+# if we dont have a C or a T as the ref, we build the reverse complement, because thats
+# what the signatures are based on
+seq[bed$ref %in% c("G", "A")] <- Biostrings::reverseComplement(seq[bed$ref %in% c("G", "A")])
+
+#put the trinucs with the variants
+bed[,tri:= as.character(seq) ]
+#add in the trinuc alt, so that we know where things are goings
+bed[,triAlt:=ifelse(ref %in% c("C", "T"), alt, as.character(Biostrings::complement(Biostrings::DNAStringSet(bed$alt))))]
+
+#now we build the name of the trinuc change as it is used in COSMIC
+bed[,cosmicName:=paste(tri,triAlt)]
+bed[,cosmicName:=gsub(pattern="(.)(.)(.) (.)", replacement = "\\1[\\2>\\4]\\3", cosmicName)]
+
+#read in the signatures profile
+sig7a <- data.table(read.table("/home/shollizeck/workspace/myDawsonRep/TMB/v3.2_SBS7a_PROFILE.txt", header=T, sep="\t"))
+
+# mutations per megabase
+rate <- 100
+
+nVars <- rate/1E6*3E9
+
+#get the number of each trinucChange we need
+numCols <- colnames(sig7a)[-1]
+sig7a[,(numCols):=lapply(.SD, function(x) round(x*nVars)), .SDcols=numCols]
+
+#merge the two tables together to enable sampling
+sampleTableSBS7a <- merge(bed, sig7a, by.x="cosmicName", by.y="X")
+
+selectionSBS7a <- sampleTableSBS7a[,.SD[sample(.N,size=SBS7a_GRCh38)], by="cosmicName"]
+
+#add in the frequency (VAF) of the variants which is a uniform 10%
+selectionSBS7a[,vaf:=0.1]
+\end{lstlisting}
+
+With the generated bed, bamsurgeon can be used to create the final mutated BAM. As we are using low coverage WGS as input, some parameters need to be adjusted to allow variants to be generated. Mostly, we need to allow bamsurgeon to even mutate regions with very low coverage (\lq--$mindepth~1$\rq), ignore the pileup of the original (\lq--$ignorepileup$\rq), allow a higher coverage difference (\lq--$d~0.7$\rq) and lastly allow bamsurgeon to NOT mutate a position (\lq--$minmutreads~0$\rq). To make the data creation reproducible, we also assign a seed of 1234.
+
+After the BAM generation, the actually spiked-in variants are generated sorted and indexed.
+
+Lastly, the bam needs to be postprocessed to be in line with the SAM specifications (\autoref{lst-mmfAppendix:spikeInMut}).
+
+\begin{lstlisting}[language=bash, caption=bamsurgeon spike-in, label={lst-mmfAppendix:spikeInMut}]
+bamsurgeon addsnv.py -d 0.7 --ignorepileup --mindepth 1 --minmutreads 0 -v mutations.bed -r $reference -o mutated.bam --aligner mem --seed 1234 -f input.bam
+
+bamsurgeon makevcf.py addsnv_logs_mutated.bam | vcfstreamsort -a | bcftools view -o variants.vcf.gz -O z && bcftools index -t variants.vcf.gz
+
+bamsurgeon  postprocess.py -f ${reference}.fai mutated.bam
+\end{lstlisting}
+
 
 \subsection{Patient data subsampling}
 \label{ch-mmfAppendix:subsampling}
+Subsampling of high depth WGS data was done with samtools (v1.13) supplying random seeds, but stable sampling rates. Sampling rates were selected, such that the output file would have an average coverage of 10x to be comparable with other sequencing data.
+
 
 \chapter*{Supplementary Figures}
 

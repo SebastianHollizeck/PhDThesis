@@ -35,7 +35,7 @@ Of course, \autoref{mmf-eq:3} is a crude approximation and instead the constants
 n(mismatches) = n(som.~var.) + \mathcal{N}(\mu_{germ.~var.}, \sigma_{germ.~var.}^{2}) + \mathcal{N}(\mu_{seq.~err.}, \sigma_{seq.~err.}^{2})
 \label{mmf-eq:4}
 \end{equation}
-\myequation[\ref{mmf-eq:3}]{MisMatchFinder: number of mismatches with distributions}
+\myequation[\ref{mmf-eq:4}]{MisMatchFinder: number of mismatches with distributions}
 
 However, both \autoref{mmf-eq:3} and \ref{mmf-eq:4} allow to make the conclusion, that with small enough values for either $c_{germ.~var}/c_{seq.~err.}$ or $\mu_{germ.~var}/\mu_{seq.~err.}$ and $\sigma_{germ.~var}/\sigma_{seq.~err.}$ respectively, there is a linear correlation between the amount of mismatches on a read and the somatic variants it contains:
 
@@ -43,7 +43,7 @@ However, both \autoref{mmf-eq:3} and \ref{mmf-eq:4} allow to make the conclusion
 n(mismatches) \sim n(som.~var.)
 \label{mmf-eq:final}
 \end{equation}
-\myequation[\ref{mmf-eq:3}]{MisMatchFinder: number of mismatches correlation with somatic variants}
+\myequation[\ref{mmf-eq:final}]{MisMatchFinder: number of mismatches correlation with somatic variants}
 
 With the help of \autoref{mmf-eq:final} we can approximate tumour mutational burden and signatures from individual reads. This method is therefore independent from read depth and requires no matched normal sample for somatic variant calling.
 
@@ -60,7 +60,7 @@ This is also possible for both the region of interest (ROI) bed-file which was u
 \subsection[Consensus reads]{Consensus reads - what happens when the sequencer isn't sure}
 \label{mmf-sec:consensus}
 
-When paired end sequencing of ctDNA is analysed, the fraction of fragments where reads overlap is higher, than with ``normal`` tissue based sequencing, due to the shorter fragment length of ctDNA (\autoref{intro-sec:ctDNA}). This allows an fragment internal consensus generation, by adjusting for differences between forward and reverse read. In many variant calling methods, these differences are used by measuring the ``strand bias`` \cite{Guo2012, Saunders2012, GATKTeam2019} or ``strand balance probability`` \cite{Garrison2012} by looking at a specific locus and evaluating the discrepancy of all forward and all reverse reads. As our method evaluates each read/fragment independently, the bias cannot be calculated, however in the overlapping region of both reads, a consensus can be generated. If both reads agree on the mismatch, the BQ of both reads will be added together to emphasise the increased evidence for this variants. However, if they disagree the base of the higher quality will be used and its quality will be decreased by half of the BQ of the lower quality base (\autoref{fig:mmf-consensus}~bottom). To increase the stringency of the method, the user can also enable the ``--strictOverlap`` option, which will only consider a mismatch, if both reads agree with each other and decrease the BQ to zero otherwise. As we are only interested in mismatches from the reference, all positions where both agree with the reference are irrelevant for the analysis and will be discarded (\autoref{fig:mmf-consensus}~top). For the most stringent analysis, MisMatchFinder can additionally be configured to only use mismatches in the overlap part of a fragment (``--onlyOverlap``), which significantly reduces the number of sequencing errors which end up in the final analysis (\autoref{mmf-sec:cleanSim}).
+When paired end sequencing of ctDNA is analysed, the fraction of fragments where reads overlap is higher, than with ``normal`` tissue based sequencing, due to the shorter fragment length of ctDNA (\autoref{intro-sec:ctDNA}). This allows an fragment internal consensus generation, by adjusting for differences between forward and reverse read. In many variant calling methods, these differences are used by measuring the ``strand bias`` \cite{Guo2012, Saunders2012, GATKTeam2019} or ``strand balance probability`` \cite{Garrison2012} by looking at a specific locus and evaluating the discrepancy of all forward and all reverse reads. As our method evaluates each read/fragment independently, the bias cannot be calculated, however in the overlapping region of both reads, a consensus can be generated. If both reads agree on the mismatch, the BQ of both reads will be added together to emphasise the increased evidence for this variants. However, if they disagree the base of the higher quality will be used and its quality will be decreased by half of the BQ of the lower quality base (\autoref{fig:mmf-consensus}~bottom). To increase the stringency of the method, the user can also enable the \lq\emph{--strictOverlap}\rq~ option, which will only consider a mismatch, if both reads agree with each other and decrease the BQ to zero otherwise. As we are only interested in mismatches from the reference, all positions where both agree with the reference are irrelevant for the analysis and will be discarded (\autoref{fig:mmf-consensus}~top). For the most stringent analysis, MisMatchFinder can additionally be configured to only use mismatches in the overlap part of a fragment (\lq\emph{--onlyOverlap}\rq), which significantly reduces the number of sequencing errors which end up in the final analysis (\autoref{mmf-sec:cleanSim}).
 
 \begin{figure}[!ht]
 \centering
@@ -75,5 +75,47 @@ To further enable the \autoref{mmf-sec:concept} claim that the germline is a ver
 A in-depth explanation of the generation as well as a script for for an end user can be found in \autoref{ch-mmfAppendix:germlineFilter}.
 
 This then allows very precise filtering of known germline variants sites from the analysis. The method allows the specification of an allele frequency to consider a variant to be filtered, however as baseline, it will filter all sites, which were detected in any sample in gnomAD. This even includes sites with low quality variants, as these are signs for sequencing or mapping complications, which will most likely interfere with our method as well.
+
+
+\subsection[Count normalisation]{Count normalisation - not everyone has the same chances}
+\label{mmf-sec:countNorm}
+Finally when having filtered all ``noise`` mismatches from the dataset, we can aggregate all mismatches to oligo-nucleotide counts. With this step also comes the classification of 
+directly neighbouring mismatches as DBS, which are counted as separate entities. SBS and DBS both can be used to identify underlying biological mutational processes, but they have very different signatures associated with them \cite{Alexandrov2020}. The counts formed this way are influenced by the background frequency of their reference oligo-nucleotides in the analysed genomic region. As the frequencies of di- and tri-nucleotides are not uniform in the genome, the chance for a mismatch found in an ``AAA`` reference contex is almost seven times higher than a mismatch in ``CGC`` (\autoref{A:mmf:tab:tricounts}, \autoref{A:mmf:tab:dicounts}). To reduce this bias towards high frequency oligo-nucleotides, I implemented a count normalisation step.
+
+First the di- and tri-nucleotides in the analysed regions are counted using the supplied reference without any black-listed and/or only in white-listed regions. These counts are then either used to directly weight the observed mismatch counts, which leads to a more uniform distribution of mismatches, or by building a fraction of observed oligo-nucleotides and the total counts in the genome (\autoref{A:mmf:tab:tricounts}, \autoref{A:mmf:tab:dicounts}), the weighting achieves an approximation of how the counts would be distributed over the whole genome. These two options are available with \lq\emph{--normaliseCounts}\rq~ for the approximation to full genome. By also adding \lq\emph{--flatNormalisation}\rq~ only the observed counts are used for normalisation.
+
+\subsection[Signature deconvolution]{Signature deconvolution - find the original signal}
+\label{mmf-sec:sigDeconv}
+The deconvolution of the involved signatures from known set of signatures is equivalent to finding the minimal distance between $m$ as the observed number of mismatches in each oligo-nucleotide context (a vector of length 96) and $\textbf{S}w$, where $\textbf{S}$ is the matrix of oligo-nucleotide defined contributions for each signature, resulting in a matrix of $96 \times k$ with $k$ being the number of known signatures. Lastly, $w$ is the weights of each signature, which we want to estimate. 
+
+\begin{align}
+ \text{minimise:} & \quad (m - \textbf{S}w)^T(m - \textbf{S}w)
+ = m^Tm - w^T\textbf{S}^Tm - m^T\textbf{S}w + w^T\textbf{S}^T\textbf{S}w \label{mmf-eq:optim1}\\
+ \text{with:} & \quad \sum_j w_j = 1 \quad \text{and} \quad \forall_j w_j \geq 0 \label{mmf-eq:requirements}
+\end{align}
+\myequation[\ref{mmf-eq:optim1}]{MisMatchFinder: optimisation for signature weights}
+\myequation[\ref{mmf-eq:requirements}]{MisMatchFinder: optimisation function restrictions}
+
+\autoref{mmf-eq:optim1} can then be written as 
+
+\begin{equation}
+\text{minimise:} \quad - m^T\textbf{S}w + \frac{1}{2}w^T\textbf{S}^T\textbf{S}w
+\label{mmf-eq:optim2}
+\end{equation}
+\myequation[\ref{mmf-eq:optim2}]{MisMatchFinder: quadratic programming formula}
+
+With the same restrictions as shown in \autoref{mmf-eq:requirements}. These equations and the idea to solve it with quadratic programming (QP) have been taken from \textcite{Lynch2016}, the iterative linear models (ILM) solving approach was adapted from deconstructSigs \cite{Rosenthal2016}. Both methods are implemented in python, using the quadprog package \cite{McGibbon2021} for QP and a translation of the R code of deconstrutSigs.
+
+MisMatchFinder allows the use of either QP or ILM, as they in many cases produce very similar results \cite{Lynch2016}. The default method is QP however, even though ILM is the more interpretable method and is the more parsimonious method, because with the increased number of signatures, in the latest work by \textcite{Alexandrov2020}, ILM does not lead to the right signatures if the signal is not strong enough but QP seems to be more stable (\autoref{fig:mmf-ILMerror}).
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=.99\linewidth]{Figures/lowInputSignalDeconv.pdf}
+\caption[Distance of deconvolution methods from truth]{Distances of the estimated weights generated with ILM and QP from the true weight used as input; Truth is a synthetic count sample with (SBS1: 0.25; SBS3: 0.05; SBS5: 0.46; SBS7a: 0.1; SBS19: 0.03; SBS21: 0.01; SBS31: 0.08; SBS57: 0.02;)}\label{fig:mmf-ILMerror}
+\end{figure}
+ 
+The combinatorial problem in ILM, already shown by \textcite{Lynch2016}, seems to be especially strong with ``wide`` signatures like SBS3 (\autoref{fig:sig7a}) and low signature contribution. That makes it less useful for our approach, as we expect low tumour purity and therefore low somatic signature signals in cfDNA, but even with ILM as deconvolution method impacts the detection of SBS7a less than the detection of SBS3 (\autoref{fig:mmf-qpVSilm})\todo{make that image}.
+
+The deconvolution method might be a spot for further optimisation by creating a custom deconvolution system adjusted for ctDNA detection.
 
 \todo[color=green,inline]{maybe move the simulation description here}

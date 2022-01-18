@@ -26,7 +26,16 @@ With the technical error eliminated in simulated data, the question was would ou
 
 While it would be possible simulate the variants completely de novo, without any prior knowledge, we know that somatic mutations follow a certain pattern and there a mutational hotspots \cite{Chen2016,Moore2021}, so we decided to instead use the COSMIC database \cite{Tate2018,WSI2021} as the  to select mutations from. This allows us to select mutations, which definitely occurred in a specific cancer subtype, which leads to a simulation which closer resembles real data. The in-depth protocol is shown in \autoref{ch-mmfAppendix:spikein}. The downside of this method is that the spike-in will not predominantly happen on shorter fragments, as it would be the case with ctDNA. 
 
-In the following section I will discuss the results for the simulation of the very prominent SBS7a signature (see \autoref{fig:sig7a})which is predominantly present in Melanoma (see \autoref{mmf-sec:melaSim}) and secondly the much flatter and more uniform SBS3 (see \autoref{A:fig:sig3}), which is a sign of defective homologous recombination in breast cancers (\autoref{mmf-sec:mbcSim})
+In the following section I will discuss the results for the simulation of the very prominent SBS7a signature (see \autoref{fig:sig7a})which is predominantly present in Melanoma (see \autoref{mmf-sec:melaSim}) and secondly the much flatter and more uniform SBS3 (see \autoref{A:fig:sig3}), which is a sign of defective homologous recombination in breast cancers (\autoref{mmf-sec:mbcSim}). 
+
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=.99\linewidth]{Figures/spikeInSanityCheck.pdf}
+\caption[Signature analysis of spike-in somatic variants]{Signature analysis results of spiked-in somatic variants; signatures with a weight less than 1\% were collated into ``unknown``; The original spike-in signature was coloured in green (SBS3) and red (SBS7a), unrelated signatures are coloured white and signatures corresponding to sequencing artifacts are coloured in lightgrey; r0.1 corresponds to approximately 0.1 variants per mega base; Weights were generated with deconstructSigs \cite{Rosenthal2016} }\label{fig:mmf-spikeinsanity}
+\end{figure}
+
+The spike-in was done at multiple different ratios, to simulate varying tumour purity. \autoref{fig:mmf-spikeinsanity} shows the signature analysis result of the lowest spike-in ratio ``r0.1`` which corresponds to 0.1 somatic variants per mega base and results in approximately 300 variants for the whole genome. As the spike-in process has to satisfy certain quality measures, not all candidate variants can be used. As such, the final simulated BAM contains 264 additional variants for the SBS3 simulation and 287 for the SBS7a equivalent. That corresponds to 304 and 364 ``tumour`` reads respectively within the $\approx$ 261 million reads of the simulated BAM. With increasing ratio, the spike-in signatures show decreasing weights for other signatures, which likely got introduced due to the incomplete spike-in (\autoref{ch-mmfAppendix:spikein}).
 
 \paragraph{Melanoma - UV exposure}
 \label{mmf-sec:melaSim}
