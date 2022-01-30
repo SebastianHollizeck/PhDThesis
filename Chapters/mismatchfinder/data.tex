@@ -31,24 +31,42 @@ In the following section I will discuss the results for the simulation of the ve
 
 \begin{figure}[!ht]
 \centering
-\includegraphics[width=.99\linewidth]{Figures/spikeInSanityCheck.pdf}
-\caption[Signature analysis of spike-in somatic variants]{Signature analysis results of spiked-in somatic variants; signatures with a weight less than 1\% were collated into ``unknown``; The original spike-in signature was coloured in green (SBS3) and red (SBS7a), unrelated signatures are coloured white and signatures corresponding to sequencing artifacts are coloured in lightgrey; r0.1 corresponds to approximately 0.1 variants per mega base; Weights were generated with deconstructSigs \cite{Rosenthal2016} }\label{fig:mmf-spikeinsanity}
+\includegraphics[width=.9\linewidth]{Figures/spikeInSanityCheck.pdf}
+\caption[Signature analysis of spike-in somatic variants]{Signature analysis results of spiked-in somatic variants; signatures with a weight less than 1\% were collated into ``unknown``; The original spike-in signature was coloured in green (SBS3) and purple (SBS7a), unrelated signatures are coloured white and signatures corresponding to sequencing artefacts are coloured in lightgrey; r0.1 corresponds to approximately 0.1 variants per mega base; Weights were generated with deconstructSigs \cite{Rosenthal2016} }\label{fig:mmf-spikeinsanity}
 \end{figure}
 
-The spike-in was done at multiple different ratios, to simulate varying tumour purity. \autoref{fig:mmf-spikeinsanity} shows the signature analysis result of the lowest spike-in ratio ``r0.1`` which corresponds to 0.1 somatic variants per mega base and results in approximately 300 variants for the whole genome. As the spike-in process has to satisfy certain quality measures, not all candidate variants can be used. As such, the final simulated BAM contains 264 additional variants for the SBS3 simulation and 287 for the SBS7a equivalent. That corresponds to 304 and 364 ``tumour`` reads respectively within the $\approx$ 261 million reads of the simulated BAM. With increasing ratio, the spike-in signatures show decreasing weights for other signatures, which likely got introduced due to the incomplete spike-in (\autoref{ch-mmfAppendix:spikein}).
+The spike-in was done at multiple different ratios, to simulate varying tumour purity and tumour mutational burden (TMB). \autoref{fig:mmf-spikeinsanity} shows the signature analysis result of the lowest spike-in ratio ``r0.1`` which corresponds to 0.1 somatic variants per mega base and results in approximately 300 variants for the whole genome. As the spike-in process has to satisfy certain quality measures, not all candidate variants can be used. As such, the final simulated BAM contains 264 additional variants for the SBS3 simulation and 287 for the SBS7a equivalent. That corresponds to 304 and 364 ``tumour`` reads respectively within the $\approx$ 261 million reads of the simulated BAM. With increasing ratio, the spike-in signatures show decreasing weights for other signatures, which likely got introduced due to the incomplete spike-in (\autoref{ch-mmfAppendix:spikein}).
 
-\paragraph{Melanoma - UV exposure}
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=.99\linewidth]{Figures/deconstructionMethodsDifferences.pdf}
+\caption[Signature weight differences for different deconvolution methods]{Signature weight differences for different deconvolution methods; Methods are the quadratic programming (QP) and iterative linea model (ILM); deconvolution was performed on the same counts generated with MisMatchFinder on 7 simulated dataset with increasing mutational burden from 5 to 100 mutations per mega base spike-in; for 0 mutations per mega base, the normal sample used for the spike-in was used}\label{fig:mmf-methodDifferences}
+\end{figure}
+
+
+\paragraph{Melanoma - UV exposure (SBS7a)}
 \label{mmf-sec:melaSim}
 
-\todo[inline]{redo analysis with optimised (final) parameters}
+With melanoma, TMB ranges from 0.1 to 100 mutations per mega base \cite{Alexandrov2020}, however Melanoma is usually seen as a very cancer with very high mutational load, which makes it the ideal target for this new mutational based tool. With only the strict overlap (\autoref{mmf-sec:consensus}) and the germline (\autoref{mmf-sec:germlinefiltering}) filtering enabled, we can see that already from r5, which represents 16899 mutated reads (of 260 Mio.), we see an increase in signature SBS7a. While this signal is likely too low to trust this in a real world setting, with r10, the weight is already 2\% and well established. Secondly, the method is very specific on this dataset, where only SBS7a shows an increase with higher spike-in, which minor leaks to other heavily $C>T$ signatures like SBS2 and SBS30 (\autoref{fig:mmf-methodDifferences},\autoref{fig:mmf-spikeSBS7asignatures}), which partly already stem from the spike-in process, which slightly enriched for SBS2 (\autoref{fig:mmf-spikeinsanity}B ``unknown``). All other signatures, which are present in the normal show a decrease, which is to be expected, as all signature weights need to sum up to one.
 
 
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=.99\linewidth]{Figures/SBS7SpikeInSignatureDifferencesFocussed.pdf}
+\caption[Signature weights differences from normal for SBS7a spike-in]{Signature weights differences from normal for SBS7a spike-in; Weights were de-constructed with QP method in MisMatchFinder and the weights assigned to the normal sample used for the spike-in were subtracted; Only Signatures with $\text{original weight}\geq 1\%$ or a minimum difference of 0.5\% are shown. The full weights can be seen in \protect\autoref{A:fig:sbs7aspikeindifferences}; r0.1 corresponds to 0.1 mutations per mega base (287 variants) and r100 is the equivalent of 100 mutations per mega base (286974 variants)}\label{fig:mmf-spikeSBS7asignatures}
+\end{figure}
 
-
-\paragraph{BRCA1/2 - Defective homologous recombination-based DNA damage repair}
+\paragraph{BRCA1/2 - Defective homologous recombination-based DNA damage repair (SBS3)}
 \label{mmf-sec:mbcSim}
 
-\todo[inline]{redo analysis with optimised (final) parameters}
+Just as with the SBS7a signatures, even for the much less specific signature SBS3, MisMatchFinder specifically picks out the spike-in signature and does not assign it to any other signature. There is a small increase in SBS4 for the very low mutation rate simulations, where no SBS3 is detected. Not surprisingly, the detection limit for SBS3 is slightly higher than for SBS7a (5 vs. 15 mutations per mega base), because it is a more uniform signal. Exactly as with SBS7a, all other signatures show a slight decrease, to accommodate the additional signature weight which sums to one (\autoref{fig:mmf-methodDifferences}, \autoref{fig:mmf-spikeSBS3signatures}). While this is slightly higher than the currently assumed median TMB in breast cancer, especially triple negative breast cancer (TNBC) has shown a higher TMB, which is at comparable levels to the limit of detection we see in this simulated dataset \cite{BarrosoSousa2020}.
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=.99\linewidth]{Figures/SBS3SpikeInSignatureDifferencesFocussed.pdf}
+\caption[Signature weights differences from normal for SBS3 spike-in]{Signature weights differences from normal for SBS3 spike-in; Weights were deconstructed with QP method in MisMatchFinder and the weights assigned to the normal sample used for the spike-in were substracted; Only Signatures with $\text{original weight}\geq 1\%$ or a minimum difference of 0.5\% are shown. The full weights can be seen in \protect\autoref{A:fig:sbs3spikeindifferences}; r0.1 corresponds to 0.1 mutations per megabase (264 variants) and r100 is the equivalent of 100 mutations per megabase (285367 variants)}\label{fig:mmf-spikeSBS3signatures}
+\end{figure}
 
 \subsubsection{Germline filtering}
 \label{mmf-sec:germlinefiltering}

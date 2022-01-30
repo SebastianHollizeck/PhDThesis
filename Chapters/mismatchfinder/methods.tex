@@ -86,12 +86,12 @@ First the di- and tri-nucleotides in the analysed regions are counted using the 
 
 \subsection[Signature deconvolution]{Signature deconvolution - find the original signal}
 \label{mmf-sec:sigDeconv}
-The deconvolution of the involved signatures from known set of signatures is equivalent to finding the minimal distance between $m$ as the observed number of mismatches in each oligo-nucleotide context (a vector of length 96) and $\textbf{S}w$, where $\textbf{S}$ is the matrix of oligo-nucleotide defined contributions for each signature, resulting in a matrix of $96 \times k$ with $k$ being the number of known signatures. Lastly, $w$ is the weights of each signature, which we want to estimate. 
+The deconvolution of the involved signatures from known set of signatures is equivalent to finding the minimal distance between $m$ as the observed number of mismatches in each oligo-nucleotide context (a vector of length 96) and $\textbf{S}w$, where $\textbf{S}$ is the matrix of oligo-nucleotide defined contributions for each signature, resulting in a matrix of $96 \times k$ with $k$ being the number of known signatures. Lastly, $w$ is the vector of weights of each signature, which we want to estimate. 
 
 \begin{align}
  \text{minimise:} & \quad (m - \textbf{S}w)^T(m - \textbf{S}w)
  = m^Tm - w^T\textbf{S}^Tm - m^T\textbf{S}w + w^T\textbf{S}^T\textbf{S}w \label{mmf-eq:optim1}\\
- \text{with:} & \quad \sum_j w_j = 1 \quad \text{and} \quad \forall_j w_j \geq 0 \label{mmf-eq:requirements}
+ \text{with:} & \quad \sum_j w_j = 1 \quad \text{and} \quad \boldsymbol{\forall} j ~ w_j \geq 0 \label{mmf-eq:requirements}
 \end{align}
 \myequation[\ref{mmf-eq:optim1}]{MisMatchFinder: optimisation for signature weights}
 \myequation[\ref{mmf-eq:requirements}]{MisMatchFinder: optimisation function restrictions}
@@ -104,7 +104,7 @@ The deconvolution of the involved signatures from known set of signatures is equ
 \end{equation}
 \myequation[\ref{mmf-eq:optim2}]{MisMatchFinder: quadratic programming formula}
 
-With the same restrictions as shown in \autoref{mmf-eq:requirements}. These equations and the idea to solve it with quadratic programming (QP) have been taken from \textcite{Lynch2016}, the iterative linear models (ILM) solving approach was adapted from deconstructSigs \cite{Rosenthal2016}. Both methods are implemented in python, using the quadprog package \cite{McGibbon2021} for QP and a translation of the R code of deconstrutSigs.
+With the same restrictions as shown in \autoref{mmf-eq:requirements}. These equations and the idea to solve it with quadratic programming (QP) have been taken from \textcite{Lynch2016}, the iterative linear models (ILM) solving approach was adapted from deconstructSigs \cite{Rosenthal2016}. Both methods are reimplemented in python in MisMatchFinder, using the quadprog package \cite{McGibbon2021} for QP and a translation of the R code of deconstructSigs for ILM.
 
 MisMatchFinder allows the use of either QP or ILM, as they in many cases produce very similar results \cite{Lynch2016}. The default method is QP however, even though ILM is the more interpretable method and is the more parsimonious method, because with the increased number of signatures, in the latest work by \textcite{Alexandrov2020}, ILM does not lead to the right signatures if the signal is not strong enough but QP seems to be more stable (\autoref{fig:mmf-ILMerror}).
 
@@ -114,8 +114,10 @@ MisMatchFinder allows the use of either QP or ILM, as they in many cases produce
 \caption[Distance of deconvolution methods from truth]{Distances of the estimated weights generated with ILM and QP from the true weight used as input; Truth is a synthetic count sample with (SBS1: 0.25; SBS3: 0.05; SBS5: 0.46; SBS7a: 0.1; SBS19: 0.03; SBS21: 0.01; SBS31: 0.08; SBS57: 0.02;)}\label{fig:mmf-ILMerror}
 \end{figure}
  
-The combinatorial problem in ILM, already shown by \textcite{Lynch2016}, seems to be especially strong with ``wide`` signatures like SBS3 (\autoref{fig:sig7a}) and low signature contribution. That makes it less useful for our approach, as we expect low tumour purity and therefore low somatic signature signals in cfDNA, but even with ILM as deconvolution method impacts the detection of SBS7a less than the detection of SBS3 (\autoref{fig:mmf-qpVSilm})\todo{make that image}.
+The combinatorial problem in ILM, already shown by \textcite{Lynch2016}, seems to be especially strong with ``wide`` signatures like SBS3 (\autoref{fig:sig7a}) and low signature contribution. That makes it less useful for our approach, as we expect low tumour purity and therefore low somatic signature signals in cfDNA, but even with ILM as deconvolution method impacts the detection of SBS7a less than the detection of SBS3. especially for SBS3 the weight for ILM will only be assigned with sufficient signal (15 and 20 mutations per megabase respectivly for for SBS7a and SBS3) where QP allows a more linear increase in signal, even at lower levels. In contrast ILM will assign more weight overall than QP once the signal reaches a certain threshold (\autoref{fig:mmf-methodDifferences}). This means, that ILM will be better for high powered signal, but less effective for the more subtle differences we expect from ctDNA.
 
 The deconvolution method might be a spot for further optimisation by creating a custom deconvolution system adjusted for ctDNA detection.
+
+For the rest of this chapter, unless specified differently, the results shown will use the QP deconstruction method.
 
 \todo[color=green,inline]{maybe move the simulation description here}
