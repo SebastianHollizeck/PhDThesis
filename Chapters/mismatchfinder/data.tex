@@ -70,13 +70,37 @@ Just as with the SBS7a signatures, even for the much less specific signature SBS
 
 \subsubsection{Germline filtering}
 \label{mmf-sec:germlinefiltering}
-With real patient data, we can evaluate the effect of removing germline variants from the analysis is. For this I used the same simulated samples from above (\autoref{mmf-sec:simSingnatures}), where the reads are original ctDNA reads for a healthy person.
+With real patient data, we can evaluate the effect of removing germline variants from the analysis is. For this I used the same simulated samples from above (\autoref{mmf-sec:simSingnatures}), where the reads are original ctDNA sequencing reads from a healthy person. These reads will have a natural background germline variant signature.
 
-\subsubsection{Germline artifacts}
-\label{mmf-sec:germlineArtifacts}
-Now that we have shown how important the germline filtering step is to enable the method, we were interested, how many germline variants of the sample were still retained after our filtering with known variants (\autoref{mmf-sec:germline}). For this purpose I called germline variants on the original healthy individual using Strelka2 and compared the called variants with the sites which MisMatchFinder found to be somatic (retained after germline filtering)
-\todo[inline,color=red]{do the analysis and make a figure}
-\todo[inline,color=green]{discuss if this might be interesting to do for more healthies}
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=.99\linewidth]{Figures/noGermlineFilterAnalysis.pdf}
+\caption[Signature analysis without germline variant filtering]{Signature analysis without germline variant filtering; Weights were deconstructed with QP method in MisMatchFinder, but in contrast to \protect\autoref{fig:mmf-methodDifferences}, the filter removing all known germline variants was disabled}\label{fig:mmf-noGermlineFilterAnalysis}
+\end{figure}
+
+In stark contrast to the previous analysis (\autoref{fig:mmf-methodDifferences}), when retaining mismatches in known germline variant sites, the sensitivity of the method reduces significantly. Only for the SBS7a spike-in at the very highest mutation frequency (100 mutations per mega base) a signal is detected. This signal is still weaker than what was previously found with just 10 mutations per mega base. Unsurprisingly SBS3 performs worse, just as before, and no signal is detected at all (\autoref{fig:mmf-noGermlineFilterAnalysis}).
+
+This extreme change is caused by the much higher number of mismatches which were used in the analysis ($\approx 1.8$ Mio without germline filter and $\approx 130$K with germline filter).
+This increase in mismatches in the analysis dilutes the spike-in variants. \autoref{fig:mmf-percentIncrease} shows that without the germline filter the additional found mismatches never exceeds 5\% which seems to be the detection threshold for SBS7a, as with germline filtering this threshold corresponds nicely with the arise of SBS7a weight in those samples (\autoref{fig:mmf-methodDifferences}).
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=.99\linewidth]{Figures/spikeInPercentage.pdf}
+\caption[Percent increase of mismatches in analysis with and without germline filter]{Percent increase of mismatches in analysis with and without germline filter; Values are normalised to the number of mismatches found in the normal sample (depicted as 0 mutations per mega base); dotted grey line shows the maximum increase in the left panel (without germline filter)}\label{fig:mmf-percentIncrease}
+\end{figure}
+
+While we already know that the spike-in variants were not detected when retaining germline variant sites, the signatures detected in the normal sample are vastly different as well. Without the germline filter, the most prevalent signatures are SBS1 and SBS5 which are thought to be molecular clock like signatures, related to the age of the individual \cite{Alexandrov2020}. In the germline filtered analysis the most prevalent signatures are SBS4 (tabacco smoking), SBS12 (unkown) and SBS46 (sequencing artefact). In general it seems like the germline filter removes predominantly SBS1 and SBS5, while most other signatures remain the same (\autoref{fig:mmf-noGermlinePie}).
+
+As the sample was acquired through a healthy donor blood bank, we have no way to verify if the sample was or is a smoker.
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=.99\linewidth]{Figures/noGermlineFilterSignaturesPieChart.pdf}
+\caption[Signature weights of the normal sample with and without germline filter]{Signature weights of the normal sample with and without germline filter; MisMatchFinder derived signature weights with and without germline filter; weights below 1\% contribution are accumulated in ``unknown`` (darkgrey), lightgrey signatures show sequencing artefact signatures, yellow shows smoking related signatures and blue depicts APOBEC signatures}\label{fig:mmf-noGermlinePie}
+\end{figure}
+ 
+
+This shows that germline filtering similar to the consensus overlap analysis is fundamentally important for the method to recover signal. In the following sections, unless further specified, the germline filter will be enabled for all analysis.
 
 
 
@@ -94,12 +118,78 @@ Now that we have shown how important the germline filtering step is to enable th
 \label{mmf-sec:brcapatients}
 The first dataset of patients is two previously published BRCA1/2 positive breast cancers\todo{are they actually published?}. The data contains matched tumour, germline and ctDNA sequencing as high depth WGS for both patients. With the matched normal, we can use the current standard protocol of somatic mutational pattern analysis (\autoref{mmf-sec:signatureanalysis}) and compare it with our new method. 
 
-As the sequencing data of the ctDNA is much higher depth than what is used in standard clinical practice, we down sample the data to 10x. By using numerous different seeds for the sampling, we can generate pseudo technical replicates of the sequencing (\autoref{ch-mmfAppendix:subsampling}), which then in term can give an approximation of the stability of the results for both the tissue and the ctDNA samples .
+As the sequencing data of the ctDNA is much higher depth than what is used in standard clinical practice, we down sample the data to 10x coverage, which is also the coverage of the simulated data. By using numerous different seeds for the sampling, we can generate pseudo technical replicates of the sequencing (\autoref{ch-mmfAppendix:subsampling}), which then in term can give an approximation of the stability of the results for both the tissue and the ctDNA samples .
 
 \todo[inline]{add the subsampled data}
 
+\paragraph{Germline artifacts}
+\label{mmf-sec:germlineArtifacts}
+As I have pointed out above, how important the germline filter step is to boost the signal of somatic variants (\autoref{mmf-sec:germline}), we were interested how many germline variants were not filtered out with our method. The high depth matched healthy WGS samples of the breast cancer dataset is ideal for this analysis. I called germline variants on the matched normal using Strelka2 and compared the called variants with the sites which MisMatchFinder found to be somatic (retained after germline filtering) on the sub-sampled data.  All variants with any quality filter assigned by Strelka2 were considered for this analysis, such that possible clonal hematopoiesis (CH) variants are still considered. \autoref{tab:mmf-germlineArtifacts} shows that on average 2100 germline variants are not filtered out. However, this only equates to 0.9\% for MBCB196 and 1.5\% for MBCB298 of all sites found to be mutated. The exact numbers depend on the strictness of the parameters of the analysis as well as the mutation rate of the sample, so they should only be taken as a guideline.
+
+Nevertheless, this result combined with the effective filtering of technical errors (\autoref{mmf-sec:cleanSim}) suggests, that the remaining sites are somatic mutations of either the healthy tissue or the cancer.
+
+\begin{table}
+\caption[Germline variants retained after germline filtering]{Germline variants retained after germline filtering with in MisMatchFinder analysis; Default parameters were used when running MisMatchFinder with gnomAD zarr for filtering. seed column shows the seed used to subsample the high depth sequencing BAM, ``mismatch sites`` column contains number of sites found to be changed, ``germline sites`` contains the number of sites also found with germline variant calling, fraction shows fraction of column 4 and 3}\label{tab:mmf-germlineArtifacts}
+\centering
+\begin{tabular}{c|c|c|c|c}
+\toprule
+\textbf{Patient ID} & \textbf{seed} & \textbf{mismatch sites} & \textbf{germline sites} & \textbf{fraction} \\
+\midrule
+ & \num{1007} & \num{216950} &  \num{2107} & \num{0.0097}\\ 
+ & \num{1234} & \num{217145} &  \num{2073} & \num{0.0095}\\ 
+ & \num{1337} & \num{216823} &  \num{2080} & \num{0.0096}\\ 
+ & \num{1717} & \num{217593} &  \num{2089} & \num{0.0096}\\ 
+ & \num{2358} & \num{217317} &  \num{2097} & \num{0.0096}\\ 
+ & \num{3311} & \num{217219} &  \num{2046} & \num{0.0094}\\ 
+ & \num{5229} & \num{216876} &  \num{2062} & \num{0.0095}\\ 
+ & \num{6060} & \num{217388} &  \num{2080} & \num{0.0096}\\ 
+\multirow{-9}{*}{MBCB196} & \num{9876} & \num{217656} &  \num{2008} & \num{0.0092}\\ 
+\midrule
+ & \num{1756} & \num{148495} &  \num{2168} & \num{0.0146}\\ 
+ & \num{3599} & \num{149901} &  \num{2224} & \num{0.0148}\\ 
+ & \num{4117} & \num{149382} &  \num{2277} & \num{0.0152}\\ 
+ & \num{4306} & \num{149549} &  \num{2248} & \num{0.0150}\\ 
+ & \num{4359} & \num{149805} &  \num{2205} & \num{0.0147}\\ 
+ & \num{5788} & \num{150103} &  \num{2241} & \num{0.0149}\\ 
+ & \num{5887} & \num{150099} &  \num{2287} & \num{0.0152}\\ 
+ & \num{8387} & \num{149533} &  \num{2248} & \num{0.0150}\\ 
+\multirow{-9}{*}{MBCB298} & \num{9754} & \num{149547} &  \num{2229} & \num{0.0149}\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+
+\paragraph{Matched WGS samples - when you know what the results should be}
+\label{mmf-sec:matchedMBCB}
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=.99\linewidth]{Figures/mbcbWESsignatures.pdf}
+\caption[Signature weights for the WGS of two MBCB patients]{Signature weights for the WGS of two MBCB patients; Colours show cancer associated signatures: blue (APOBEC), red (UV exposure), orange (tobacco), purple (chemotherapy), light grey (sequencing artefacts), dark grey (everything below 1\% weight)}\label{fig:mmf-mbcbWGSsigPie}
+\end{figure}
+ 
+
 \subsubsection{Melanoma patients}
 \label{mmf-sec:melpatients}
+
+For melanoma real world data, we analysed multiple datasets, which allowed to highlight and dissect specific aspects of signature detection from lcWGS when dealing with melanoma. First I will show the results on a set of two patients, were WES of tumour tissue, normal tissue and both cfDNA samples is available on top of lcWGS of the cfDNA (\autoref{mmf-sec:matchedMelanoma}) and then I will highlight the results of the analysis of a bigger dataset of melanoma patients without matched normals but with varying tumour fraction (\autoref{mmf-sec:magnifyMelanoma}).
+
+
+\paragraph{Matched WES samples - when you know what the results should be}
+\label{mmf-sec:matchedMelanoma}
+With the help of the WES of both the tissue and the cfDNA samples, we know what the expected outcome for each of the lcWGS samples is, as the standard procedure for signature detection starts with somatic variants.  Strelka2 was used to call somatic variants and the high confidence somatic SNPs were then used in R to generate signature weights with deconstructSigs. As the most recent signatures were generated using whole genome sequencing, the input was normalised with the \lq \emph{exome2genome}\rq~option when calculating weights.
+
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=.99\linewidth]{Figures/melanomaWESsignatures.pdf}
+\caption[Signature weights for the WES of two melanoma patients]{Signature weights for the WES of two melanoma patients; First column shows the results for the tissue baseline and middle and right column show the cfDNA; Colours show cancer associated signatures: blue (APOBEC), red (UV exposure), orange (tobacco), purple (chemotherapy), light grey (sequencing artefacts), dark grey (everything below 1\% weight)}\label{fig:mmf-melaWESsigPie}
+\end{figure}
+ 
+For Patient 1, both the tissue as well as the cfDNA samples show a very high signature weight related to UV radiation SBS7a and SBS7b ($ \text{combined}\geq 30\%$ however patient 2 only shows very little SBS7a in only the cfDNA samples. 
+
+\paragraph{Large detection level cohort - how sensitive can we be?}
+\label{mmf-sec:magnifyMelanoma}
 
 
 \subsection{Summary}
