@@ -135,7 +135,7 @@
 \usepackage{booktabs}
 \usepackage{rotating}
 \usepackage{listings}
-\lstset{captionpos=b,
+\lstset{captionpos=t,
         frame=tb,
         basicstyle=\scriptsize\ttfamily,
         showstringspaces=false,

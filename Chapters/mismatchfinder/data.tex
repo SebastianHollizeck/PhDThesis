@@ -109,16 +109,66 @@ This shows that germline filtering similar to the consensus overlap analysis is 
 \subsection{Real world data - the only things that matters}
 \label{mmf-sec:realworld}
 
+While simulated data is perfect to ensure the method performs as expected in edge cases and to estimate detection limits, only real world data allows the final examination if the model used for analysis can mirror biological concepts. To show our new method is usable for a variety of datasets, we used a mixture of different cancer types from various different sequencers. In \autoref{mmf-sec:healthy} I present the dataset of healthy individuals to show specificity of our method. Then in \autoref{mmf-sec:brcapatients} I present the analysis for metastatic breast cancer patients with matched tumour and germline sequencing. First how efficient germline filtering is in \autoref{mmf-sec:germlineArtifacts} and then how accurate and sensitive our method is when compared to the current gold standard of tumour-normal tissue analysis (\autoref{mmf-sec:matchedMBCB}) and then the envisioned approach of tumour only analysis for clinical samples in \autoref{mmf-sec:tumourOnlyMBCB}.
+These analysis were also performed on their melanoma equivalent in \autoref{mmf-sec:matchedMelanoma} for the matched analysis and \autoref{mmf-sec:tumourOnlyMelanoma} to show that the detection is not cancer specific.
+
 \subsubsection{Healthy cohort}
 \label{mmf-sec:healthy}
 
+We sequenced the 60 healthy samples, from varying age groups (\num{24}~yrs.-\num{70}~yrs. median: \num{48.5}~yrs.) with 24 males and 36 females, in the exact same way as the tumour only samples for MBCB and melanoma (\autoref{mmf-sec:tumourOnlyMBCB} and \autoref{mmf-sec:tumourOnlyMelanoma} respectively) to an effective average coverage of 8x WGS, with mixed healthy samples and cancer samples on sequencing flow cells to account for batch effects.
+
+\paragraph{Bias detection}
+\label{mmf-sec:healthyBias}
+This dataset of healthy samples is ideal to detect biases, because any variability that cannot be accounted to either age or gender is unwanted and will affect the cancer samples in the same way. We expect an increased mismatch rate in the older individuals do to the accumulation of somatic mutations, but most of these mutations should be accounted for by SBS1 and SBS5, as they represent the ``clock-like`` signatures \cite{Abascal2021}. Any other signatures would have to be assumed to be either normal variation in the healthy population or technical artefacts.
+
+\todo[inline]{maybe add more info to describe the healthies}
+
+
+\paragraph{Black list generation}
+\label{mmf-sec:healthyBlacklist}
+With the strong influence filtering our both technical errors (\autoref{mmf-sec:cleanSim}) and germline variants (\autoref{mmf-sec:germlinefiltering})  as background noise had on our method, we hypothesised that a blacklist of mismatches found in our healthy individuals would help us further cut down on unwanted background signal and refine the somatic mismatch calls. I therefore ran mismatchfinder with significantly relaxed quality cut-offs to capture as much variation as possible. This includes a reduction in mapping quality and base quality as well as not restricting the analysis to the highly accurate overlap part of the paired end reads. However we still restricted the analysis to the same highly mappable areas of the genome the same as for the tumour analysis as well as filtering already known germline variants for a better estimation of the impact of this filter step.
+
+The site files generated through MisMatchFinder were then concatenated and aggregated to multiple blacklists with cut-offs of a variant present in at least 3, 5 or 10 times. The bash code used for the post processing of MisMatchFinder site files can be found in \autoref{lst-mmf:blacklist}.
+
+
+\begin{lstlisting}[language=bash, caption=Blacklist postprocessing, label={lst-mmf:blacklist}]
+awkCounting=$(cat <<'AWK'
+{
+    key=$1"\t"$2"\t"$3"\t"$4
+    counts[key]++
+}
+END{
+    for(i in counts){
+        occ = counts[i]
+        if(occ >= 3){
+            print i"\t"counts[i] > "healthy_blacklist_sites_m3.tsv"
+        }
+        if(occ >= 5){
+            print i"\t"counts[i] > "healthy_blacklist_sites_m5.tsv"
+        }
+        if(occ >= 10){
+            print i"\t"counts[i] > "healthy_blacklist_sites_m10.tsv"
+        }
+    }
+}
+AWK
+)
+
+cat *_sites.tsv | awk "$awkCounting"
+\end{lstlisting}
+
+
+
+
 \todo[inline]{Add the health cohort in there/ possible age}
 
-\subsubsection{BRCA positive patient samples}
+\subsubsection{MBCB patient samples}
 \label{mmf-sec:brcapatients}
-The first dataset of patients is two previously published BRCA1/2 positive breast cancers\todo{are they actually published?}. The data contains matched tumour, germline and ctDNA sequencing as high depth WGS for both patients. With the matched normal, we can use the current standard protocol of somatic mutational pattern analysis (\autoref{mmf-sec:signatureanalysis}) and compare it with our new method. 
+The first dataset of patients is two previously published BRCA1/2 positive breast cancers\todo{are they actually published?}. The data contains matched tumour, germline and ctDNA sequencing as high depth WGS for both patients. With the matched normal, we can use the current standard protocol of somatic mutational pattern analysis (\autoref{mmf-sec:signatureanalysis}) and compare it with our new method (\autoref{mmf-sec:matchedMBCB}). 
 
 As the sequencing data of the ctDNA is much higher depth than what is used in standard clinical practice, we down sample the data to 10x coverage, which is also the coverage of the simulated data. By using numerous different seeds for the sampling, we can generate pseudo technical replicates of the sequencing (\autoref{ch-mmfAppendix:subsampling}), which then in term can give an approximation of the stability of the results for both the tissue and the ctDNA samples .
+
+And secondly we analysed a set of tumour only sequencing samples, how they would be available in clinical testing, e.g. copy number analysis \cite{Homburger2019,Chen2021}. To show that our method can be applied to supply additional clinically relevant information from already available data (\autoref{mmf-sec:tumourOnlyMBCB}). 
 
 \todo[inline]{add the subsampled data}
 
@@ -169,10 +219,13 @@ Nevertheless, this result combined with the effective filtering of technical err
 \end{figure}
  
 
+\paragraph{Tumour only WGS samples - the large scale clinical approach}
+\label{mmf-sec:tumourOnlyMBCB}
+
 \subsubsection{Melanoma patients}
 \label{mmf-sec:melpatients}
 
-For melanoma real world data, we analysed multiple datasets, which allowed to highlight and dissect specific aspects of signature detection from lcWGS when dealing with melanoma. First I will show the results on a set of two patients, were WES of tumour tissue, normal tissue and both cfDNA samples is available on top of lcWGS of the cfDNA (\autoref{mmf-sec:matchedMelanoma}) and then I will highlight the results of the analysis of a bigger dataset of melanoma patients without matched normals but with varying tumour fraction (\autoref{mmf-sec:magnifyMelanoma}).
+For melanoma real world data, we analysed multiple datasets, which allowed to highlight and dissect specific aspects of signature detection from lcWGS when dealing with melanoma. First I will show the results on a set of two patients, were WES of tumour tissue, normal tissue and both cfDNA samples is available on top of lcWGS of the cfDNA (\autoref{mmf-sec:matchedMelanoma}) and then I will highlight the results of the analysis of a bigger dataset of melanoma patients without matched normals but with varying tumour fraction (\autoref{mmf-sec:tumourOnlyMelanoma}).
 
 
 \paragraph{Matched WES samples - when you know what the results should be}
@@ -189,7 +242,7 @@ With the help of the WES of both the tissue and the cfDNA samples, we know what 
 For Patient 1, both the tissue as well as the cfDNA samples show a very high signature weight related to UV radiation SBS7a and SBS7b ($ \text{combined}\geq 30\%$ however patient 2 only shows very little SBS7a in only the cfDNA samples. 
 
 \paragraph{Large detection level cohort - how sensitive can we be?}
-\label{mmf-sec:magnifyMelanoma}
+\label{mmf-sec:tumourOnlyMelanoma}
 
 
 \subsection{Summary}

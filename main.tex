@@ -147,7 +147,7 @@
     basicstyle=\ttfamily\footnotesize,
     breakatwhitespace=false,         
     breaklines=true,                 
-    captionpos=b,                    
+    captionpos=t,                    
     keepspaces=true,                 
     numbers=left,                    
     numbersep=5pt,                  
@@ -282,6 +282,10 @@
 \addtotoc{List of Equations}
 \listofmyequations
 
+\fancyhead[LE,RO]{\emph{Listings}}
+\addtotoc{Listings}
+\lstlistoflistings
+
 
 %% ----------------------------------------------------------------
 \setstretch{1.5}  % Set the line spacing to 1.5, this makes the following tables easier to read
@@ -410,6 +414,7 @@
 \cleardoublepage
 \addtocontents{toc}{\vspace{2em}}  % Add a gap in the Contents, for aesthetics
 \addtocontents{lof}{\vspace{2em}}
+\addtocontents{lol}{\vspace{10pt}}
 
 \appendix % Cue to tell LaTeX that the following 'chapters' are Appendices
 \addappheadtotoc % add an entry to the TOC
