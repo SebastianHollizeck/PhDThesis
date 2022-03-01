@@ -68,6 +68,11 @@ When paired end sequencing of ctDNA is analysed, the fraction of fragments where
 \caption[Schematic of consensus computation method for overlapping reads]{Schematic of consensus computation method for overlapping reads in MisMatchFinder; Read 1 and Read 2 depict two overlapping paired end reads aligned to the reference sequence; Positions in the overlap are numbered for later referral; Read positions agreeing with the reference are coloured black, positions differing from the reference but agreeing in both reads are coloured purple (position 3) and differences between reads are coloured in the respective read colours (blue and red, position 6); Calculation for the resulting base quality (BQ$_{cons}$ for each possibility is shown as formulas)}\label{fig:mmf-consensus}
 \end{figure}
 
+This method however also reduces the available data by restricting the analysis to areas where reads are overlapping. Due to the fragment size distribution of ctDNA a paired end sequencing with 100bp  read length will in most cases lead to an overlap of at least 45 nucleotides (\autoref{intro-sec:ctDNA}) and with 150bp most ctDNA fragments will be almost entirely covered by both reads in theory. However due to soft-clipping and incomplete alignment, this number will be lower in reality.
+In our tests, the restriction leads to on average 18 nucleotides (min:~14bp max:~25bp std.dev.:~1.45) being retained in the analysis from a read on average for a 100bp read in real world data. This however means that with a read depth of 8-10x $\approx$80\% of the genome will be covered by the overlap of at least one read pair.
+
+
+
 \subsection[Germline filtering]{Germline filtering - exclusion of normal variation}
 \label{mmf-sec:germline}
 

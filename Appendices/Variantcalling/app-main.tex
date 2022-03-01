@@ -347,5 +347,93 @@ The usage of these workflows can be easily integrated into existing workflows an
 
 
 
+\chapter*{Additional supplementary data}
+This section contains supplementary data for the joint somatic variant calling chapter (\autoref{ch:variantcalling}) not contains in the published paper but for the work shown in this thesis
+
+\begin{lstlisting}[language=R, caption=parse strelka VCF, label={lst-jvcAppendix:parseVcf}]
+#this function will parse a strelkaVcf after the joined refiltering put all the
+#relevant info into a data.table
+parseStrelkaVcf <- function(vcfFilePath=stop("need file as input"), geneList){
+  require(ensemblVEP)
+  vcfObj <- VariantAnnotation::readVcf(vcfFilePath)
+  vcfObj <- VariantAnnotation::expand(vcfObj)
+
+  res <- data.table()
+  #add the fixed columns to the result
+  fixed <- .getFixedVcfColumns(vcfObj)
+  res[,c("chr","pos","ref","alt","filter"):=fixed]
+
+  #get the vep annotation
+  vepcolumns <- .getVepAnnotationColumns(vcfObj, geneList)
+  res <- cbind(res,vepcolumns)
+
+  #add additional info, which is interesting but we dont us TUMOR and NORMAL
+  # because what if the columns were renamed
+  res[, dp:=as.numeric(geno(vcfObj)$DP[,2])]
+  if(is.null(geno(vcfObj)$AF)){
+    res[ ,freq:=extractStrelkaAD(vcfObj, sample=2)/dp]
+    res[ ,nfreq:=extractStrelkaAD(vcfObj, sample=1)/dp]
+  }else{
+    res[ ,freq:=as.numeric(geno(vcfObj)$AF[,2])]
+    res[ ,nfreq:=as.numeric(geno(vcfObj)$AF[,1])]
+  }
+
+  return(res)
+}
+\end{lstlisting}
+
+\begin{lstlisting}[language=R, caption=annotate variants with copy number calls, label={lst-jvcAppendix:cnv}]
+for (sample in dnaSamples){
+  
+  varName <- paste0("vars",sample)
+  varTmp <- as.data.frame(get(varName))
+  
+  segments <- read.table(paste0(pathPrefix,'/dawson_genomics/Projects/CASCADE/', .sampleBase, '/analysis/', .sampleBase, "-",  sample, '/CNV/', .sampleBase,"-",sample,"_segments.txt"),header=T)
+  cnInfo <- apply(varTmp,1,function(x){
+    # print(x["chr"])
+    cnRow <- segments[(segments$chromosome == x["chr"] & segments$start.pos <= as.numeric(x["pos"]) & segments$end.pos >= as.numeric(x["pos"])),]
+    cnCols <- cnRow[,c("CNt","A","B")]
+    if (nrow(cnCols) == 0){
+      #no info means we assume its normal
+      cnCols <- data.frame(CNt=2,A=1,B=1)
+    }
+    return(cnCols)
+  })
+  
+  cnInfo <- bind_rows(cnInfo)
+  varTmp <- cbind(varTmp, cnInfo)
+  
+  #dividing by purity and then dividing by CNt tells us how many cells have that variant
+  varTmp$vaf <- varTmp$freq / purities[counter] #/ varTmp$CNt
+  #does not help if we have more than 1 in a percentage
+  varTmp$vaf[varTmp$vaf > 1] <- 1
+  assign(varName, as.data.table(varTmp))
+  counter <- counter +1
+}
+\end{lstlisting}
+
+\begin{lstlisting}[language=R, caption=convert to maf format, label={lst-jvcAppendix:convertMAF}]
+convertToMaf <- function(varTable, chrs=paste0("chr",c(1:22, "X", "Y"))){
+
+  keep <- varTable[chr %in% chrs,]
+
+  ret <- data.table(Hugo_Symbol=keep$symbol,
+                    Chromosome=keep$chr,
+                    Start_position=keep$pos,
+                    Reference_Allele=keep$ref,
+                    Tumor_Seq_Allele2=keep$alt,
+                    t_ref_count=round(keep$dp*(1-keep$freq)),
+                    t_alt_count=round(keep$dp*keep$freq),
+                    local_cn_a1=keep$A,
+                    local_cn_a2=keep$B)
+
+  #if there is no gene annotated, we set it to unknown
+  ret[is.na(ret$Hugo_Symbol),"Hugo_Symbol"] <- "Unkown"
+
+  return(ret)
+
+}
+\end{lstlisting}
+
 %reset this to what we had before
 \fancyhead[RO]{\rightmark}

@@ -33,7 +33,7 @@ Next, the variant allele frequencies (VAF) in both the tumour and the normal sam
 \myequation[\ref{eq:04}]{FreeBayesSomatic: VAF$_{tumour}$}
 \myequation[\ref{eq:05}]{FreeBayesSomatic: somaticVAF definition}
 
-A variant is classified as somatic when both somaticLOD as well as somatic VAF pass the criteria somaticLOD (\autoref{eq:03}) and somaticVAF (\autoref{eq:05}).
+A variant is classified as somatic when both somatic LOD as well as somatic VAF pass the criteria somaticLOD (\autoref{eq:03}) and somaticVAF (\autoref{eq:05}).
 
 The thresholds chosen for both LOD and VAF calculations were previously fitted by the blue-collar bioinformatics workflow for the ``DREAM synthetic 3`` dataset using the SpeedSeq likelihood difference approach \parencite{Chapman2020} and were selected to identify high confidence variants.
 
@@ -68,7 +68,7 @@ As an additional improvement, we also built multiallelic support into Strelka2 w
 
 \subsection{Validation}
 
-As new methods are always a good idea, because they challenge previous assumptions and can be a step forward for the field by just showing that simpler models can have the same performance, all methods should be validated against the gold standard methods in the field with data which allows objective measures to be used. For germline variant calling, there have been multiple challenges and specifically designed test datasets, but these predefined datasets do not exist for the somatic equivalent. This issue is even more pronounced, as we do not only need a tumour-normal pair, but we need the multiple tumour samples in the dataset to be related. To allow a fair comparison, I first generated a fully synthetic dataset, where every variant is known and fully defined (\autoref{variantcalling-sec:simdata}) to allow a general performance assessment of the methods. Then to ensure that these metrics also hold true in real world data, we then re-analysed previously published datasets which have orthogonal validation in the form of targeted amplicon sequencing (TAS) (\autoref{variantcalling-sec:realdata}).
+While the development of new methods can challenge previous assumptions and allow to challenge previous ruled, all methods need be validated against the current gold standard methods in the field with data which allows objective measurements. For germline variant calling, there have been multiple community lead challenges and specifically designed test datasets, but there is currently no somatic variant calling equivalent. This issue is even more pronounced for our method, as we do not only need a tumour-normal pair, but we need the multiple tumour samples in the dataset to be related. To allow a fair comparison, I first generated a fully synthetic dataset, where every variant is known and fully defined (\autoref{variantcalling-sec:simdata}) to allow a general performance assessment of the methods. Then to ensure that these metrics also hold true in real world data, we then re-analysed previously published datasets which have orthogonal validation in the form of targeted amplicon sequencing (TAS) (\autoref{variantcalling-sec:realdata}).
 
 \begin{figure*}[!tpb]
 \centering
