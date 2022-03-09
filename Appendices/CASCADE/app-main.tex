@@ -1,0 +1,84 @@
+\chapter{CASCADE - supplementary methods}
+\label{ch-cascadeSuppMeth}
+
+
+
+
+
+\begin{lstlisting}[language=bash, caption=Preprocessing of mitochondrial reads and variants for analysis in R, label={lst-cascadeAppendix:mitoPreProcessing}]
+#!/usr/bin/env bash
+#
+# Author: Sebastian Hollizeck
+# Date: 26/10/2021
+#
+# adapts the ideas from Ludwig et al. (https://www.cell.com/
+#    cell/fulltext/S0092-8674(19)30055-8)
+# to process mitochondrial reads for phylogenic reconstruction
+#
+
+
+reference="/data/reference/dawson_labs/genomes/GRCh38/GCA_000001405.15_GRCh38_full_analysis_set.fna"
+
+pileupProg="python /dawson_genomics/Other/software/mitoGenotyping/01_pileup_counts.py"
+mergeProg="bash /dawson_genomics/Other/software/mitoGenotyping/02_merge_pileup_counts.sh"
+generateRDSProg="Rscript /dawson_genomics/Other/software/mitoGenotyping/03_makeRDS.R"
+
+minBQ=0
+minMQ=0
+
+
+mtChrName="chrM"
+mtLength=16569
+
+#bams in comma seperated array
+bams=(<bams here>)
+
+#base name of the patient
+projectName=""
+
+
+tmpDir=$(mktemp -d)
+
+#folder for the temp processed data
+processedDir=$tmpDir"/processed_data"
+mkdir $processedDir
+
+
+outPath="/dawson_genomics/Projects/CASCADE/$sampleName/analysis/joint/mito"
+
+
+for bam in "${bams[@]}"; do
+
+    bamBase=$(basename $bam)
+    end=${bamBase#*_}
+    start=${bamBase%%_*}
+
+    #new tmp bam to write to
+    mtBam=$tmpDir/$start"_MT_"$end
+    #just in case it was a cram in the beginning, we change this to bam
+    mtBam=${mtBam/%.cram/.bam}
+
+    #need to only get the MT reads in a bam (and check if we got things)
+    res=$(samtools view -@ 2 -1 -T $reference -o $mtBam -O BAM $bam $mtChrName --write-index 2>&1)
+
+    if [[ "$test" =~ "specifies an invalid region or unknown reference. Continue anyway." ]]; then
+        echo "Specified mitochondrial chromosome name ($mtChrName) does not exist in bam ($bam)"
+        exit 1
+    fi
+
+    $pileupProg $mtBam $processedDir/$start $mtLength $minBQ $start $minMQ &
+
+done
+
+wait
+
+#merge everything we generated before
+$mergeProg $processedDir $projectName
+
+#generate a only MT reference
+samtools faidx -o $tmpDir/mtRef.fa $reference $mtChrName
+
+#convert to an RDS to be readable in R
+$generateRDSProg $processedDir $tmpDir/mtRef.fa
+
+\end{lstlisting}
