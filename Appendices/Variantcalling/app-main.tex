@@ -148,7 +148,7 @@ The biological data underlying this article are available at the European Genome
 % its chapter * so it doesnt get the numbering update
 \chapter*{Supplementary data}
 \label{ch:appendixManuscriptSuppData}
-\fancyhead[RO]{Appendix A Supplementary methods}
+\fancyhead[LO,RE]{Supplementary methods}
 
 \begin{figure}[!ht]
 \centering
@@ -348,6 +348,8 @@ The usage of these workflows can be easily integrated into existing workflows an
 
 
 \chapter*{Additional supplementary data}
+\fancyhead[RE,LO]{Supplementary methods}
+\fancyhead[RO,LE]{Appendix \ref{ch:appendixManuscript} Joint somatic variant calling}
 This section contains supplementary data for the joint somatic variant calling chapter (\autoref{ch:variantcalling}) not contains in the published paper but for the work shown in this thesis
 
 \begin{lstlisting}[language=R, caption=parse strelka VCF, label={lst-jvcAppendix:parseVcf}]
@@ -445,4 +447,5 @@ convertToMaf <- function(varTable, chrs=paste0("chr",c(1:22, "X", "Y"))){
 
 
 %reset this to what we had before
-\fancyhead[RO]{\rightmark}
+\fancyhead[RO,LE]{\leftmark}
+\fancyhead[RE,LO]{\rightmark}

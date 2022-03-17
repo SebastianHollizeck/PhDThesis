@@ -1,8 +1,7 @@
 \chapter{CASCADE - supplementary methods}
 \label{ch-cascadeSuppMeth}
-
-
-
+\fancyhead[RO,LE]{Appendix \ref*{ch-cascadeSuppMeth} CASCADE}
+\fancyhead[RE,LO]{Supplementary methods}
 
 
 \begin{lstlisting}[language=bash, caption=Preprocessing of mitochondrial reads and variants for analysis in R, label={lst-cascadeAppendix:mitoPreProcessing}]
@@ -82,3 +81,66 @@ samtools faidx -o $tmpDir/mtRef.fa $reference $mtChrName
 $generateRDSProg $processedDir $tmpDir/mtRef.fa
 
 \end{lstlisting}
+
+
+\begin{table}
+\centering
+\caption[Lung cancer genes for CASCADE analysis]{List of lung cancer related genes used for variant effect prioritisation. If no source was listed, the gene is part of the ``AVENIO ctDNA and Tumour Tissue extended Panel`` \protect\cite{RSS2018}, the list of commonly mutated genes in lung cancer \protect\cite{Greulich2010,ElTelbany2012}, which were validated through TCGA \protect\cite{CGARN2014}. Some of the genes are also part of the targets for molecular analysis of the National Comprehensive Cancer Network guidelines for NSCLC \protect\cite{NCCN2022}.}\label{A:cas:tab:lungcancergenes}
+\centering
+\rowcolors{2}{gray!15}{white}
+\vspace{-0.5em}
+\begin{tabular}{|C{0.15\linewidth} | C{0.25\linewidth} | C{0.02\linewidth} | C{0.15\linewidth} | C{0.25\linewidth}|}
+\toprule
+ \hhline{|-|-|~|-|-|}
+ \rowcolor{gray!50}
+ \textbf{Gene} & \textbf{source} & \cellcolor{white} & \textbf{Gene} & \textbf{source}\\
+ \hhline{|-|-|~|-|-|}
+ ABL1 & & \cellcolor{white} & KEAP1 & \\
+ AKT1 & & \cellcolor{white} & KIT & \\
+ AKT2 & & \cellcolor{white} & KRAS & \\
+ ALK & & \cellcolor{white} & MAP2K1 & \\
+ APC & & \cellcolor{white} & MAP2K2 & \\
+ AR & & \cellcolor{white} & MET & \\
+ ARAF & & \cellcolor{white} & miR-103a-3p & \textcite{Fan2018} \\
+ BRAF & & \cellcolor{white} & MKRN2 & \textcite{Jiang2018c} \\
+ BRCA1 & & \cellcolor{white} & MLH1 & \\
+ BRCA2 & & \cellcolor{white} & MSH2 & \\
+ CCND1 & & \cellcolor{white} & MSH6 & \\
+ CCND2 & & \cellcolor{white} & MTOR & \\
+ CCND3 & & \cellcolor{white} & NF2 & \\
+ CD274 & & \cellcolor{white} & NFE2L2 & \\
+ CDK4 & & \cellcolor{white} & NRAS & \\
+ CDK6 & & \cellcolor{white} & NTRK1 & \\
+ CDKN2A & & \cellcolor{white} & PDCD1LG2 & \\
+ CHL1 & \textcite{Hoetzel2019} & \cellcolor{white} & PDGFRA & \\
+ CSF1R & & \cellcolor{white} & PDGFRB & \\
+ CTNNB1 & & \cellcolor{white} & PIK3CA & \\
+ DDR2 & & \cellcolor{white} & PIK3R1 & \\
+ DPYD & & \cellcolor{white} & PMAIP1 & \textcite{Do2019} \\
+ EGFR & & \cellcolor{white} & PMS2 & \\
+ ERBB2 & & \cellcolor{white} & PTCH1 & \\
+ ESR1 & & \cellcolor{white} & PTEN & \\
+ EZH2 & & \cellcolor{white} & RAF1 & \\
+ FBXW7 & & \cellcolor{white} & RB1 & \\
+ FGFR1 & & \cellcolor{white} & RET & \\
+ FGFR2 & & \cellcolor{white} & RNF43 & \\
+ FGFR3 & & \cellcolor{white} & ROS1 & \\
+ FLT1 & & \cellcolor{white} & SMAD4 & \\
+ FLT3 & & \cellcolor{white} & SMO & \\
+ FLT4 & & \cellcolor{white} & STK11 & \\
+ GADD45B & \textcite{Do2019} & \cellcolor{white} & TERT & \\
+ GATA3 & & \cellcolor{white} & TFAP2C & \textcite{Do2019} \\
+ GNA11 & & \cellcolor{white} & THZ1 & \textcite{Cheng2018} \\
+ GNAQ & & \cellcolor{white} & TM4SF1 & \textcite{Ye2019} \\
+ GNAS & & \cellcolor{white} & TP53 & \\
+ IDH1 & & \cellcolor{white} & TSC1 & \\
+ IDH2 & & \cellcolor{white} & TSC2 & \\
+ IFITM1 & \textcite{Yang2018} & \cellcolor{white} & TUSC3 & \textcite{Feng2018a} \\
+ JAK2 & & \cellcolor{white} & UGT1A1 & \\
+ JAK3 & & \cellcolor{white} & USP13 & \textcite{Wu2019a} \\
+ KDM4 & \textcite{Sun2020} & \cellcolor{white} & VHL & \\
+ KDR & & \cellcolor{white} &  & \\
+ \hhline{|-|-|~|-|-|}
+\bottomrule
+\end{tabular}
+\end{table}

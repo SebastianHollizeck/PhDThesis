@@ -126,3 +126,19 @@ The deconvolution method might be a spot for further optimisation by creating a 
 For the rest of this chapter, unless specified differently, the results shown will use the QP deconstruction method.
 
 \todo[color=green,inline]{maybe move the simulation description here}
+
+
+\subsection{Signature detection}
+\label{mmf-sec:sigdetection}
+Signature deconvolution with QP will lead to non negative signature weights for almost all of the signatures when using MisMatchFinder derived counts, however a positive signature does not necessarily signal the activity of this process in a tumour capacity due to the normal somatic mutation background and germline residual signal (\autoref{mmf-sec:germlineArtifacts}). To enable calling of significantly active signatures in samples, we developed a z-score based system, which uses the distribution of each signature weight in the healthy population as a background.
+
+The z-score of each patient samples ($p$) signature weight $w$ was calculated per signature $s$, using the mean $\overline{w}_h(s)$ and standard deviation $\sigma_h(s)$ of the weight $w$ of all healthy samples for the respective signature $s$ (\autoref{eq:sigZScore}).
+
+\begin{equation}
+\forall s \in Signatures,\ \forall p \in Patients:\ \text{z-score}(s,p) := \frac{w_s(p) - \overline{w}_h(s)}{\sigma_h(s)}
+\label{eq:sigZScore}
+\end{equation}
+\myequation[\ref{eq:sigZScore}]{MisMatchFinder: z-score calculation per signature and patient}
+
+This allowed the prioritization of significantly changed signatures in the tumour samples with regards to our healthy background depending on the desired application. A higher z-score cut off will increase specificity at the cost of sensitivity. For any of our results we considered a z-score $\geq 4$ as a cut off. This very conservative measure accounts for the possibility of a non-representative sampling process in the healthy sample set, as well as reduces false positive calls, which are highly problematic in the cancer context.
+

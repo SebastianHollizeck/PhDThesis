@@ -112,16 +112,34 @@ This shows that germline filtering similar to the consensus overlap analysis is 
 While simulated data is perfect to ensure the method performs as expected in edge cases and to estimate detection limits, only real world data allows the final examination if the model used for analysis can mirror biological concepts. To show our new method is usable for a variety of datasets, we used a mixture of different cancer types from various different sequencers. In \autoref{mmf-sec:healthy} I present the dataset of healthy individuals to show specificity of our method. Then in \autoref{mmf-sec:brcapatients} I present the analysis for metastatic breast cancer patients with matched tumour and germline sequencing. First how efficient germline filtering is in \autoref{mmf-sec:germlineArtifacts} and then how accurate and sensitive our method is when compared to the current gold standard of tumour-normal tissue analysis (\autoref{mmf-sec:matchedMBCB}) and then the envisioned approach of tumour only analysis for clinical samples in \autoref{mmf-sec:tumourOnlyMBCB}.
 These analysis were also performed on their melanoma equivalent in \autoref{mmf-sec:matchedMelanoma} for the matched analysis and \autoref{mmf-sec:tumourOnlyMelanoma} to show that the detection is not cancer specific.
 
+\subsubsection{Bias detection}
+\label{mmf-sec:healthyBias}
+This dataset of healthy samples is ideal to detect biases, because any variability that cannot be accounted to either age or gender is unwanted and will affect the cancer samples in the same way. We expect an increased mismatch rate in the older individuals do to the accumulation of somatic mutations due to ``clock like signatures`` \cite{Abascal2021}. In contrast, the tumour samples should show a bias with respect to higher tumour purities, as higher amount of tumour reads would lead to a higher amount of mismatches from somatic mutations.
+To verify that our assumptions are correct, we performed a principle component analysis (PCA) of the raw tri-nucleotide mismatch count numbers of each sample which MisMatchFinder can report alongside the weights of signatures.
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=.99\linewidth]{Figures/countPCAsPC1vsPC2.pdf}
+\caption[PCA of tri-nucleotide mismatch counts of real world data (PC1 and PC2)]{PCA (PC1 and PC2) of tri-nucleotide mismatch counts of healthy donor and tumour samples (melanoma and metastatic breast cancer) of varying purity; PCA was conducted on scaled and centered data}\label{fig:mmf-pca1v2}
+\end{figure}
+
+Neither age, not sex of the sample seemed to have any influence on the mismatches of the sample \autoref{fig:mmf-pca1v2}A,~B. That age of the patient does not seem to influence the result could be a side effect of the germline filtering, where a somatic variant is filtered, if it happens at a knon germline site (\autoref{mmf-sec:germlinefiltering}) However age not being a confounding factor is positive.
+In contrast, there seems to be a batch effect like structure with regards to the used flowcell on the sequencer and library preparation (\autoref{fig:mmf-pca1v2}C,~D). As these two are fairly intertwined, it is almost impossible to tease the two apart, however it seems like the flowcell bias is overarching multiple library preparations. Flowcell 1 contains samples from both \lq g\rq\ and \lq h\rq\ and  flowcell 3 both \lq a\rq\ and \lq d\rq, suggesting that the flowcell has more influence than the preparation. This is consistent with recent literature, which suggests, that there are more and less error prone flow cells \cite{Stoler2021}.
+
+While there is a slight bias towards higher PC1 values for higher DNA input samples, which might be due to a higher library complexity when sequencing, it is fairly minor and this bias exists for every other method using de-duplicated sequencing data as it might have an effect on the non-redundant data available (\autoref{fig:mmf-pca1v2}E). Similarly, the very low coverage samples are at the very left of PC1, there is a substantial spread along the axis for the higher coverage samples as well (\autoref{fig:mmf-pca1v2}F). 
+
+And just as we expected from the model and the biology, there is a hint of a separation for both tumour type and tumour purity, with the higher purity samples oriented toward the top right and the healthy and lower purity samples at the left (\autoref{fig:mmf-pca1v2}G,~H).
+
+These tendencies can also be observed when looking at PC2 and PC3 (\autoref{A:fig:mmf-pca2v3}). PC3 still accounts for $\approx \text{9\%}$ of the observed variability and PC6 is the first component with an eigenvalue smaller than 1 suggesting that only the first five components should be retained for further analysis (explaining a cumulative 97.3\% of the variance). However, as we use the counts for signature deconstruction the PCA analysis only served as a quality control.
+
 \subsubsection{Healthy cohort}
 \label{mmf-sec:healthy}
 
 We sequenced the 60 healthy samples, from varying age groups (\num{24}~yrs.-\num{70}~yrs. median: \num{48.5}~yrs.) with 24 males and 36 females, in the exact same way as the tumour only samples for MBCB and melanoma (\autoref{mmf-sec:tumourOnlyMBCB} and \autoref{mmf-sec:tumourOnlyMelanoma} respectively) to an effective average coverage of 8x WGS, with mixed healthy samples and cancer samples on sequencing flow cells to account for batch effects.
 
-\paragraph{Bias detection}
-\label{mmf-sec:healthyBias}
-This dataset of healthy samples is ideal to detect biases, because any variability that cannot be accounted to either age or gender is unwanted and will affect the cancer samples in the same way. We expect an increased mismatch rate in the older individuals do to the accumulation of somatic mutations, but most of these mutations should be accounted for by SBS1 and SBS5, as they represent the ``clock-like`` signatures \cite{Abascal2021}. Any other signatures would have to be assumed to be either normal variation in the healthy population or technical artefacts.
+\todo[inline]{add the age via mismatchrate plot}
 
-\todo[inline]{maybe add more info to describe the healthies}
+\cite{Ganuza2019}
 
 
 \paragraph{Black list generation}
@@ -210,6 +228,10 @@ Nevertheless, this result combined with the effective filtering of technical err
 \end{table}
 
 
+\todo[inline]{add section about somatic variants that are wrongfully filtered}
+
+
+
 \paragraph{Matched WGS samples - when you know what the results should be}
 \label{mmf-sec:matchedMBCB}
 
@@ -231,7 +253,7 @@ For melanoma real world data, we analysed multiple datasets, which allowed to hi
 
 \paragraph{Matched WES samples - when you know what the results should be}
 \label{mmf-sec:matchedMelanoma}
-With the help of the WES of both the tissue and the cfDNA samples, we know what the expected outcome for each of the lcWGS samples is, as the standard procedure for signature detection starts with somatic variants.  Strelka2 was used to call somatic variants and the high confidence somatic SNPs were then used in R to generate signature weights with deconstructSigs. As the most recent signatures were generated using whole genome sequencing, the input was normalised with the \lq \emph{exome2genome}\rq~option when calculating weights.
+With the help of the WES of both the tissue and the cfDNA samples, we know what the expected outcome for each of the lcWGS samples is, as the standard procedure for signature detection starts with somatic variants.  Strelka2 was used to call somatic variants and the high confidence somatic SNPs were then used in R to generate signature weights with deconstructSigs\todo{change this to sigminer}. As the most recent signatures were generated using whole genome sequencing, the input was normalised with the \lq \emph{exome2genome}\rq\ option when calculating weights.
 
 
 \begin{figure}[!ht]
