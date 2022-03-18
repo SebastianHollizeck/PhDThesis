@@ -1,6 +1,6 @@
 \section{Patient level analysis}
 \label{cascade-sec:patientLevel}
-In this section I will outline the work performed for each patient and highlight work specifically done for certain patients due to their unique clinical features. However most of the analysis is streamlined and the workflow applied the same way to each patient. The following sections expand on the individual steps.
+This section outlines the work performed for each patient and highlight work specifically done for certain patients due to their unique clinical features. However most of the analysis is streamlined and the workflow applied the same way to each patient. The following sections expand on the individual steps.
 \begin{enumerate}
 \item \textbf{Quality control:} Each sample of a patient is checked for kinship and sequencing quality
 \item \textbf{Read mapping}
@@ -34,7 +34,7 @@ For short variants (SNPs and InDels), the workflows presented in \autoref{ch:var
 
 \subsubsection{Copy number analysis}
 \label{cascade-sec:cnv}
-After somatic variant calling, copy number analysis is a stable when dissecting the resistance and driver alterations of a tumour sample. While lung cancers are known for their high mutational burden \cite{Alexandrov2020}, often genetic amplifications can be found as driver or resistance mechanism. One of the more common resistance mechanisms is a high \textit{EGFR} or \textit{MET} amplification which significantly affect transcription \cite{Bjaanaes2021}. And while copy number alterations are often shared between metastases \cite{Ni2013}, the same heterogeneity that can be found in variant calling analysis also affects copy number analysis. Many modern copy number calling method will use the B-allele frequency , the allele frequency of a heterozygous germline variant, to gain allele specific copy number calls \cite{Favero2015,Talevich2016,Cameron2019a}. However each of those methods will only use the input of one tumour and one germline sample, very similar to \autoref{ch:variantcalling} we can actually improve the performance by analysing all tumour samples jointly. So far only HATCHet \cite{Zaccaria2020} has a joint copy number calling method.
+After somatic variant calling, copy number analysis is a stable when dissecting the resistance and driver alterations of a tumour sample. While lung cancers are known for their high mutational burden \cite{Alexandrov2020}, often genetic amplifications can be found as driver or resistance mechanism. One of the more common resistance mechanisms is a high \textit{EGFR} or \textit{MET} amplification which significantly affect transcription \cite{Bjaanaes2021}. And while copy number alterations are often shared between metastases \cite{Ni2013}, the same heterogeneity that can be found in variant calling analysis also affects copy number analysis. Many modern copy number calling method will use the B-allele frequency , the allele frequency of a heterozygous germline variant, to gain allele specific copy number calls \cite{Favero2015,Talevich2016,Cameron2019a}. However each of those methods will only use the input of one tumour and one germline sample, very similar to \autoref{ch:variantcalling} we can actually improve the performance by analysing all tumour samples jointly. So far only HATCHet \cite{Zaccaria2020} has a joint copy number calling method, requires significant time investment for installation and subjective manual parameter optimisation on a per patient basis. In contrast both sequenza and PURPLE have very easy installation and usage procedures.
 
 \todo[inline]{Explain why we didnt use hatchet in the end? subjective parameter tuning?}
 \todo[inline]{Explain purple vs sequenza for WGS vs WES}
@@ -141,6 +141,29 @@ The structural variant calling with GRIDSS showed consistent presence of the \te
 \caption[Schematic of tumour lesions in patient CA-I]{Schematic of tumour lesions in patient CA-I: Primary diagnostic sample shown in red; All six autopsy samples were coloured by organ they were collected from: Parasternal (1), left lung (2), right lung (1), diaphragm (1), liver (1); Additionally a post mortem blood sample was taken} \label{fig:cas51schematic}
 \end{figure}
 
+\begin{table}
+\caption[Autopsy samples sequenced for patient CA-I]{Autopsy samples sequenced for patient CA-I: Sample number is the internal sample collection during CASCADE autopsy, the organ of the sample, the fraction of tumour cell from H\& E stain and the pathology of the tumour sample. Dx: diagnostic sample}\label{tab:ca51wesSamples}
+\centering
+\rowcolors{2}{gray!15}{white}
+\begin{tabular}{|c|c|c|c|c|}
+\toprule
+\hline
+ \rowcolor{gray!50}
+\textbf{Sample number} & \textbf{Organ} & \textbf{H \& E} & \textbf{Type}\\
+\hline
+ Dx & right VATS & ? &  adenocarcinoma \\
+ 557 & parasternal mass & ? & \cellcolor{gray!15} \\
+ 559 & left diaphragm & 0.9 & \cellcolor{gray!15} \\
+ 566 & right liver lobe & 0.6 & \cellcolor{gray!15} \\
+ 573 & right hilar lymph node & 0.9 & \cellcolor{gray!15} \\
+ 579 & left lung lobe & 0.8 & \cellcolor{gray!15} \\
+ 583 & left pleura & 0.9 & \cellcolor{gray!15}\multirow{-6}{*}{small cell} \\
+ \hline
+\bottomrule
+\end{tabular}
+\end{table} 
+
+
 
 %we clear all floats before we go to the next patient
 \cleardoublepage
@@ -165,6 +188,28 @@ The structural variant calling with GRIDSS showed consistent presence of the \te
 \caption[Schematic of analysed tumour lesions in patient CA-J]{Schematic of analysed tumour lesions in patient CA-J: Primary diagnostic sample shown in red; All 18 autopsy samples were coloured by organ they were collected from: skull (1), left lung(5), right lung (6), diaphragm (2), liver(2), adrenal gland (2); Additionally to the post mortem blood sample, four serial blood samples were taken (\protect\autoref{fig:ca80timeline})} \label{fig:cas80schematic}
 \end{figure}
 
+\begin{table}
+\caption[Autopsy samples sequenced for patient CA-J]{Autopsy samples sequenced for patient CA-J: Sample number is the internal sample collection during CASCADE autopsy, the organ of the sample, the fraction of tumour cell from H\& E stain and the pathology of the tumour sample. Dx: diagnostic sample}\label{tab:ca80wgsSamples}
+\centering
+\rowcolors{2}{gray!15}{white}
+\begin{tabular}{|c|c|c|c|c|}
+\toprule
+\hline
+ \rowcolor{gray!50}
+\textbf{Sample number} & \textbf{Organ} & \textbf{H \& E} & \textbf{Type}\\
+\hline
+ Dx & left lung core & ? & \cellcolor{white} \\
+ 2 & adrenal gland & 0.5 & \cellcolor{white} \\
+ 20 & right lower lung & 0.7 & \cellcolor{white} \\
+ 24 & left upper lung & 0.9 & \cellcolor{white} \\
+ 28 & left middle lung & 0.5 & \cellcolor{white} \\
+ 32 & right upper lung & 0.5 & \cellcolor{white} \\
+ 42 & base of skull & 0.4 & \cellcolor{white}\multirow{-7}{*}{adenocarcinoma} \\
+ \hline
+\bottomrule
+\end{tabular}
+\end{table} 
+
 
 %we clear all floats before we go to the next patient
 \cleardoublepage
@@ -187,18 +232,43 @@ The structural variant calling with GRIDSS showed consistent presence of the \te
 \caption[Schematic of analysed tumour lesions in patient CA-K]{Schematic of analysed tumour lesions in patient CA-K: Primary diagnostic sample shown in red; All 17 autopsy samples were coloured by organ they were collected from: Brain (6), left lung (4), right lung (4), kidney (3); Additionally to the post mortem blood sample, two serial blood samples were taken (\protect\autoref{fig:ca82timeline})} \label{fig:cas82schematic}
 \end{figure}
 
+\begin{table}
+\caption[Autopsy samples sequenced for patient CA-K]{Autopsy samples sequenced for patient CA-K: Sample number is the internal sample collection during CASCADE autopsy, the organ of the sample, the fraction of tumour cell from H\& E stain and the pathology of the tumour sample. Dx: diagnostic sample}\label{tab:ca82wgsSamples}
+\centering
+\rowcolors{2}{gray!15}{white}
+\begin{tabular}{|c|c|c|c|c|}
+\toprule
+\hline
+ \rowcolor{gray!50}
+\textbf{Sample number} & \textbf{Organ} & \textbf{H \& E} & \textbf{Type}\\
+\hline
+ Dx & left lung core & ? & \cellcolor{white} \\
+ 1 & right kidney & ? & \cellcolor{white} \\
+ 4 & right upper lung & ? & \cellcolor{white} \\
+ 5 & right lower lung & ? & \cellcolor{white} \\
+ 6 & right middle lung & ? & \cellcolor{white} \\
+ 8 & left lower lung & ? & \cellcolor{white} \\
+ 9 & left upper lung & ? & \cellcolor{white} \\
+ 13 & left brain & ? & \cellcolor{white}\multirow{-7}{*}{adenocarcinoma} \\
+ \hline
+\bottomrule
+\end{tabular}
+\end{table} 
+
+
+
 %we clear all floats before we go to the next patient
 \cleardoublepage
 
 \subsection{Patient CA-L}
 \label{cascade-sec:CA86}
 
-This \todo{enter age} female patient presented with \textit{EGFR} mutant NSCLC, however after 12 months of the treatment with the EGFR inhibitor Erlotinib a transformation to small cell lung cancer (SCLC) was detected. While previously it was thought that the different subsets of lung cancers are distinct, more and more evidence is found showing neuroendocrine transformation as a resistance mechanism to targeted therapies not only in lung but also in prostate cancers \cite{Oser2015,Aggarwal2018}. The treatment was altered to chemotherapy and PD-1 inhibitors, however due to the loss of MHC-I antigen presentation of small cell lung cancer, the tumour failed to respond \cite{Burr2019} (\autoref{fig:ca82timeline}).
+This \todo{enter age} female patient presented with \textit{EGFR} mutant NSCLC, however after 12 months of the treatment with the EGFR inhibitor Erlotinib a transformation to small cell lung cancer (SCLC) was detected. While previously it was thought that the different subsets of lung cancers are distinct, more and more evidence is found showing neuroendocrine transformation as a resistance mechanism to targeted therapies not only in lung but also in prostate cancers \cite{Oser2015,Aggarwal2018}. The treatment was altered to chemotherapy and PD-1 inhibitors, however due to the loss of MHC-I antigen presentation of small cell lung cancer, the tumour failed to respond \cite{Burr2019} (\autoref{fig:ca86timeline}).
 
 \begin{figure}[!ht]
 \centering
 \includegraphics[width=.99\linewidth]{Figures/CA-L_timeline}
-\caption[Timeline of patient CA-L from diagnosis until death]{Timeline of patient CA-L from diagnosis until death: Diagnostic biopsy detected EGFR exon 19 deletion positive lung adenocarcinoma;  Biopsy after 15 months Erlotinib treatment showed signs of small cell transformation; blood samples were taken at the end of the first Erlotinib treatment, during the chemotherapy treatment and  28 and 29 months after the initial diagnosis.} \label{fig:ca82timeline}
+\caption[Timeline of patient CA-L from diagnosis until death]{Timeline of patient CA-L from diagnosis until death: Diagnostic biopsy detected EGFR exon 19 deletion positive lung adenocarcinoma;  Biopsy after 15 months Erlotinib treatment showed signs of small cell transformation; blood samples were taken at the end of the first Erlotinib treatment, during the chemotherapy treatment and  28 and 29 months after the initial diagnosis.} \label{fig:ca86timeline}
 \end{figure}
 
 
@@ -208,8 +278,28 @@ This \todo{enter age} female patient presented with \textit{EGFR} mutant NSCLC, 
 \begin{figure}[!ht]
 \centering
 \includegraphics[width=.99\linewidth]{Figures/CA-L_schematic_CA86_organColours}
-\caption[Schematic of analysed tumour lesions in patient CA-L]{Schematic of analysed tumour lesions in patient CA-L: Primary diagnostic sample shown in red; Samples are coloured by organ they were collected from: left lung (6), right lung (9), sternum (1), diaphragm (2), liver (3), adrenal gland (1) kidney (2), anal (1); Additionally to the post mortem blood sample, five serial blood samples were taken (\protect\autoref{fig:ca86timeline})} \label{fig:cas86schematic}
+\caption[Schematic of analysed tumour lesions in patient CA-L]{Schematic of analysed tumour lesions in patient CA-L: Primary diagnostic sample shown in red; Samples are coloured by organ they were collected from: left lung (6), right lung (9), sternum (1), diaphragm (2), liver (3), adrenal gland (1) kidney (2), anal (1); Additionally to the post mortem blood sample, five serial blood samples were taken (\protect\autoref{fig:ca86timeline})} \label{fig:ca86schematic}
 \end{figure}
+
+\begin{table}
+\caption[Autopsy samples sequenced for patient CA-K]{Autopsy samples sequenced for patient CA-K: Sample number is the internal sample collection during CASCADE autopsy, the organ of the sample, the fraction of tumour cell from H\& E stain and the pathology of the tumour sample. P.1/2: micro-dissected progression biopsy (80\% small cell, 20\% adeno)}\label{tab:ca86wesSamples}
+\centering
+\rowcolors{2}{gray!15}{white}
+\begin{tabular}{|c|c|c|c|c|}
+\toprule
+\hline
+ \rowcolor{gray!50}
+\textbf{Sample number} & \textbf{Organ} & \textbf{H \& E} & \textbf{Type}\\
+\hline
+ P.1 & right lung core & \cellcolor{gray!15} & small cell \\
+ P.2 & right lung core & \cellcolor{gray!15}\multirow{-2}{*}{>0.9} & adenocarcinoma \\
+ 8 & right upper lung & 0.9 & small cell \\
+ 17A & left lower lung & ? & poorly differentiated adeno \\
+ 26 & right kidney & ? & adenocarcinoma \\
+ \hline
+\bottomrule
+\end{tabular}
+\end{table} 
 
 
 
@@ -223,6 +313,6 @@ This \todo{enter age} female patient presented with \textit{EGFR} mutant NSCLC, 
 
 
 \subsection{Phylogenetic reconstruction}
-\label{cascade-sec:phylo}
+\label{cascade-sec:phylocohort}
 
 \todo[inline]{Phylogenies and comparisons}
