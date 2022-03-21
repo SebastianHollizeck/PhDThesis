@@ -59,7 +59,7 @@ Clonal deconvolution for each patient was done with PhylogicNDT. To ensure high 
 
 This patient was a 61 year old male  with a metastatic \textit{RET-KIF5B} fusion positive NSCLC. After failure of Carboplatin, Pemetrexed, and Pembrolizumab as well as Lenvatinib, with compassionate access to Selpercatinib (\autoref{fig:ca99timeline}) he experienced almost immediate improvement with decreased levels of carcinoembryonic antigen and almost 100\% reduction of fusion positive ctDNA after one month (\autoref{fig:ca99ctDNA}). Similar to the ctDNA analysis, Positron emission tomography-computed tomography imaging revealed significantly reduced tracer uptake in multiple sites and partial response (\autoref{fig:ca99pet}).
 
-\begin{figure}[!ht]
+\begin{figure}[ht]
 \centering
 \includegraphics[width=.99\linewidth]{Figures/CA-A_timeline}
 \caption[Timeline of patient CA-A from diagnosis until death]{Timeline of patient CA-A from diagnosis until death: Diagnostic biopsy detected \textit{KIF5B-RET} positive lung adenocarcinoma; SRS: stereotactic radiosurgery; WRBT: whole brain radiation therapy; a total of six blood samples were taken just before and during the selpercatinib treatment.} \label{fig:ca99timeline}
@@ -68,21 +68,21 @@ This patient was a 61 year old male  with a metastatic \textit{RET-KIF5B} fusion
 
 Serial sampling of the plasma of the patient and analysis with the commercial Guardant360 assay \cite{Talasaz2014} revealed the previously undetected RET~G810S resistance mutation after three months of treatment . While at this point the driver mutation allele frequency was still dropping in the plasma, by month four the abundance of RET~G810S had increased and was accompanied by additional mutations in the same site (RET~G810R, C and V). In addition with the increase of fusion positive ctDNA this suggests that any mutation in this site affects the efficiency of Selpercatinib. While the patient initially was responsive to the treatment, repeat PET scans showed a progressive disease after six months, which ultimately lead to the death of the patient (\autoref{fig:ca99pet}).
 
-\begin{figure}[!ht]
+\begin{figure}[ht]
 \centering
 \includegraphics[width=.99\linewidth]{Figures/CA-A_ctDNAstream}
 \caption[Allelic frequencies of of driver and emerging resistance mutations]{Allelic frequencies of of driver and emerging resistance mutations during Selpercatinib treatment (11 months after diagnosis); \textit{KIF5B-RET} fusion is the initiating driver with RET~G810R/S/C/V the emerging resistance SNPs} \label{fig:ca99ctDNA}
 \end{figure}
 
 
-\begin{figure}[!ht]
+\begin{figure}[ht]
 \centering
 \includegraphics[width=.99\linewidth]{Figures/CA-A_PETscans}
 \caption[PET scans of patient CA-A before and during Selpercatinib treatment]{PET scans of patient CA-A before and during Selpercatinib treatment} \label{fig:ca99pet}
 \end{figure}
 
 
-\begin{figure}[!ht]
+\begin{figure}[ht]
 \centering
 \includegraphics[width=.99\linewidth]{Figures/CA-A_schematic_CA99_organColours}
 \caption[Schematic of tumour lesions in patient CA-A]{Schematic of tumour lesions in patient CA-A: Primary diagnostic sample shown in red; All 24 autopsy samples were coloured by organ they were collected from: Brain (7), left lung (2), right lung (1), liver (9), T8 bone (1), ascitic fluid (1), adrenal gland (2), kidney (1); Additionally to the post mortem blood sample, six serial blood samples were taken (\protect\autoref{fig:ca99timeline})} \label{fig:ca99schematic}
@@ -91,7 +91,7 @@ Serial sampling of the plasma of the patient and analysis with the commercial Gu
 
 At autopsy, 24 tumour tissue biopsies and a post mortem blood sample were collected and eight of them were selected for WGS at 130x coverage (\autoref{fig:ca99schematic}, \autoref{tab:ca99wgsSamples}\todo{add that info or remove the column}) and analysed with the standard workflow (\autoref{cascade-sec:workflow}).
 
-\begin{table}
+\begin{table}[ht]
 \caption[Autopsy samples sequenced for patient CA-A]{Autopsy samples sequenced for patient CA-A: Sample number is the internal sample collection during CASCADE autopsy, the organ of the sample, the fraction of tumour cell from H\& E stain and the pathology of the tumour sample.}\label{tab:ca99wgsSamples}
 \centering
 \rowcolors{2}{gray!15}{white}
@@ -117,7 +117,53 @@ At autopsy, 24 tumour tissue biopsies and a post mortem blood sample were collec
 Somatic variant calling revealed substantial spatial heterogeneity, where both the occipital and the right pleura sample only contained RET~G810S, the right liver lobe harboured predominantly RET~G810R with either G810S and G810C as minor clones and lastly, the left liver samples showed almost even mix between G810C and G810S clones but no G810R presence \todo{do i need a figure here, like in the paper?}. The emergence of these mutations in multiple different sites at different allele frequencies, especially in already established sites in the liver, suggests that these mutations are the result of parallel evolution under positive selection through therapy, rather than seeding from one resistant clone.
 Apart from the mutations changing RET~G810 no other variants affecting \textit{RET} or any other lung cancer genes were found in multiple samples. The occipital sample also contained a BRCA1~V939A  mutation and one left liver sample (47) showed a synonymous KIT~S967\%3D mutation. Additionally, no other variant found in non cancer related genes allowed the same explanation of resistance
 
-The structural variant calling with GRIDSS showed consistent presence of the \textit{KIF5B-RET} fusion at high allele frequency (min: 0.27 max: 0.535), consistent with cancer cell fraction of 1 when correcting for local copy number changes  (min: 2 max: 3\todo{do i put a table or a figure here?}), in all but sample 31, which might be due to the low purity of the sample (\autoref{tab:ca99wgsSamples})
+The structural variant calling with GRIDSS showed consistent presence of the \textit{KIF5B-RET} fusion at high allele frequency (min: 0.27 max: 0.535), consistent with cancer cell fraction of 1 when correcting for local copy number changes  (min: 2 max: 3\todo{do i put a table or a figure here?}), in all but sample 31, which might be due to the low purity of the sample (\autoref{tab:ca99wgsSamples}). While there is a high number of structural variants present in each sample, consistent with genomic instability in late stages of cancer \cite{Gerstung2020} and wide spread chromosomal rearrangement as a hallmark of cancer \cite{Hanahan2022}, most of these rearrangements are sub-clonal and therefore not the main cause of resistance or cancer initiation and rather the result of rampant tumour evolution. To allow a more focused look at structural events and their effect, we restricted the visualisation to events with an allele frequency of 0.2 or higher (compare \autoref{fig:ca99.11circosnoAF} and \autoref{fig:ca99.11circos}).
+
+While this change also have a minute effect on the PURPLE copy number calls, which are informed by structural variants, these structural variants will also be sub-clonal and therefore removal will result in a cleaner clonal copy number profile.
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=.99\linewidth]{Figures/CA99-11.circos_0.05AF.png}
+\caption[Circos plot of patient CA-A sample 11 without allele frequency filter]{Circos plot of patient CA-A with all somatic structural variants: outer first ring shows the canonical chromosomes with gaps (centromere, heterochromatin,...) highlighted as darker areas; second ring visualises all somatic SNVs corrected for tumour purity and scaled from 0 to 1, the colour representing the base change of SNV like in \protect\textcite{Alexandrov2013}; vertical lines directly under the SNVs symbolise InDels, with yellow for insertions and red for deletions; the third ring shows the total copy number alterations, with green showing a copy number gain and red a loss, dots at the outer border show a copy number greater than four; the last ring shows the minor copy number, with blue depicting a gain and orange a loss, this ring allows the detection of copy number neutral changes, like loss of heterozygosity; the center shows all structural variants: translocations in blue, deletions in red, insertions in yellow, tandem duplications in green and inversions in black.} \label{fig:ca99.11circosnoAF}
+\end{figure}
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=.99\linewidth]{Figures/CA99-11.circos.png}
+\caption[Circos plot of patient CA-A sample 11]{Circos plot of patient CA-A with somatic structural variants with allele frequency $> 0.2$: outer first ring shows the canonical chromosomes with gaps (centromere, heterochromatin,...) highlighted as darker areas; second ring visualises all somatic SNVs corrected for tumour purity and scaled from 0 to 1, the colour representing the base change of SNV like in \protect\textcite{Alexandrov2013}; vertical lines directly under the SNVs symbolise InDels, with yellow for insertions and red for deletions; the third ring shows the total copy number alterations, with green showing a copy number gain and red a loss, dots at the outer border show a copy number greater than four; the last ring shows the minor copy number, with blue depicting a gain and orange a loss, this ring allows the detection of copy number neutral changes, like loss of heterozygosity; the center shows all structural variants: translocations in blue, deletions in red, insertions in yellow, tandem duplications in green and inversions in black.} \label{fig:ca99.11circos}
+\end{figure}
+
+\todo{think about putting the circos plot on one page} %, height=.4\textheight, keepaspectratio
+
+\Autoref{fig:ca99.11circos,fig:ca99.26circos,fig:ca99.41circos,fig:ca99.47circos,fig:ca99.55circos,fig:ca99.57circos,fig:ca99.59circos} show very similar copy number profiles of all tumour samples of patient CA-A, with loss of heterozygosity on almost all chromosomes apart from chromosome 5 and 9, only \autoref{fig:ca99.26circos} shows a less granular mix of gain and loss of the minor allele, which is most likely due to the lower tumour purity of the sample. However, all samples exhibit high copy number gain levels consistent with whole genome duplication (\Autoref{tab:ca99wgsSamples,tab:ca99cnv}). All samples show a copy number gain in chromosome 7 at the \textit{EGFR} locus leading to \textit{EGFR} amplification (min: 3.9 max: 9.9), which is a known resistance mechanism to Levantinib \cite{Jin2021} and was therefore most likely a result of previous treatment (\autoref{fig:ca99timeline}). Just as expected from the results of the Guardant360 ctDNA results leading up to the death of the patient, there is no \textit{MET} amplification present in the patient at any site\todo{Do i need more genes here?}.
+
+With the absence of any other plausible mechanism, of SNV, SV or CNV nature, the only possible explanation of resistance to Selpercatinib in the patient are the solvent front mutations RET~G810C/R/S/V as described in \textcite{Solomon2020}. However, the autopsy revealed substantial spatial heterogeneity of the emerged resistance mechanisms within the patient which was previously unappreciated.
+
+\begin{table}[ht]
+\caption[Copy number analysis results for patient CA-A]{Copy number analysis results for patient CA-A: results are taken from the best fit result of PURPLE; WG: whole genome}\label{tab:ca99cnv}
+\centering
+\rowcolors{2}{gray!15}{white}
+\begin{tabular}{|c|c|c|c|c|}
+\toprule
+\hline
+ \rowcolor{gray!50}
+\textbf{Sample number} & \textbf{purity} & \textbf{ploidy} & \textbf{polyclonal \%} & \textbf{WG duplication}\\
+\hline
+ 11 & \num{0.73} &	 \num{2.86} &	\num{29.75} & \cellcolor{white}	\\
+ 26 & \num{0.61} & \num{3.00} & \num{26.57} & \cellcolor{white} \\
+ 31 & \num{0.21} & \num{5.40} & \num{49.86} & \cellcolor{white} \\
+ 41 & \num{0.28} & \num{4.30} & \num{42.43} & \cellcolor{white} \\
+ 47 & \num{0.46} & \num{2.86} & \num{29.72} & \cellcolor{white} \\
+ 55 & \num{0.38} & \num{2.86} & \num{38.41} & \cellcolor{white} \\
+ 57 & \num{0.61} & \num{3.00} & \num{28.55} & \cellcolor{white} \\
+ 59 & \num{0.69} & \num{2.60} & \num{37.11} & \cellcolor{white}\multirow{-8}{*}{True} \\
+ \hline
+\bottomrule
+\end{tabular}
+\end{table} 
+
+With the high percentage of likely sub-clonality of samples (\Autoref{tab:ca99cnv}) we used PhylogicNDT to
+
 
 %we clear all floats before we go to the next patient
 \cleardoublepage
@@ -127,7 +173,7 @@ The structural variant calling with GRIDSS showed consistent presence of the \te
 
 
 
-\begin{figure}[!ht]
+\begin{figure}[ht]
 \centering
 \includegraphics[width=.99\linewidth]{Figures/CA-I_timeline}
 \caption[Timeline of patient CA-I from diagnosis until death]{Timeline of patient CA-I from diagnosis until death: Diagnostic biopsy detected EGFR exon 19 deletion lung adenocarcinoma; Second biopsy after 24 months revealed additional EGFR~T790M mutation and small cell transformation} \label{fig:ca51timeline}
@@ -135,13 +181,13 @@ The structural variant calling with GRIDSS showed consistent presence of the \te
 
 
 
-\begin{figure}[!ht]
+\begin{figure}[ht]
 \centering
 \includegraphics[width=.99\linewidth]{Figures/CA-I_schematic_CA51_organColours}
 \caption[Schematic of tumour lesions in patient CA-I]{Schematic of tumour lesions in patient CA-I: Primary diagnostic sample shown in red; All six autopsy samples were coloured by organ they were collected from: Parasternal (1), left lung (2), right lung (1), diaphragm (1), liver (1); Additionally a post mortem blood sample was taken} \label{fig:cas51schematic}
 \end{figure}
 
-\begin{table}
+\begin{table}[ht]
 \caption[Autopsy samples sequenced for patient CA-I]{Autopsy samples sequenced for patient CA-I: Sample number is the internal sample collection during CASCADE autopsy, the organ of the sample, the fraction of tumour cell from H\& E stain and the pathology of the tumour sample. Dx: diagnostic sample}\label{tab:ca51wesSamples}
 \centering
 \rowcolors{2}{gray!15}{white}
@@ -172,7 +218,7 @@ The structural variant calling with GRIDSS showed consistent presence of the \te
 \label{cascade-sec:CA80}
 
 
-\begin{figure}[!ht]
+\begin{figure}[ht]
 \centering
 \includegraphics[width=.99\linewidth]{Figures/CA-J_timeline}
 \caption[Timeline of patient CA-J from diagnosis until death]{Timeline of patient CA-J from diagnosis until death: Diagnostic biopsy detected EGFR~L858R positive stage IIIB lung adenocarcinoma; Second diagnosis after 3 months revealed additional brain and lung metastasis with a reclassification to stage IV; Biopsy at the end of erlotinib treatment revealed additional BRAF~V600E mutation; one blood sample was taken during the second round of chemotherapy and three more during the time the patient was enrolled in the EVICT trial} \label{fig:ca80timeline}
@@ -182,13 +228,13 @@ The structural variant calling with GRIDSS showed consistent presence of the \te
 
 
 
-\begin{figure}[!ht]
+\begin{figure}[ht]
 \centering
 \includegraphics[width=.99\linewidth]{Figures/CA-J_schematic_CA80_organColours}
 \caption[Schematic of analysed tumour lesions in patient CA-J]{Schematic of analysed tumour lesions in patient CA-J: Primary diagnostic sample shown in red; All 18 autopsy samples were coloured by organ they were collected from: skull (1), left lung(5), right lung (6), diaphragm (2), liver(2), adrenal gland (2); Additionally to the post mortem blood sample, four serial blood samples were taken (\protect\autoref{fig:ca80timeline})} \label{fig:cas80schematic}
 \end{figure}
 
-\begin{table}
+\begin{table}[ht]
 \caption[Autopsy samples sequenced for patient CA-J]{Autopsy samples sequenced for patient CA-J: Sample number is the internal sample collection during CASCADE autopsy, the organ of the sample, the fraction of tumour cell from H\& E stain and the pathology of the tumour sample. Dx: diagnostic sample}\label{tab:ca80wgsSamples}
 \centering
 \rowcolors{2}{gray!15}{white}
@@ -211,13 +257,35 @@ The structural variant calling with GRIDSS showed consistent presence of the \te
 \end{table} 
 
 
+\begin{table}[ht]
+\caption[Copy number analysis results for patient CA-J]{Copy number analysis results for patient CA-J: results are taken from the best fit result of PURPLE; WG: whole genome}\label{tab:ca80cnv}
+\centering
+\rowcolors{2}{gray!15}{white}
+\begin{tabular}{|c|c|c|c|c|}
+\toprule
+\hline
+ \rowcolor{gray!50}
+\textbf{Sample number} & \textbf{purity} & \textbf{ploidy} & \textbf{polyclonal \%} & \textbf{WG duplication}\\
+\hline
+ 2  & \num{0.24} & \num{2.00} & \num{15.72} & False	\\
+ 20 & \num{0.40} & \num{4.80} & \num{44.62} & \cellcolor{gray!15} \\
+ 24 & \num{0.73} & \num{3.70} & \num{32.41} & \cellcolor{gray!15} \\
+ 28 & \num{0.18} & \num{3.90} & \num{42.62} & \cellcolor{gray!15} \\
+ 32 & \num{0.25} & \num{4.75} & \num{49.71} & \cellcolor{gray!15} \\
+ 42 & \num{0.52} & \num{3.35} & \num{42.16} & \cellcolor{gray!15}\multirow{-5}{*}{True} \\
+ \hline
+\bottomrule
+\end{tabular}
+\end{table} 
+
+
 %we clear all floats before we go to the next patient
 \cleardoublepage
 
 \subsection{Patient CA-K}
 \label{cascade-sec:CA82}
 
-\begin{figure}[!ht]
+\begin{figure}[ht]
 \centering
 \includegraphics[width=.99\linewidth]{Figures/CA-K_timeline}
 \caption[Timeline of patient CA-K from diagnosis until death]{Timeline of patient CA-K from diagnosis until death: Diagnostic biopsy detected EGFR~L858R positive lung adenocarcinoma;  Biopsy 1 after 66 months showed additional EGFR~T790M mutation; Biopsy 2 showed no additional variants; one blood sample was taken towards the end of Osimertinib treatment and one second one during PD-1 checkpoint blockade treatment. E: Erlotinib; R: Rociletinib; P: PD-1 inhibitor} \label{fig:ca82timeline}
@@ -226,13 +294,13 @@ The structural variant calling with GRIDSS showed consistent presence of the \te
 
 
 
-\begin{figure}[!ht]
+\begin{figure}[ht]
 \centering
 \includegraphics[width=.99\linewidth]{Figures/CA-K_schematic_CA82_organColours}
 \caption[Schematic of analysed tumour lesions in patient CA-K]{Schematic of analysed tumour lesions in patient CA-K: Primary diagnostic sample shown in red; All 17 autopsy samples were coloured by organ they were collected from: Brain (6), left lung (4), right lung (4), kidney (3); Additionally to the post mortem blood sample, two serial blood samples were taken (\protect\autoref{fig:ca82timeline})} \label{fig:cas82schematic}
 \end{figure}
 
-\begin{table}
+\begin{table}[ht]
 \caption[Autopsy samples sequenced for patient CA-K]{Autopsy samples sequenced for patient CA-K: Sample number is the internal sample collection during CASCADE autopsy, the organ of the sample, the fraction of tumour cell from H\& E stain and the pathology of the tumour sample. Dx: diagnostic sample}\label{tab:ca82wgsSamples}
 \centering
 \rowcolors{2}{gray!15}{white}
@@ -256,6 +324,28 @@ The structural variant calling with GRIDSS showed consistent presence of the \te
 \end{table} 
 
 
+\begin{table}[ht]
+\caption[Copy number analysis results for patient CA-K]{Copy number analysis results for patient CA-K: results are taken from the best fit result of PURPLE; WG: whole genome}\label{tab:ca82cnv}
+\centering
+\rowcolors{2}{gray!15}{white}
+\begin{tabular}{|c|c|c|c|c|}
+\toprule
+\hline
+ \rowcolor{gray!50}
+\textbf{Sample number} & \textbf{purity} & \textbf{ploidy} & \textbf{polyclonal \%} & \textbf{WG duplication}\\
+\hline
+ 1 & \num{0.78} &	 \num{1.84} &	\num{7.62} & False	\\
+ 4 & \num{0.48} & \num{1.84} & \num{4.80} & False \\
+ 5 & \num{0.58} & \num{1.88} & \num{1.02} & False \\
+ 6 & \num{0.79} & \num{1.86} & \num{6.93} & False \\
+ 8 & \num{0.30} & \num{3.40} & \num{6.44} & True \\
+ 9 & \num{0.69} & \num{3.45} & \num{8.32} & True \\
+ 13 & \num{0.47} & \num{1.90} & \num{0.05} & False \\
+ \hline
+\bottomrule
+\end{tabular}
+\end{table} 
+
 
 %we clear all floats before we go to the next patient
 \cleardoublepage
@@ -265,7 +355,7 @@ The structural variant calling with GRIDSS showed consistent presence of the \te
 
 This \todo{enter age} female patient presented with \textit{EGFR} mutant NSCLC, however after 12 months of the treatment with the EGFR inhibitor Erlotinib a transformation to small cell lung cancer (SCLC) was detected. While previously it was thought that the different subsets of lung cancers are distinct, more and more evidence is found showing neuroendocrine transformation as a resistance mechanism to targeted therapies not only in lung but also in prostate cancers \cite{Oser2015,Aggarwal2018}. The treatment was altered to chemotherapy and PD-1 inhibitors, however due to the loss of MHC-I antigen presentation of small cell lung cancer, the tumour failed to respond \cite{Burr2019} (\autoref{fig:ca86timeline}).
 
-\begin{figure}[!ht]
+\begin{figure}[ht]
 \centering
 \includegraphics[width=.99\linewidth]{Figures/CA-L_timeline}
 \caption[Timeline of patient CA-L from diagnosis until death]{Timeline of patient CA-L from diagnosis until death: Diagnostic biopsy detected EGFR exon 19 deletion positive lung adenocarcinoma;  Biopsy after 15 months Erlotinib treatment showed signs of small cell transformation; blood samples were taken at the end of the first Erlotinib treatment, during the chemotherapy treatment and  28 and 29 months after the initial diagnosis.} \label{fig:ca86timeline}
@@ -275,14 +365,14 @@ This \todo{enter age} female patient presented with \textit{EGFR} mutant NSCLC, 
 
 
 
-\begin{figure}[!ht]
+\begin{figure}[ht]
 \centering
 \includegraphics[width=.99\linewidth]{Figures/CA-L_schematic_CA86_organColours}
 \caption[Schematic of analysed tumour lesions in patient CA-L]{Schematic of analysed tumour lesions in patient CA-L: Primary diagnostic sample shown in red; Samples are coloured by organ they were collected from: left lung (6), right lung (9), sternum (1), diaphragm (2), liver (3), adrenal gland (1) kidney (2), anal (1); Additionally to the post mortem blood sample, five serial blood samples were taken (\protect\autoref{fig:ca86timeline})} \label{fig:ca86schematic}
 \end{figure}
 
-\begin{table}
-\caption[Autopsy samples sequenced for patient CA-K]{Autopsy samples sequenced for patient CA-K: Sample number is the internal sample collection during CASCADE autopsy, the organ of the sample, the fraction of tumour cell from H\& E stain and the pathology of the tumour sample. P.1/2: micro-dissected progression biopsy (80\% small cell, 20\% adeno)}\label{tab:ca86wesSamples}
+\begin{table}[ht]
+\caption[Autopsy samples sequenced for patient CA-L]{Autopsy samples sequenced for patient CA-L: Sample number is the internal sample collection during CASCADE autopsy, the organ of the sample, the fraction of tumour cell from H\& E stain and the pathology of the tumour sample. P.1/2: micro-dissected progression biopsy (80\% small cell, 20\% adeno)}\label{tab:ca86wesSamples}
 \centering
 \rowcolors{2}{gray!15}{white}
 \begin{tabular}{|c|c|c|c|c|}

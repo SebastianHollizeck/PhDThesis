@@ -8,7 +8,7 @@ To ensure optimal mapping rates and no mapping related mismatches, the analysis 
 
 \section{Oligo-nucleotide context normalisation}
 \label{ch-mmfAppendix:oligoNorm}
-The ROI restriction of the analysis from \autoref{ch-mmfAppendix:bedfiles} automatically leads to a different tri- and di-nucleotide context frequency in the analysed regions, than the rest of the genome, which was used to generate the original signatures \cite{Alexandrov2020}. For this reason, MisMatchFinder analyses the oligo-nucleotide composition of the analysed regions and generates weighted counts by adjusting for the differences. 
+The ROI restriction of the analysis from \autoref{ch-mmfAppendix:bedfiles} automatically leads to a different tri- and di-nucleotide context frequency in the analysed regions, than the rest of the genome, which was used to generate the original signatures \cite{Alexandrov2020}. For this reason, MisMatchFinder analyses the oligo-nu\-cle\-o\-tide composition of the analysed regions and generates weighted counts by adjusting for the differences. 
 
 The baseline frequencies of both di- and tri-nucleotides were generated with the function \textit{oligonucleotideFrequency} from the ``Biostrings`` library \cite{Pages2020} using the hg38 BSgenome \cite{Pages2020a}. The raw counts of the di- and tri-nucleotides can be seen in \autoref{A:mmf:tab:dicounts} and \autoref{A:mmf:tab:tricounts} respectively.
 
@@ -104,7 +104,7 @@ As shown in \autoref{fig:mmf-mismatchrate}A, the amount of mismatches found in a
 
 \subsection{Zarr conversion with scikit-allel}
 \label{ch-mmfAppendix:zarr}
-While it is easy to access a zarr archive, both for reading and writing, once it is created, the generation requires time. The time is mostly computational and not so much development, as the scikit-allel package contains the function \lq$allel.vcf\_to\_zarr$\rq, which allows the direct conversion of VCF to zarr with only a few prerequisites. 
+While it is easy to access a zarr archive, both for reading and writing, once it is created, the generation requires time. The time is mostly computational and not so much development, as the scikit-allel package contains the function \lq\emph{allel.vcf\_to\_zarr}\rq, which allows the direct conversion of VCF to zarr with only a few prerequisites. 
 
 Importantly, tabix \cite{Li2011} can be used to split the conversion into multiple parts by restricting the process to specific regions.
 
@@ -116,7 +116,7 @@ import scikit-allel as allel
 allel.vcf_to_zarr(input="gnomad.genomes.r3.1.2.sites.vcf.bgz", output="/out/put/folder/",  group="chr1", region="chr1", fields="*")
 \end{lstlisting}
 
-When MisMatchFinder is installed on your system, the function \lq$generateZarrStorage$\rq is a wrapper, which allows the parallel conversion as well to resume a failed or incomplete attempt. It is equivalent to the above code and has only usability and ease of access as priorities. This automated version will convert all fields, which include fields never used in MisMatchFinder to optimise the memory footprint of the zarr representation, the option fields in \autoref{lst-mmfAppendix:zarr} can be set to the value shown in \autoref{lst-mmfAppendix:fields}.
+When MisMatchFinder is installed on your system, the function \lq\emph{generateZarrStorage}\rq\ is a wrapper, which allows the parallel conversion as well to resume a failed or incomplete attempt. It is equivalent to the above code and has only usability and ease of access as priorities. This automated version will convert all fields, which include fields never used in MisMatchFinder to optimise the memory footprint of the zarr representation, the option fields in \autoref{lst-mmfAppendix:zarr} can be set to the value shown in \autoref{lst-mmfAppendix:fields}.
 \begin{lstlisting}[language=Python, caption=field options for reduced memory, label={lst-mmfAppendix:fields}]
 fields="['variants/CHROM', 'variants/POS', 'variants/REF', 'variants/ALT', 'variants/AF', 'variants/FILTER_PASS']"
 \end{lstlisting}
@@ -195,7 +195,7 @@ selectionSBS7a <- sampleTableSBS7a[,.SD[sample(.N,size=SBS7a_GRCh38)], by="cosmi
 selectionSBS7a[,vaf:=0.1]
 \end{lstlisting}
 
-With the generated bed, bamsurgeon can be used to create the final mutated BAM. As we are using low coverage WGS as input, some parameters need to be adjusted to allow variants to be generated. Mostly, we need to allow bamsurgeon to even mutate regions with very low coverage (\lq--$mindepth~1$\rq), ignore the pileup of the original (\lq--$ignorepileup$\rq), allow a higher coverage difference (\lq--$d~0.7$\rq) and lastly allow bamsurgeon to NOT mutate a position (\lq--$minmutreads~0$\rq). To make the data creation reproducible, we also assign a seed of 1234.
+With the generated bed, bamsurgeon can be used to create the final mutated BAM. As we are using low coverage WGS as input, some parameters need to be adjusted to allow variants to be generated. Mostly, we need to allow bamsurgeon to even mutate regions with very low coverage (\lq\emph{--mindepth~1}\rq), ignore the pileup of the original (\lq\emph{--ignorepileup}\rq), allow a higher coverage difference (\lq\emph{-d~0.7}\rq) and lastly allow bamsurgeon to NOT mutate a position (\lq\emph{--minmutreads~0}\rq). To make the data creation reproducible, we also assign a seed of 1234.
 
 After the BAM generation, the actually spiked-in variants are generated sorted and indexed.
 

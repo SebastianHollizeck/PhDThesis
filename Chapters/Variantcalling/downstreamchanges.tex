@@ -1,4 +1,4 @@
-\section[Effects on downstream analysis]{Effects of calling additional somatic variants on downstream analysis}
+\section[Effects on downstream analysis]{Effects of additional somatic variants on downstream analysis}
 \label{variantcalling-sec:downstream}
 
 The ability to find additional shared variants has significant impact on our understanding of cancer evolution and the timing of initiation and metastatic seeding. Recent work has shown, that similar to the well known genetic heterogeneity, there is heterogeneity when it comes to the timing of metastatic seeding. While traditionally it was thought that tumours only metastasise after they reach a certain size, to escape the restrictions of the niche, like reduced nutrition, recent publications showed, there is also very early metastatic seeding \cite{Hu2019}. 
@@ -15,7 +15,7 @@ The only thing that NJ requires as an input is a distance matrix of all samples,
 
 \autoref{fig:ca9phylo} shows both the reconstructed phylogenies of the autopsy samples of the late stage melanoma patient ``CA-F`` from the manuscript (\autoref{ch:appendixManuscript}, \autoref{A:tab:S1}), using the variants found with the default tumour-normal method on the left and our improved joint method on the right. The exact same reconstruction methodology was used otherwise, such that only the different inputs lead to the final difference.
 
-\begin{figure}[!ht]
+\begin{figure}[ht]
 \centering
 \includegraphics[width=.99\linewidth]{Figures/phyloCA9.pdf}
 \caption[Reconstructed phylogenies of joint samples]{Reconstructed phylogenies of a patient with multiple spatially distinct samples; Neighbour joining on Hamming distance on variant occurrence vector. Tip labels describe the location of the sample in the patient. Trees are shown as unrooted with germline as fixated origin point; black line ruler shows the length of an edge with 2000 mutations}\label{fig:ca9phylo}
@@ -27,7 +27,7 @@ There are several obvious changes, first in the longer edge connecting the germl
 
 Secondly, there have been topological changes, which generate a longer bifuricating edge between the olive coloured ``r. liver lobe`` and the ``r. pariet. lobe`` showing a bottle neck in cancer evolution, which fits very well with the clinical history, where the patient lived with stable disease for almost ten years, before progressing and dying. The extreme distance of the primary/diagnostic sample from the rest of the samples could be either a difference in sequencing quality, or due to the exposure to FFPE for the ten years between tumour diagnosis and death. However, as this feature is preserved between both the joint and the pairwise analysis, it does not appear to be an effect of our new method.
 
-\begin{figure}[!ht]
+\begin{figure}[ht]
 \centering
 \includegraphics[width=.99\linewidth]{Figures/tanglePhyloCA9.pdf}
 \caption[Tanglegram of the reconstructed phylogenies]{Side by side view of the reconstructed trees from \autoref{fig:ca9phylo}; internal edges, which are distinct between trees are shown as dotted lines; common subtree is shown in red  Tree labels have been sorted to minimise distance between labels; Visualisation generated with dendextend \cite{Galili2015}}\label{fig:tanglePhyloCA9}
@@ -47,7 +47,7 @@ The initial motivation for the development of our workflows was the analysis of 
 
 In addition to their autopsy which resected nine distinct metastatic sites (\autoref{fig:CA-Fschematic}), Patient ``CA-F`` also had three longitudinal blood samples taken, from which ctDNA was extracted and WES performed. These blood samples were taken as non-invasive surveillance seven, five and two months before the death of the patient (\autoref{fig:CA-Ftimeline}). In a study of late stage melanoma patients, \Citeauthor{Tan2019} identified ctDNA sequencing as a way to stratify patients into high and low risk of relapse and therefore inform adjuvant therapy \cite{Tan2019}. This makes patient ``CA-F`` a very good test dataset to showcase the improvement with joint variant calling. Similar to the spatially related samples, the joint analysis can improve the performance, which then in turn enable the detection of lower allele frequency variants, either through lower tumour burden or through the limited availability of DNA fragments from brain lesions due to the blood brain barrier \cite{2014}.
 
-\begin{figure}[!ht]
+\begin{figure}[ht]
 \centering
 \includegraphics[width=.99\linewidth]{Figures/CA-F_timeline.pdf}
 \caption[Timeline from diagnosis till death for patient CA-F]{Timeline from diagnosis till death for patient CA-F: 1.9mm melanoma removed after diagnosis \dateenglish\formatdate{25}{07}{2003} but with negative sentinel lymph node biopsy; \dateenglish\formatdate{28}{06}{2012}: PET scan and subsequent liver biopsy confirm relapse with wide spread metastases; trametinib treatment from Oct. 2012 till Jan. 2013 with minor response; blood plasma samples during treatment (1 and 2) as well as after progression (3); death and rapid autopsy of nine metastatic sites (\dateenglish\formatdate{13}{04}{2013}, \protect\autoref{fig:CA-Fschematic}); Tumour fraction in plasma samples was estimated via the original driver mutation (BRAF:K601E)}\label{fig:CA-Ftimeline}
@@ -56,7 +56,7 @@ In addition to their autopsy which resected nine distinct metastatic sites (\aut
 
 To show that even in longitudinal data, the joint analysis can boost the signal, we jointly variant called the diagnostic biopsy sample with the three ctDNA samples and compared them with the results from the pairwise analysis. On average, we found 2905 additional variants in each of the ctDNA samples, which is more than doubles the average number of variants found with the pairwise analysis (2414). Out of those, we found 534 variants in the ctDNA samples, which were found as a high confidence variant in the diagnostic sample, indicating that these findings are high quality calls. 
 
-\begin{figure}[!ht]
+\begin{figure}[ht]
 \centering
 \includegraphics[width=.99\linewidth]{Figures/longitudinalCA9ctDNAVafs.pdf}
 \caption[Improved somatic variant calling in longitudinal data]{Improved somatic variant calling in longitudinal data: Variant allele frequency (VAF) of variants found additionally through joint variant calling which were found as high confidence variants in the primary sample; Variants with less than 0.1 VAF in the primary are coloured grey; ``T1 recovered`` shows variants, which were high confidence in all ctDNA samples but T1 and were only found through joint calling there; Axis label show the date of blood collection }\label{fig:longitudinalVAFsctDNA}
@@ -64,7 +64,7 @@ To show that even in longitudinal data, the joint analysis can boost the signal,
 
 Exactly like in the spatially different samples, in longitudinal data lower tumour purity samples benefit more from the joint analysis. We see that time point 2 (T2) has the highest amount of recovered variants (377) which are found as high confidence variants in both other time points (\autoref{fig:longitudinalVAFsctDNA} A vs. B vs. C) and T2 also has the lowest tumour purity in the cfDNA recorded (T1: 60\%; T2: 20\%; T3: 60\%) however, there are still 106 variants, which were not found in the ctDNA samples at all with the pairwise analysis at all, even though they were high confidence variants in the primary sample (\autoref{fig:longitudinalVAFsctDNA}F). These variants usually show a lower depth of coverage (dp) in the ctDNA samples, which may possibly indicate a problematic region in the genome, but rather than it not being called a variant, it is just a sign of incomplete data, which can be used with our joint approach. 
 
-\begin{figure}[!ht]
+\begin{figure}[ht]
 \centering
 \includegraphics[width=.99\linewidth]{Figures/longitudinalCA9primaryVafs.pdf}
 \caption[Longitudinal data informs diagnostic variant calling]{Longitudinal data informs diagnostic variant calling: Vafs of variants additionally found through joint calling in the primary samples; Primary recovered by PASS shows variants which were high confidence in at least one ctDNA sample; Primary recovered joint shows variant which were low confidence in all samples in the pairwise analysis; Axis label show the date of blood collection}\label{fig:longitudinalVAFsprimary}
@@ -86,7 +86,7 @@ In contrast to the lack of options for joint somatic variant calling, there is a
 
 Both the variants found with the default pairwise as well as with the new joint workflows were annotated with their local allele specific copy number to form a MAF like file format which is required by PhylogicNDT. While PhylogicNDT allows the user to supply the cancer cell fraction for every variant, the program can also estimate them from the supplied allelic counts and the copy number. Local copynumber calls were derived from copy number segment calls made by sequenza by intersecting chromosomal location of each variant with the copy number segment containing the variants location. This requires multiple steps and the source code is shown in \autoref{lst-jvcAppendix:parseVcf} (parsing VCF), \autoref{lst-jvcAppendix:cnv} and \autoref{lst-jvcAppendix:convertMAF} (convert to MAF format). Variants which couldnt be annotated with copy number information, because their genomic location did not overlap with any called copy number segment, were discarded for this analysis.
 
-\begin{figure}[!ht]
+\begin{figure}[ht]
 \centering
 \includegraphics[width=.99\linewidth]{Figures/clonalDeconv.pdf}
 \caption[Reconstructed clonal trees for joint and pairwise variant calling]{Reconstructed clonal trees from PhylogicNDT; Blue circle at top depicts the germline/normal state. The coloured edges with the same coloured circle represents a distinct subclone of the parent from which the edge emerges; The number in braces next to the edge is the number of mutations which define this subclone with an added gene symbol added, if there is a cancer driver gene mutation. The left part shows the result when using the default pairwise method of Strelka2 and the right side uses the results from the Strelka2Pass workflow}\label{fig:clonaldeconv}
@@ -101,7 +101,7 @@ It is of particular interest, that the \textit{CDC27} gene got mutated at differ
 \label{variantcalling-sec:fullphylo}
 Of course it is finally also possible to build a phylogeny with the spatial tissue samples and the longitudinal ctDNA samples. However, as the ctDNA give a holistic view of all cancer metastases (\autoref{intro-sec:ctDNA}) the interpretation needs to accommodate for that. 
 
-\begin{figure}[!ht]
+\begin{figure}[ht]
 \centering
 \includegraphics[width=.99\linewidth]{Figures/phyloCA9_withctDNA.pdf}
 \caption[Reconstructed phylogeny with longitudinal ctDNA samples]{Reconstructed phylogeny with longitudinal ctDNA samples: Tree from \autoref{fig:ca9phylo} with three additional ctDNA samples from different time points about one year prior to death. The ruler shows the equivalent of 2000 mutations} \label{fig:phyloCA9ctDNA}

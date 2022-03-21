@@ -8,7 +8,7 @@
 %% ---------------------------------------------------------------- 
 
 % Set up the document
-\documentclass[a4paper, 11pt, twoside]{Thesis}  % Use the "Thesis" style, based on the ECS Thesis style by Steve Gunn
+\documentclass[a4paper, 11pt, twoside, draft]{Thesis}  % Use the "Thesis" style, based on the ECS Thesis style by Steve Gunn
 %
 % Put your figures in this directory
 \graphicspath{Figures/}  % Location of the graphics files (set up for graphics to be in PDF format)
@@ -74,6 +74,10 @@
 
 %make it so that paragraphs are also numbered
 \setcounter{secnumdepth}{5}
+%and have a newline after them
+\usepackage{titlesec}
+\titleformat{\paragraph}[hang]{\normalfont\normalsize\bfseries}{\theparagraph}{1em}{}
+\titlespacing*{\paragraph}{0pt}{3.25ex plus 1ex minus .2ex}{0.5em}
 
 %make the font normal
 \urlstyle{rm}
@@ -188,11 +192,51 @@
   \cleardoublepage
 }
 
+%% ----------------------------------------------------------------
+
+%allow multi autoref
+\makeatletter
+
+% define a macro \Autoref to allow multiple references to be passed to \autoref
+\newcommand\Autoref[1]{\@first@ref#1,@}
+\def\@throw@dot#1.#2@{#1}% discard everything after the dot
+\def\@set@refname#1{%    % set \@refname to autoefname+s using \getrefbykeydefault
+    \edef\@tmp{\getrefbykeydefault{#1}{anchor}{}}%
+    \xdef\@tmp{\expandafter\@throw@dot\@tmp.@}%
+    \ltx@IfUndefined{\@tmp autorefnameplural}%
+         {\def\@refname{\@nameuse{\@tmp autorefname}s}}%
+         {\def\@refname{\@nameuse{\@tmp autorefnameplural}}}%
+}
+\def\@first@ref#1,#2{%
+  \ifx#2@\autoref{#1}\let\@nextref\@gobble% only one ref, revert to normal \autoref
+  \else%
+    \@set@refname{#1}%  set \@refname to autoref name
+    \@refname~\ref{#1}% add autoefname and first reference
+    \let\@nextref\@next@ref% push processing to \@next@ref
+  \fi%
+  \@nextref#2%
+}
+\def\@next@ref#1,#2{%
+   \ifx#2@ and~\ref{#1}\let\@nextref\@gobble% at end: print and+\ref and stop
+   \else, \ref{#1}% print  ,+\ref and continue
+   \fi%
+   \@nextref#2%
+}
+
+\makeatother
+
+
+
 
 %% ----------------------------------------------------------------
 
 % custom hyphenation
-%\hyphenation{mul-ti-sam-ple-va-ri-ant-call-ing}
+\hyphenation{germ-line}
+\hyphenation{me-la-no-ma}
+\hyphenation{anti-tu-mour-i-gen-ic}
+\hyphenation{nu-cle-o-tide}
+
+
 \Urlmuskip = 0mu plus 1mu
 
 
