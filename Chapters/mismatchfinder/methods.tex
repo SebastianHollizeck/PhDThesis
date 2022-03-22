@@ -64,7 +64,7 @@ When paired end sequencing of ctDNA is analysed, the fraction of fragments where
 
 \begin{figure}[!ht]
 \centering
-\includegraphics[width=.99\linewidth]{Figures/ConsensusMethodMisMatchFinder.pdf}
+\includegraphics[width=.99\linewidth]{Figures/MisMatchFinder/ConsensusMethodMisMatchFinder.pdf}
 \caption[Schematic of consensus computation method for overlapping reads]{Schematic of consensus computation method for overlapping reads in MisMatchFinder; Read 1 and Read 2 depict two overlapping paired end reads aligned to the reference sequence; Positions in the overlap are numbered for later referral; Read positions agreeing with the reference are coloured black, positions differing from the reference but agreeing in both reads are coloured purple (position 3) and differences between reads are coloured in the respective read colours (blue and red, position 6); Calculation for the resulting base quality (BQ$_{cons}$ for each possibility is shown as formulas)}\label{fig:mmf-consensus}
 \end{figure}
 
@@ -115,7 +115,7 @@ MisMatchFinder allows the use of either QP or ILM, as they in many cases produce
 
 \begin{figure}[!ht]
 \centering
-\includegraphics[width=.99\linewidth]{Figures/lowInputSignalDeconv.pdf}
+\includegraphics[width=.99\linewidth]{Figures/MisMatchFinder/lowInputSignalDeconv.pdf}
 \caption[Distance of deconvolution methods from truth]{Distances of the estimated weights generated with ILM and QP from the true weight used as input; Truth is a synthetic count sample with (SBS1: 0.25; SBS3: 0.05; SBS5: 0.46; SBS7a: 0.1; SBS19: 0.03; SBS21: 0.01; SBS31: 0.08; SBS57: 0.02;)}\label{fig:mmf-ILMerror}
 \end{figure}
  

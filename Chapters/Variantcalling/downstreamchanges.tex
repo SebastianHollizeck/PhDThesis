@@ -17,7 +17,7 @@ The only thing that NJ requires as an input is a distance matrix of all samples,
 
 \begin{figure}[ht]
 \centering
-\includegraphics[width=.99\linewidth]{Figures/phyloCA9.pdf}
+\includegraphics[width=.99\linewidth]{Figures/jointVariantCalling/phyloCA9.pdf}
 \caption[Reconstructed phylogenies of joint samples]{Reconstructed phylogenies of a patient with multiple spatially distinct samples; Neighbour joining on Hamming distance on variant occurrence vector. Tip labels describe the location of the sample in the patient. Trees are shown as unrooted with germline as fixated origin point; black line ruler shows the length of an edge with 2000 mutations}\label{fig:ca9phylo}
 \end{figure}
 
@@ -29,7 +29,7 @@ Secondly, there have been topological changes, which generate a longer bifuricat
 
 \begin{figure}[ht]
 \centering
-\includegraphics[width=.99\linewidth]{Figures/tanglePhyloCA9.pdf}
+\includegraphics[width=.99\linewidth]{Figures/jointVariantCalling/tanglePhyloCA9.pdf}
 \caption[Tanglegram of the reconstructed phylogenies]{Side by side view of the reconstructed trees from \autoref{fig:ca9phylo}; internal edges, which are distinct between trees are shown as dotted lines; common subtree is shown in red  Tree labels have been sorted to minimise distance between labels; Visualisation generated with dendextend \cite{Galili2015}}\label{fig:tanglePhyloCA9}
 \end{figure}
 \todo[inline, color=green]{maybe increase the line width of the edges}
@@ -49,7 +49,7 @@ In addition to their autopsy which resected nine distinct metastatic sites (\aut
 
 \begin{figure}[ht]
 \centering
-\includegraphics[width=.99\linewidth]{Figures/CA-F_timeline.pdf}
+\includegraphics[width=.99\linewidth]{Figures/jointVariantCalling/CA-F_timeline.pdf}
 \caption[Timeline from diagnosis till death for patient CA-F]{Timeline from diagnosis till death for patient CA-F: 1.9mm melanoma removed after diagnosis \dateenglish\formatdate{25}{07}{2003} but with negative sentinel lymph node biopsy; \dateenglish\formatdate{28}{06}{2012}: PET scan and subsequent liver biopsy confirm relapse with wide spread metastases; trametinib treatment from Oct. 2012 till Jan. 2013 with minor response; blood plasma samples during treatment (1 and 2) as well as after progression (3); death and rapid autopsy of nine metastatic sites (\dateenglish\formatdate{13}{04}{2013}, \protect\autoref{fig:CA-Fschematic}); Tumour fraction in plasma samples was estimated via the original driver mutation (BRAF:K601E)}\label{fig:CA-Ftimeline}
 \end{figure}
 
@@ -58,7 +58,7 @@ To show that even in longitudinal data, the joint analysis can boost the signal,
 
 \begin{figure}[ht]
 \centering
-\includegraphics[width=.99\linewidth]{Figures/longitudinalCA9ctDNAVafs.pdf}
+\includegraphics[width=.99\linewidth]{Figures/jointVariantCalling/longitudinalCA9ctDNAVafs.pdf}
 \caption[Improved somatic variant calling in longitudinal data]{Improved somatic variant calling in longitudinal data: Variant allele frequency (VAF) of variants found additionally through joint variant calling which were found as high confidence variants in the primary sample; Variants with less than 0.1 VAF in the primary are coloured grey; ``T1 recovered`` shows variants, which were high confidence in all ctDNA samples but T1 and were only found through joint calling there; Axis label show the date of blood collection }\label{fig:longitudinalVAFsctDNA}
 \end{figure}
 
@@ -66,7 +66,7 @@ Exactly like in the spatially different samples, in longitudinal data lower tumo
 
 \begin{figure}[ht]
 \centering
-\includegraphics[width=.99\linewidth]{Figures/longitudinalCA9primaryVafs.pdf}
+\includegraphics[width=.99\linewidth]{Figures/jointVariantCalling/longitudinalCA9primaryVafs.pdf}
 \caption[Longitudinal data informs diagnostic variant calling]{Longitudinal data informs diagnostic variant calling: Vafs of variants additionally found through joint calling in the primary samples; Primary recovered by PASS shows variants which were high confidence in at least one ctDNA sample; Primary recovered joint shows variant which were low confidence in all samples in the pairwise analysis; Axis label show the date of blood collection}\label{fig:longitudinalVAFsprimary}
 \end{figure}
 
@@ -88,7 +88,7 @@ Both the variants found with the default pairwise as well as with the new joint 
 
 \begin{figure}[ht]
 \centering
-\includegraphics[width=.99\linewidth]{Figures/clonalDeconv.pdf}
+\includegraphics[width=.99\linewidth]{Figures/jointVariantCalling/clonalDeconv.pdf}
 \caption[Reconstructed clonal trees for joint and pairwise variant calling]{Reconstructed clonal trees from PhylogicNDT; Blue circle at top depicts the germline/normal state. The coloured edges with the same coloured circle represents a distinct subclone of the parent from which the edge emerges; The number in braces next to the edge is the number of mutations which define this subclone with an added gene symbol added, if there is a cancer driver gene mutation. The left part shows the result when using the default pairwise method of Strelka2 and the right side uses the results from the Strelka2Pass workflow}\label{fig:clonaldeconv}
 \end{figure}
 
@@ -103,7 +103,7 @@ Of course it is finally also possible to build a phylogeny with the spatial tiss
 
 \begin{figure}[ht]
 \centering
-\includegraphics[width=.99\linewidth]{Figures/phyloCA9_withctDNA.pdf}
+\includegraphics[width=.99\linewidth]{Figures/jointVariantCalling/phyloCA9_withctDNA.pdf}
 \caption[Reconstructed phylogeny with longitudinal ctDNA samples]{Reconstructed phylogeny with longitudinal ctDNA samples: Tree from \autoref{fig:ca9phylo} with three additional ctDNA samples from different time points about one year prior to death. The ruler shows the equivalent of 2000 mutations} \label{fig:phyloCA9ctDNA}
 \end{figure}
 

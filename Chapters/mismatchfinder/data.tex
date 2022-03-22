@@ -13,7 +13,7 @@ To judge the ability of our approach to filter out sequencing errors, we first s
 
 \begin{figure}[!ht]
 \centering
-\includegraphics[width=.99\linewidth]{Figures/mismatchrateCleanSequencing.pdf}
+\includegraphics[width=.99\linewidth]{Figures/MisMatchFinder/mismatchrateCleanSequencing.pdf}
 \caption[Mismatchrate of different filtering methods]{Mismatchrate of different filtering methods on sequencing data simulated with ART\cite{Huang2011} for both 10x and 3x coverage; Mismatches correspond to simulated sequencing errors; all: no filters, overlap: only use the overlapping parts of paired end reads with consensus building (\protect\autoref{mmf-sec:consensus}), strict OL: overlap but reads \emph{must} agree, high BQ strict OL: strict OL with high BQ in both variants; A) Absolute counts B) counts from A normalised by the number of analysed bases all: all aligned bases, other: number of bases in read overlap}\label{fig:mmf-mismatchrate}
 \end{figure}
 
@@ -31,7 +31,7 @@ In the following section I will discuss the results for the simulation of the ve
 
 \begin{figure}[!ht]
 \centering
-\includegraphics[width=.9\linewidth]{Figures/spikeInSanityCheck.pdf}
+\includegraphics[width=.9\linewidth]{Figures/MisMatchFinder/spikeInSanityCheck.pdf}
 \caption[Signature analysis of spike-in somatic variants]{Signature analysis results of spiked-in somatic variants; signatures with a weight less than 1\% were collated into ``unknown``; The original spike-in signature was coloured in green (SBS3) and purple (SBS7a), unrelated signatures are coloured white and signatures corresponding to sequencing artefacts are coloured in lightgrey; r0.1 corresponds to approximately 0.1 variants per mega base; Weights were generated with deconstructSigs \cite{Rosenthal2016} }\label{fig:mmf-spikeinsanity}
 \end{figure}
 
@@ -40,7 +40,7 @@ The spike-in was done at multiple different ratios, to simulate varying tumour p
 
 \begin{figure}[!ht]
 \centering
-\includegraphics[width=.99\linewidth]{Figures/deconstructionMethodsDifferences.pdf}
+\includegraphics[width=.99\linewidth]{Figures/MisMatchFinder/deconstructionMethodsDifferences.pdf}
 \caption[Signature weight differences for different deconvolution methods]{Signature weight differences for different deconvolution methods; Methods are the quadratic programming (QP) and iterative linea model (ILM); deconvolution was performed on the same counts generated with MisMatchFinder on 7 simulated dataset with increasing mutational burden from 5 to 100 mutations per mega base spike-in; for 0 mutations per mega base, the normal sample used for the spike-in was used}\label{fig:mmf-methodDifferences}
 \end{figure}
 
@@ -53,7 +53,7 @@ With melanoma, TMB ranges from 0.1 to 100 mutations per mega base \cite{Alexandr
 
 \begin{figure}[!ht]
 \centering
-\includegraphics[width=.99\linewidth]{Figures/SBS7SpikeInSignatureDifferencesFocussed.pdf}
+\includegraphics[width=.99\linewidth]{Figures/MisMatchFinder/SBS7SpikeInSignatureDifferencesFocussed.pdf}
 \caption[Signature weights differences from normal for SBS7a spike-in]{Signature weights differences from normal for SBS7a spike-in; Weights were de-constructed with QP method in MisMatchFinder and the weights assigned to the normal sample used for the spike-in were subtracted; Only Signatures with $\text{original weight}\geq 1\%$ or a minimum difference of 0.5\% are shown. The full weights can be seen in \protect\autoref{A:fig:sbs7aspikeindifferences}; r0.1 corresponds to 0.1 mutations per mega base (287 variants) and r100 is the equivalent of 100 mutations per mega base (286974 variants)}\label{fig:mmf-spikeSBS7asignatures}
 \end{figure}
 
@@ -64,7 +64,7 @@ Just as with the SBS7a signatures, even for the much less specific signature SBS
 
 \begin{figure}[!ht]
 \centering
-\includegraphics[width=.99\linewidth]{Figures/SBS3SpikeInSignatureDifferencesFocussed.pdf}
+\includegraphics[width=.99\linewidth]{Figures/MisMatchFinder/SBS3SpikeInSignatureDifferencesFocussed.pdf}
 \caption[Signature weights differences from normal for SBS3 spike-in]{Signature weights differences from normal for SBS3 spike-in; Weights were deconstructed with QP method in MisMatchFinder and the weights assigned to the normal sample used for the spike-in were substracted; Only Signatures with $\text{original weight}\geq 1\%$ or a minimum difference of 0.5\% are shown. The full weights can be seen in \protect\autoref{A:fig:sbs3spikeindifferences}; r0.1 corresponds to 0.1 mutations per megabase (264 variants) and r100 is the equivalent of 100 mutations per megabase (285367 variants)}\label{fig:mmf-spikeSBS3signatures}
 \end{figure}
 
@@ -74,7 +74,7 @@ With real patient data, we can evaluate the effect of removing germline variants
 
 \begin{figure}[!ht]
 \centering
-\includegraphics[width=.99\linewidth]{Figures/noGermlineFilterAnalysis.pdf}
+\includegraphics[width=.99\linewidth]{Figures/MisMatchFinder/noGermlineFilterAnalysis.pdf}
 \caption[Signature analysis without germline variant filtering]{Signature analysis without germline variant filtering; Weights were deconstructed with QP method in MisMatchFinder, but in contrast to \protect\autoref{fig:mmf-methodDifferences}, the filter removing all known germline variants was disabled}\label{fig:mmf-noGermlineFilterAnalysis}
 \end{figure}
 
@@ -85,7 +85,7 @@ This increase in mismatches in the analysis dilutes the spike-in variants. \auto
 
 \begin{figure}[!ht]
 \centering
-\includegraphics[width=.99\linewidth]{Figures/spikeInPercentage.pdf}
+\includegraphics[width=.99\linewidth]{Figures/MisMatchFinder/spikeInPercentage.pdf}
 \caption[Percent increase of mismatches in analysis with and without germline filter]{Percent increase of mismatches in analysis with and without germline filter; Values are normalised to the number of mismatches found in the normal sample (depicted as \num{0} mutations per mega base); dotted grey line shows the maximum increase in the left panel (without germline filter)}\label{fig:mmf-percentIncrease}
 \end{figure}
 
@@ -95,7 +95,7 @@ As the sample was acquired through a healthy donor blood bank, we have no way to
 
 \begin{figure}[!ht]
 \centering
-\includegraphics[width=.99\linewidth]{Figures/noGermlineFilterSignaturesPieChart.pdf}
+\includegraphics[width=.99\linewidth]{Figures/MisMatchFinder/noGermlineFilterSignaturesPieChart.pdf}
 \caption[Signature weights of the normal sample with and without germline filter]{Signature weights of the normal sample with and without germline filter; MisMatchFinder derived signature weights with and without germline filter; weights below 1\% contribution are accumulated in ``unknown`` (darkgrey), lightgrey signatures show sequencing artefact signatures, yellow shows smoking related signatures and blue depicts APOBEC signatures}\label{fig:mmf-noGermlinePie}
 \end{figure}
  
@@ -119,7 +119,7 @@ To verify that our assumptions are correct, we performed a principle component a
 
 \begin{figure}[!ht]
 \centering
-\includegraphics[width=.99\linewidth]{Figures/countPCAsPC1vsPC2.pdf}
+\includegraphics[width=.99\linewidth]{Figures/MisMatchFinder/countPCAsPC1vsPC2.pdf}
 \caption[PCA of tri-nucleotide mismatch counts of real world data (PC1 and PC2)]{PCA (PC1 and PC2) of tri-nucleotide mismatch counts of healthy donor and tumour samples (melanoma and metastatic breast cancer) of varying purity; PCA was conducted on scaled and centered data}\label{fig:mmf-pca1v2}
 \end{figure}
 
@@ -237,7 +237,7 @@ Nevertheless, this result combined with the effective filtering of technical err
 
 \begin{figure}[!ht]
 \centering
-\includegraphics[width=.99\linewidth]{Figures/mbcbWESsignatures.pdf}
+\includegraphics[width=.99\linewidth]{Figures/MisMatchFinder/mbcbWESsignatures.pdf}
 \caption[Signature weights for the WGS of two MBCB patients]{Signature weights for the WGS of two MBCB patients; Colours show cancer associated signatures: blue (APOBEC), red (UV exposure), orange (tobacco), purple (chemotherapy), light grey (sequencing artefacts), dark grey (everything below 1\% weight)}\label{fig:mmf-mbcbWGSsigPie}
 \end{figure}
  
@@ -258,7 +258,7 @@ With the help of the WES of both the tissue and the cfDNA samples, we know what 
 
 \begin{figure}[!ht]
 \centering
-\includegraphics[width=.99\linewidth]{Figures/melanomaWESsignatures.pdf}
+\includegraphics[width=.99\linewidth]{Figures/MisMatchFinder/melanomaWESsignatures.pdf}
 \caption[Signature weights for the WES of two melanoma patients]{Signature weights for the WES of two melanoma patients; First column shows the results for the tissue baseline and middle and right column show the cfDNA; Colours show cancer associated signatures: blue (APOBEC), red (UV exposure), orange (tobacco), purple (chemotherapy), light grey (sequencing artefacts), dark grey (everything below 1\% weight)}\label{fig:mmf-melaWESsigPie}
 \end{figure}
  
