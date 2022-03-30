@@ -51,6 +51,7 @@ For structural variants, the effect annotation depends on the type of the struct
 \label{cascade-sec:phylo}
 
 \subsubsection{Clonal deconvolution}
+\label{cascade-sec:clonaldecon}
 
 Clonal deconvolution for each patient was done with PhylogicNDT. To ensure high quality reconstruction, variants were filtered if the depth of coverage is lower than 8. All other called variants were transformed into the input format required in R. Cancer cell fractions (CCF) were left to PhylogicNDT with the option \lq\emph{--maf\_input\_type calc\_ccf}\rq~ by supplying the allele specific local copy number call for each variant the same way as shown in \autoref{variantcalling-sec:clonal} with the copy number calls from \autoref{cascade-sec:cnv}.
 
@@ -427,7 +428,7 @@ Copy number analysis with sequenza revealed a high prevalence of loss of heteroz
 \end{tabular}
 \end{table} 
 
-
+\todo[inline]{talk about the RNAseq data with RB1 loss in some areas}
 
 %we clear all floats before we go to the next section
 \cleardoublepage
