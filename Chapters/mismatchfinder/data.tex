@@ -253,7 +253,7 @@ For melanoma real world data, we analysed multiple datasets, which allowed to hi
 
 \paragraph{Matched WES samples - when you know what the results should be}
 \label{mmf-sec:matchedMelanoma}
-With the help of the WES of both the tissue and the cfDNA samples, we know what the expected outcome for each of the lcWGS samples is, as the standard procedure for signature detection starts with somatic variants.  Strelka2 was used to call somatic variants and the high confidence somatic SNPs were then used in R to generate signature weights with deconstructSigs\todo{change this to sigminer}. As the most recent signatures were generated using whole genome sequencing, the input was normalised with the \lq \emph{exome2genome}\rq\ option when calculating weights.
+With the help of the WES of both the tissue and the cfDNA samples, we know what the expected outcome for each of the lcWGS samples is, as the standard procedure for signature detection starts with somatic variants.  Strelka2 was used to call somatic variants and the high confidence somatic SNPs were then used in R to generate signature weights with sigminer using default parameters for the GRCh38 genome build and the QP deconstruction method \cite{Wang2021}.
 
 
 \begin{figure}[!ht]
