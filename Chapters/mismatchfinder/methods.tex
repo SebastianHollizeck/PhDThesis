@@ -132,37 +132,42 @@ For the rest of this chapter, unless specified differently, the results shown wi
 \label{mmf-sec:sigdetection}
 Signature deconvolution with QP will lead to non negative signature weights for almost all of the signatures when using MisMatchFinder derived counts, however a positive signature does not necessarily signal the activity of this process in a tumour capacity due to the normal somatic mutation background and germline residual signal (\autoref{mmf-sec:germlineArtifacts}). To enable calling of significantly active signatures in samples, we developed a z-score like system, which uses the distribution of each signature weight in the healthy population as a background.
 
-As the weight values after deconvolution were between 0 and 1 inclusive the border, with a high enrichment for 0 and 0 adjacent weights, we chose the beta distribution with probability density function (PDF, \autoref{eq:betaPDF}) with shape parameters $\alpha$ and $\beta$ and normalisation constant $\Beta$ to ensure the cumulative density function (CDF) sums up to 1. 
+As the weight values after deconvolution were between 0 and 1 inclusive, with a high enrichment for 0 and 0-adjacent weights, we chose the beta distribution with probability density function (PDF, \autoref{eq:betaPDF}) with shape parameters $\alpha$ and $\beta$ and normalisation constant $\Beta$ to ensure the cumulative density function (CDF) sums up to 1. 
 \begin{equation}
 f(x; \alpha ,\beta)= \frac{1}{\Beta(\alpha, \beta)} x^{\alpha-1}(1-x)^{\beta-1}
 \label{eq:betaPDF}
 \end{equation}
 \myequation[\ref{eq:betaPDF}]{Beta distribution probability density function}
 
-To enable a z-score like estimation, we calculate the CDF-value (\autoref{eq:betaCDF}) for each patient samples $p$ signature weight $w$ of signature $s$ with healthy sample fitted shape parameters $\alpha_s$ and $\beta_s$ per signature. This allows us to estimate how many healthy samples would have a signature weight less than the patient sample for the respective signature $s$ (\autoref{eq:sigCDFScore}). While we did not see significant down regulation of signatures from the background, the method supports both over- and under-re\-pre\-sentation analysis. Ten percent of the tail of each signature were removed before fitting the shape parameters to minimise the impact of outliers.
+To enable a z-score like estimation, we calculate the $\lambda$-quantile of the cumulative density function of the beta distribution (\autoref{eq:betaCDF}) for each patient samples $p$ signature weight $w$ of signature $s$ with healthy sample fitted shape parameters $\alpha_s$ and $\beta_s$ per signature by solving  for $\lambda$ resulting in the inverse beta cumulative density function (\autoref{eq:invBetaCDF}). 
 
 \begin{equation}
-F(x; \alpha ,\beta)= \frac{\displaystyle\int_{0}^{x} t^{\alpha-1}(1-t)^{\beta-1} dt}{\Beta(\alpha, \beta)}
-\label{eq:betaCDF}
+F(x; \alpha ,\beta) = \frac{\displaystyle\int_{0}^{x} t^{\alpha-1}(1-t)^{\beta-1} dt}{\Beta(\alpha, \beta)}
+\label{eq:betaCDF} 
 \end{equation}
 \myequation[\ref{eq:betaCDF}]{Beta distribution cumulative density function}
 
+\begin{equation}
+x = F^{-1}(\lambda; \alpha ,\beta) = \left\{ x: F(x; \alpha, \beta) = \lambda \right\}
+\label{eq:invBetaCDF} 
+\end{equation}
+\myequation[\ref{eq:invBetaCDF}]{Inverse beta distribution cumulative density function}
 
+
+This allows us to estimate how many healthy samples would have a signature weight less than the patient sample for the respective signature $s$ (\autoref{eq:sigCDFScore}). While we did not see significant down regulation of signatures from the background, the method supports both over- and under-re\-pre\-sentation analysis. Ten percent of all samples were removed from both tails the distribution of each signature before fitting the shape parameters to minimise the impact of outliers.
 
 \begin{equation}
-\forall s \in Signatures,\ \forall p \in Patients:\ \text{CDF-score}(s,p) := F(w_s(p); \alpha_s ,\beta_s)
+\forall s \in Signatures,\ \forall p \in Patients:\ \text{CDF-score}(s,p) := \frac{w_s(p)}{F^{-1}(\lambda; \alpha_s ,\beta_s)}
 \label{eq:sigCDFScore}
 \end{equation}
-\myequation[\ref{eq:sigZScore}]{MisMatchFinder: CDF-score calculation per signature and patient}
+\myequation[\ref{eq:sigCDFScore}]{MisMatchFinder: CDF-score calculation per signature and patient}
 
-With a CDF-value $\geq 0.95$ we assumed a signature to be active over the normal background.
+We used a $\lambda = 0.99$ to calculate CDF-scores for all signatures and assumed a CDF-score of more than 2 to be significantly different.
 
 This allowed the prioritization of significantly changed signatures in the tumour samples with regards to our healthy background depending on the desired application. A higher CDF-score cut off will increase specificity at the cost of sensitivity.
 
 While most signature weights could be estimated very well with the moment matching estimation of fitdistrplus \cite{DelignetteMuller2015} some signatures did not show an ideal fit.  However in these cases, the fit resulted in a wider distribution with higher theoretical quantiles than empirically observed, which reduced the predictive power of the signature. These signatures also showed a double peak distribution indicative of a population sub structure in the healthy population (\Autoref{A:fig:fittedDistsSBS3,A:fig:fittedDistsSBS17a} vs. \Autoref{A:fig:fittedDistsSBS12,A:fig:fittedDistsSBS46}).
 
-
-\todo[color=green,inline]{This is basically calculating the quantile and using that as a cutoff, do i rewrite that}
 
 \subsection{Tumour detection}
 \label{mmf-sec:tumourdetection}
