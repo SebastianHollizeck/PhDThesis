@@ -58,12 +58,29 @@ Variants called in any sample were transformed into a binary presence/absence ve
 \subsubsection{Clonal deconvolution}
 \label{cascade-sec:clonaldecon}
 
-Clonal deconvolution for each patient was done with PhylogicNDT. To ensure high quality reconstruction, variants were filtered if the depth of coverage is lower than 8. All other called variants were transformed into the input format required in R. Cancer cell fractions (CCF) were left to PhylogicNDT with the option \lq\emph{--maf\_input\_type calc\_ccf}\rq~ by supplying the allele specific local copy number call for each variant the same way as shown in \autoref{variantcalling-sec:clonal} with the copy number calls from \autoref{cascade-sec:cnv}.
+Clonal deconvolution for each patient was done with PhylogicNDT Cancer cell fractions (CCF) were left to PhylogicNDT with the option \lq\emph{--maf\_input\_type calc\_ccf}\rq\ by supplying the allele specific local copy number call for each variant the same way as shown in \autoref{variantcalling-sec:clonal} with the copy number calls from \autoref{cascade-sec:cnv}. If no copy number was reported for a variant, it was removed from the analysis.
 
-\todo[inline, color=green]{add a paragraph about filtering it down to protein altering mutations}
+For the clustering of variants all variants with no known protein changing function were included, by removing all variants with the VEP consequence ``intergenic\_variant``, ``intron\_variant``, ``upstream\_gene\_variant``, or ``downstream\_gene\_variant``. While these variants certainly might distinguish clones within the sample, they could only arise through random genetic drift and did not relate to resistance mechanisms. 
+
+As PhylogicNDT can only visualise 58 distinct clusters, due to the limit of distinct colours, we restricted the analysis after clustering all mutations. Clusters with a variant in one of the 319 driver genes suggested by PhylogicNDT were always retained. All other clusters were automatically removed, if the number of variants $n$ supporting the cluster was smaller than 10, or the CCF value in each sample was too homogeneous, or the confidence interval $CI$ of the CCF value was too high.
+
+The homogeneity of the CCF value of a cluster $c$ was assessed by calculating the z-score of each sample $s$ CCF in respect to all other samples CCF. If one samples z-score indicted a fold change of less than 1.5, the cluster was removed (\autoref{eq:clusterRestriction}).
+
+\begin{equation}
+Inclusion(c) = 
+	\left\{ 
+	\begin{array}{@{}lcr@{}}
+		\text{FALSE,} & for & n_c(vars) < 10 \\
+	 	\text{FALSE,} & for & \forall s:\ | \text{z-score}(CCF_s) | < 1.5 \\
+		\text{FALSE,} & for &\forall s:\ CI(CCF_s) < 0.1 \\
+		\text{TRUE,} & else &\\
+\end{array} \right. 
+\label{eq:clusterRestriction}
+\end{equation}
+\myequation[\ref{eq:clusterRestriction}]{Inclusion criteria for cluster of PhylogicNDT analysis}
 
 
-\cleardoublepage
+\clearpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                               Patient CA99                                          %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -129,7 +146,7 @@ At autopsy, 24 tumour tissue biopsies and a post mortem blood sample were collec
 \end{table} 
 
 Somatic variant calling revealed substantial spatial heterogeneity, where both the occipital and the right pleura sample only contained RET~G810S, the right liver lobe harboured predominantly RET~G810R with either G810S and G810C as minor clones and lastly, the left liver samples showed almost even mix between G810C and G810S clones but no G810R presence. The emergence of these mutations in multiple different sites at different allele frequencies, especially in already established sites in the liver, suggests that these mutations are the result of parallel evolution under positive selection through therapy, rather than seeding from one resistant clone.
-Apart from the mutations changing RET~G810 no other variants affecting \textit{RET} or any other lung cancer genes were found in multiple samples. The occipital sample also contained a BRCA1~V939A  mutation and one left liver sample (47) showed a synonymous KIT~S967\%3D mutation. Additionally, no other variant found in non cancer related genes allowed the same explanation of resistance (\autoref{fig:cas99heatmap}).
+Apart from the mutations changing RET~G810 no other variants affecting \textit{RET} or any other lung cancer genes were found in multiple samples. The occipital sample also contained a BRCA1~V939A  mutation and one left liver sample (47) showed a synonymous KIT~S967\%3D mutation. Additionally, no other variant found in non cancer related genes allowed the same explanation of resistance (\autoref{fig:ca99heatmap}).
 
 Phylogeny based on the short variants shows a nice clustering into right (26 and 57) and left liver (41, 47, and 55) with ocipital and pleural sample sharing the most mutations as a hint towards the longest evolutionary trajectory and final progression. There also exists a bifurcating line separating progression (11, 41,47,55; top right) and stable disease sites. The much lower and higher number of both samples 31 and 41 were due to the low tumour purity of those samples (\Autoref{tab:ca99wgsSamples,tab:ca99cnv}, \autoref{fig:ca99phylo}).
 
@@ -142,7 +159,7 @@ Phylogeny based on the short variants shows a nice clustering into right (26 and
 \begin{figure}[ht]
 \centering
 \includegraphics[width=.99\linewidth]{Figures/CASCADE/CA99/CA99varHeatmap.pdf}
-\caption[Heatmap of driver gene variants in patient CA-A]{Heatmap of driver gene variants in patient CA-A: Protein altering mutations are highlighted with their HGVSp notation; non protein altering mutations are grouped as ``other``.} \label{fig:cas99heatmap}
+\caption[Heatmap of driver gene variants in patient CA-A]{Heatmap of driver gene variants in patient CA-A: Protein altering mutations are highlighted with their HGVSp notation; non protein altering mutations are grouped as ``other``.} \label{fig:ca99heatmap}
 \end{figure}
 
 
@@ -218,12 +235,12 @@ This 56 year old female never smoker presented with \textit{EGFR} exon 19 deleti
 	\caption[Timeline of patient CA-I from diagnosis until death]{Timeline of patient CA-I from diagnosis until death: Diagnostic biopsy detected EGFR exon 19 deletion lung adenocarcinoma; Second biopsy after 24 months revealed additional EGFR~T790M mutation and small cell transformation} \label{fig:ca51timeline}
 \end{figure}
 
-At autopsy six lesions and one blood sample were collected and biobanked (\autoref{fig:cas51schematic}). After quality assessment by pathology with H\& E stain, all autopsy samples and the initial diagnostic biopsy were sequenced as WES (\autoref{tab:ca51wesSamples}) and analysed with the standard workflow (\autoref{cascade-sec:workflow}). The secondary small cell confirmation biopsy at 29 months did not contain enough tissue for sequencing.
+At autopsy six lesions and one blood sample were collected and biobanked (\autoref{fig:ca51schematic}). After quality assessment by pathology with H\& E stain, all autopsy samples and the initial diagnostic biopsy were sequenced as WES (\autoref{tab:ca51wesSamples}) and analysed with the standard workflow (\autoref{cascade-sec:workflow}). The secondary small cell confirmation biopsy at 29 months did not contain enough tissue for sequencing.
 
 \begin{figure}[ht]
 	\centering
 	\includegraphics[width=.99\linewidth]{Figures/CASCADE/CA51/CA-I_schematic_CA51_organColours}
-	\caption[Schematic of tumour lesions in patient CA-I]{Schematic of tumour lesions in patient CA-I: Primary diagnostic sample shown in red; All six autopsy samples were coloured by organ they were collected from: Parasternal (1), left lung (2), right lung (1), diaphragm (1), liver (1); Additionally a post mortem blood sample was taken} \label{fig:cas51schematic}
+	\caption[Schematic of tumour lesions in patient CA-I]{Schematic of tumour lesions in patient CA-I: Primary diagnostic sample shown in red; All six autopsy samples were coloured by organ they were collected from: Parasternal (1), left lung (2), right lung (1), diaphragm (1), liver (1); Additionally a post mortem blood sample was taken} \label{fig:ca51schematic}
 \end{figure}
 
 
@@ -259,13 +276,13 @@ In contrast, the diagnostic sample showed a much higher number of mutations, whi
 	\caption[Phylogeny of autopsy samples from patient CA-I]{Phylogeny of autopsy samples from patient CA-I; reconstructed with all somatic SNVs and InDels. Ruler symbolises 2000 Variants difference. The phylogeny with diagnostic sample can be found in \protect\autoref{fig:ca51phyloWithDx}} \label{fig:ca51phylo}
 \end{figure}
 
-Due to the pathology information of small cell transformation, we could highlight an intronic \textit{TP53} mutations, which is present at almost 100\% VAF in all autopsy samples. However the same variant was also found in the diagnostic sample, which was reportedly adenocarcinoma. The variant was therefore not sufficient to drive the transformation, but could have been a predisposition for the patient (\autoref{fig:cas51heatmap}).
+Due to the pathology information of small cell transformation, we could highlight an intronic \textit{TP53} mutations, which is present at almost 100\% VAF in all autopsy samples. However the same variant was also found in the diagnostic sample, which was reportedly adenocarcinoma. The variant was therefore not sufficient to drive the transformation, but could have been a predisposition for the patient (\autoref{fig:ca51heatmap}).
 
 
 \begin{figure}[ht]
 \centering
 \includegraphics[width=.99\linewidth]{Figures/CASCADE/CA51/CA51varHeatmap.pdf}
-\caption[Heatmap of driver gene variants in patient CA-I]{Heatmap of driver gene variants in patient CA-I: Protein altering mutations are highlighted with their HGVSp notation; non protein altering mutations are grouped as ``other``.} \label{fig:cas51heatmap}
+\caption[Heatmap of driver gene variants in patient CA-I]{Heatmap of driver gene variants in patient CA-I: Protein altering mutations are highlighted with their HGVSp notation; non protein altering mutations are grouped as ``other``.} \label{fig:ca51heatmap}
 \end{figure}
 
 
@@ -351,13 +368,13 @@ Patient CA-J was a 65 year old female never smoker, who presented with moderatel
 \end{figure}
 
 
-At autopsy 18 sites of disease were resected and biobanked. A representative six samples from different organs and sites were selected and WGS performed after H\& E staining confirmed high enough tumour purity (\autoref{tab:ca80wgsSamples}, \autoref{fig:cas80schematic}). All WGS samples were analysed with the standard analysis workflow (\autoref{cascade-sec:workflow}).
+At autopsy 18 sites of disease were resected and biobanked. A representative six samples from different organs and sites were selected and WGS performed after H\& E staining confirmed high enough tumour purity (\autoref{tab:ca80wgsSamples}, \autoref{fig:ca80schematic}). All WGS samples were analysed with the standard analysis workflow (\autoref{cascade-sec:workflow}).
 
 
 \begin{figure}[ht]
 \centering
 \includegraphics[width=.99\linewidth]{Figures/CASCADE/CA80/CA-J_schematic_CA80_organColours}
-\caption[Schematic of analysed tumour lesions in patient CA-J]{Schematic of analysed tumour lesions in patient CA-J: Primary diagnostic sample shown in red; All 18 autopsy samples were coloured by organ they were collected from: skull (1), left lung(5), right lung (6), diaphragm (2), liver(2), adrenal gland (2); Additionally to the post mortem blood sample, four serial blood samples were taken (\protect\autoref{fig:ca80timeline})} \label{fig:cas80schematic}
+\caption[Schematic of analysed tumour lesions in patient CA-J]{Schematic of analysed tumour lesions in patient CA-J: Primary diagnostic sample shown in red; All 18 autopsy samples were coloured by organ they were collected from: skull (1), left lung(5), right lung (6), diaphragm (2), liver(2), adrenal gland (2); Additionally to the post mortem blood sample, four serial blood samples were taken (\protect\autoref{fig:ca80timeline})} \label{fig:ca80schematic}
 \end{figure}
 
 \begin{table}[ht]
@@ -384,7 +401,7 @@ At autopsy 18 sites of disease were resected and biobanked. A representative six
 
 Somatic variant calling revealed heterogeneity of resistance and driver mutations. While the intial driver variant EGFR~L858R was present in all autopsy samples at varying allele frequency (min: 0.12, max: 1, median:1), the secondary BRAF~V600E mutation, which was detected in the progression biopsy 22 months after diagnosis, was not present in sample 28 and only at very low allele frequency (0.03) in sample 24. Sample 42 showed the \textit{BRAF} mutation at only 0.61 VAF. While the absence in sample 28 could be explained by the overall low tumour purity of the sample, both 24 and 42 had a higher than 50\% tumour purity. The subclonal nature of the \textit{BRAF} shows the importance of accurately measuring the heterogeneity of the disease, as a \textit{BRAF} targeted treatment would have only affected half of the sites analysed in this work. Additionally to the \textit{BRAF} mutation, some sites (2, 20, 32 and 42) developed a ``stop gained`` mutation in \textit{TP53} (TP53~G38Ter) at 100\% VAF. While both the \textit{BRAF} and \textit{TP53} mutations were present at similar allele fractions in the diagnostic sample (Dx) suggesting a clonal structure, the \textit{TP53} variant was more prevalent at autopsy all samples. So while \textit{BRAF} and \textit{TP53} mutations were correlated in the diagnostic sample, the \textit{TP53} ``stop gained`` developed independently.
 Sample 24 in spite of showing traces of BRAF~V600E did not develop a \textit{TP53} mutation and sample 28, which did not contain a \textit{BRAF} change instead exhibited two different additional putative driver events (FLT4~V1097M and KEAP1~Q282H) which were not observed in any other sample. 
-Finally, Sample 32 also contained a subclonal KRAS~L5Q mutation in addition to both \textit{BRAF} and \textit{TP53} mutations (\autoref{fig:cas80heatmap}). 
+Finally, Sample 32 also contained a subclonal KRAS~L5Q mutation in addition to both \textit{BRAF} and \textit{TP53} mutations (\autoref{fig:ca80heatmap}). 
 
 The emergence of the \textit{TP53} mutations was a expansion event for samples 2, 20, 32, and 42 differentiating them from the left lung samples (\autoref{fig:ca80phylo})	. \todo{did the samples progress differently?}
 
@@ -398,7 +415,7 @@ The emergence of the \textit{TP53} mutations was a expansion event for samples 2
 \begin{figure}[ht]
 \centering
 \includegraphics[width=.99\linewidth]{Figures/CASCADE/CA80/CA80varHeatmap.pdf}
-\caption[Heatmap of driver gene variants in patient CA-J]{Heatmap of driver gene variants in patient CA-J: Protein altering mutations are highlighted with their HGVSp notation; non protein altering mutations are grouped as ``other``.} \label{fig:cas80heatmap}
+\caption[Heatmap of driver gene variants in patient CA-J]{Heatmap of driver gene variants in patient CA-J: Protein altering mutations are highlighted with their HGVSp notation; non protein altering mutations are grouped as ``other``.} \label{fig:ca80heatmap}
 \end{figure}
 
 
@@ -473,7 +490,7 @@ Both the somatic variants as well as copy number analysis showed clear signs of 
 \end{figure}
 
 
-At autopsy 18 sites were resected and biobanked and seven high quality representative samples from different organs were selected for WGS (\autoref{fig:cas82schematic}, \autoref{tab:ca82wgsSamples}) and analysed with the standard workflow (\autoref{cascade-sec:workflow}). \todo[inline, color=green]{ddPCR/AVENIO on plasma with AKT1?}
+At autopsy 18 sites were resected and biobanked and seven high quality representative samples from different organs were selected for WGS (\autoref{fig:ca82schematic}, \autoref{tab:ca82wgsSamples}) and analysed with the standard workflow (\autoref{cascade-sec:workflow}). \todo[inline, color=green]{ddPCR/AVENIO on plasma with AKT1?}
 
 
 
@@ -481,7 +498,7 @@ At autopsy 18 sites were resected and biobanked and seven high quality represent
 \begin{figure}[ht]
 \centering
 \includegraphics[width=.99\linewidth]{Figures/CASCADE/CA82/CA-K_schematic_CA82_organColours}
-\caption[Schematic of analysed tumour lesions in patient CA-K]{Schematic of analysed tumour lesions in patient CA-K: Primary diagnostic sample shown in red; All 17 autopsy samples were coloured by organ they were collected from: Brain (6), left lung (4), right lung (4), kidney (3); Additionally to the post mortem blood sample, two serial blood samples were taken (\protect\autoref{fig:ca82timeline})} \label{fig:cas82schematic}
+\caption[Schematic of analysed tumour lesions in patient CA-K]{Schematic of analysed tumour lesions in patient CA-K: Primary diagnostic sample shown in red; All 17 autopsy samples were coloured by organ they were collected from: Brain (6), left lung (4), right lung (4), kidney (3); Additionally to the post mortem blood sample, two serial blood samples were taken (\protect\autoref{fig:ca82timeline})} \label{fig:ca82schematic}
 \end{figure}
 
 \begin{table}[ht]
@@ -511,7 +528,7 @@ At autopsy 18 sites were resected and biobanked and seven high quality represent
 Joint somatic variant calling on all autopsy samples revealed significant genetic heterogeneity on Resistance mechanisms present at each site. While the initial EGFR~L858R mutation was still present in all sequenced lesions, the left lower lung sample (8) was the only one with a homozygous variant. All other samples presented with 50\% VAF for the activating mutation. Biopsy 1, 66 months after diagnosis, showed additional EGFR~T790M mutation, but at autopsy sample 1 (adrenal gland) did not show evidence of the mutation at all and samples 8, 9, and 13 (left lung and brain) only exhibit the variant at subclonal ($<30\%$ VAF). Either the mutation was already subclonal at biopsy, or the resistance was out-competed by a different clone due to the Osimertinib treatment which targets T790M. The adrenal gland lesion, which did not contain the T790M mutation, instead presented with two other clonal EGFR mutations (S720T and L718Q) which are both known resistant mechanisms to Osimertinib and Dasatinib \cite{Johnson2010,Bersanelli2016}.
 
 Additionally the mutations AKT1~G17L and APC~E190Ter bifurcate the the autopsy samples into two groups, because the variants are mostly mutually exclusive, where only samples 8 and 9 showed both the stop gained \textit{APC} mutation at 100\% VAF with very low VAF of the \textit{AKT1} mutation. Furthermore, several \textit{EGFR} mutations also showed different spatial clonal abundance. Multiple samples exhibited different C797 substitutions both of which are known resistance mechanisms to Osimertinib \cite{Wang2016,Leonetti2019}: Sample 4 contained the EGFR~C797G mutation at 7\% VAF whereas samples 6, 8, and 9, had a C797S mutation at 1\%, 14\%, and 22\% VAF respectively. However, while 8 shared the sample protein change (C797S) the genomic change is different to both sample 6 and 9. Only sample contained EGFR~L792H as subclonal mutation at 11\% VAF and both sample 1 and 6 contained a minor clonal EGFR~S720T, known resistance mechanisms \cite{Johnson2010,Zhang2018b}. Additionally to the adrenal sample both lower and middle lower lung samples contained EGFR~L718Q. 
-Lastly, all but sample 8 contain the \textit{SMAD4} frameshift mutation at a median cancer cell fraction of 73\% (min: 16\%, max: 100\%) (\autoref{fig:cas82heatmap}).
+Lastly, all but sample 8 contain the \textit{SMAD4} frameshift mutation at a median cancer cell fraction of 73\% (min: 16\%, max: 100\%) (\autoref{fig:ca82heatmap}).
 
 These splits nicely grouped the samples according to their organ of origin right kidney (1) and left brain (13) as outliers and left (8 and 9) and right lung (4, 5, and 6) (\autoref{fig:ca82phylo}).
 
@@ -525,7 +542,7 @@ These splits nicely grouped the samples according to their organ of origin right
 \begin{figure}[ht]
 \centering
 \includegraphics[width=.99\linewidth]{Figures/CASCADE/CA82/CA82varHeatmap.pdf}
-\caption[Heatmap of driver gene variants in patient CA-K]{Heatmap of driver gene variants in patient CA-K: Protein altering mutations are highlighted with their HGVSp notation; non protein altering mutations are grouped as ``other``.} \label{fig:cas82heatmap}
+\caption[Heatmap of driver gene variants in patient CA-K]{Heatmap of driver gene variants in patient CA-K: Protein altering mutations are highlighted with their HGVSp notation; non protein altering mutations are grouped as ``other``.} \label{fig:ca82heatmap}
 \end{figure}
 
 
@@ -620,9 +637,9 @@ During autopsy 25 lesions were resected and biobanked and representative samples
 \end{tabular}
 \end{table} 
 
-Even though not all samples had changed from adeno- to small cell carcinoma, all samples showed the \textit{TP53} ``stop gained`` mutation at 100\% VAF. This shows, that while a \textit{TP53} mutation was not sufficient for the histological transformation \cite{Offin2019}. Unsurprisingly, the samples that remained adeno (17A and 26) show a higher dependency on \textit{EGFR} which led to higher clonal abundance of the initial \textit{EGFR} exon 19 deletion and a subsequently higher VAF of EGFR~T790M, while the small cell transformed lung sample (8) acquired a secondary TP53~M40I mutation. No additional variants were close to clonal representation (\autoref{fig:cas86heatmap}).
+Even though not all samples had changed from adeno- to small cell carcinoma, all samples showed the \textit{TP53} ``stop gained`` mutation at 100\% VAF. This shows, that while a \textit{TP53} mutation was not sufficient for the histological transformation \cite{Offin2019}. Unsurprisingly, the samples that remained adeno (17A and 26) show a higher dependency on \textit{EGFR} which led to higher clonal abundance of the initial \textit{EGFR} exon 19 deletion and a subsequently higher VAF of EGFR~T790M, while the small cell transformed lung sample (8) acquired a secondary TP53~M40I mutation. No additional variants were close to clonal representation (\autoref{fig:ca86heatmap}).
 
-Surprisingly even though the samples were taken at different times (one at progression and one at autopsy) the small cell transformed samples P.1 and 8 were evolutionary closer related and shared more variants, than to the samples taken at the same time. In contrast, the two adenocarcinoma samples taken at autopsy were clustered together (\autoref{fig:ca86phylo}).
+Surprisingly even though the samples were taken at different times (one at progression and one at autopsy) the small cell transformed samples P.1 and 8 were evolutionary closer related and shared more variants, than to the samples taken at the same time. In contrast, the two adenocarcinoma samples taken at autopsy were clustered together. Additionally, the split of sites of small cell transformation and adenocarcinoma  already had happened before the progression sample and the small cell transformed samples appeared to be evolutionary different from samples 17A and 26, seen by the split in two directions following split into small cell and non-small cell samples after the edge leading to P.2. In general, the phylogeny suggested the presence of at least 3 distinct trajectories: one giving rise to the adeno sample at progression (P.2), one resulting in the small cell sample P.1 and its longitudinal successor sample 8 and lastly the two adenocarcinoma samples 17A and 26 (\autoref{fig:ca86phylo}).
 
 \begin{figure}[ht]
 	\centering
@@ -634,7 +651,7 @@ Surprisingly even though the samples were taken at different times (one at progr
 \begin{figure}[ht]
 \centering
 \includegraphics[width=.99\linewidth]{Figures/CASCADE/CA86/CA86varHeatmap.pdf}
-\caption[Heatmap of driver gene variants in patient CA-L]{Heatmap of driver gene variants in patient CA-L: Protein altering mutations are highlighted with their HGVSp notation; non protein altering mutations are grouped as ``other``.} \label{fig:cas86heatmap}
+\caption[Heatmap of driver gene variants in patient CA-L]{Heatmap of driver gene variants in patient CA-L: Protein altering mutations are highlighted with their HGVSp notation; non protein altering mutations are grouped as ``other``.} \label{fig:ca86heatmap}
 \end{figure}
 
 

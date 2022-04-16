@@ -137,9 +137,11 @@
 \usepackage[subfigure,titles]{tocloft}
 \newcommand{\listequationsname}{List of Equations}
 \newlistof{myequations}{equ}{\listequationsname}
-\newcommand{\myequation}[2][A]{%
-	\addcontentsline{equ}{myequations}{\protect\numberline{#1 ~}{\ignorespaces #2}}\par
+\newcommand{\myequation}[2][AAA]{%
+	\addcontentsline{equ}{myequations}{\protect\numberline{#1}{\ignorespaces #2}}\par
 }
+\setlength{\cftmyequationsnumwidth}{3em}    % Length must be defined before it can be set - it isn't defined until you've created the new list
+\setlength{\cftmyequationsindent}{\cfttabindent}
 
 
 \definecolor{codegreen}{rgb}{0,0.6,0}

@@ -6,11 +6,11 @@
 \section{ROI bed files generation}
 \label{ch-mmfAppendix:bedfiles}
 
-To ensure optimal mapping rates and no mapping related mismatches, the analysis is restricted to high mappability areas of the genome. These areas were defined as regions, where a k-mer of 100bp has a 85\% or higher unique mappability rate. The mappability tracks were first computed with GEM \cite{Derrien2012} and then collated converted to a bed file with R just like in the best practice instructions of QDNAseq \cite{Scheinin2014} for creating a new bin annotation. This method is only required for GRCh38 \cite{Schneider2017} as so far, the UCSC data track is only available for GRCh37 \cite{Church2011}.
+To ensure optimal mapping rates and no mapping related mismatches, the analysis was restricted to high mappability areas of the genome. These areas were defined as regions, where a k-mer of 100bp had a 85\% or higher unique mappability rate. The mappability tracks were first computed with GEM \cite{Derrien2012} and then collated converted to a bed file with R just like in the best practice instructions of QDNAseq \cite{Scheinin2014} for creating a new bin annotation. This method was only required for GRCh38 \cite{Schneider2017} as so far, the UCSC mappability data track was only available for GRCh37 \cite{Church2011}.
 
 \section{Oligo-nucleotide context normalisation}
 \label{ch-mmfAppendix:oligoNorm}
-The ROI restriction of the analysis from \autoref{ch-mmfAppendix:bedfiles} automatically leads to a different tri- and di-nucleotide context frequency in the analysed regions, than the rest of the genome, which was used to generate the original signatures \cite{Alexandrov2020}. For this reason, MisMatchFinder analyses the oligo-nu\-cle\-o\-tide composition of the analysed regions and generates weighted counts by adjusting for the differences. 
+The ROI restriction of the analysis from \autoref{ch-mmfAppendix:bedfiles} automatically led to a different tri- and di-nucleotide context frequency in the analysed regions, than the rest of the genome, which was used to generate the original signatures \cite{Alexandrov2020}. For this reason, MisMatchFinder analyses the oligo-nu\-cle\-o\-tide composition of the analysed regions and generates weighted counts by adjusting for the differences. 
 
 The baseline frequencies of both di- and tri-nucleotides were generated with the function \textit{oligonucleotideFrequency} from the ``Biostrings`` library \cite{Pages2020} using the hg38 BSgenome \cite{Pages2020a}. The raw counts of the di- and tri-nucleotides can be seen in \autoref{A:mmf:tab:dicounts} and \autoref{A:mmf:tab:tricounts} respectively.
 
