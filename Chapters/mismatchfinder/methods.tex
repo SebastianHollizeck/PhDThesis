@@ -172,6 +172,10 @@ While most signature weights could be estimated very well with the moment matchi
 \subsection{Tumour detection}
 \label{mmf-sec:tumourdetection}
 
-\todo[inline]{write about the glmnet and compare to ichorCNA}
+With the calling of ``active`` signatures in \autoref{mmf-sec:sigdetection} we were subsequently interested in the classification of samples into ``healthy`` and perturbed signature states. The classification as perturbed would allow a short-listing of samples for a more in-depth analysis with orthogonal validation.
 
-ichorCNA tumour purity > 3\% vs GLMnet
+For this purpose we trained a glmnet classifier with the assigned signature weights vector of each sample with an $\alpha$ value of 0.7 due to the high correlation of the data.
+
+The only other method which enables the classification of lcWGS into healthy and tumour (perturbed) samples was ichorCNA, which uses the copy number state of the sample to infer tumour purity  \cite{Adalsteinsson2017}. ichorCNA is currently considered the gold standard and we used their default method as a reference to compare our results to. Any sample with a tumour purity of $\geq$ 3\% was considered a positive and everything else a negative sample.
+
+The truth of the sample was the clinical status of the disease. Every sample where the patient had active disease was assigned the tumour class and every healthy individual the healthy class.
