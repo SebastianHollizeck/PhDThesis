@@ -212,6 +212,35 @@ bamsurgeon  postprocess.py -f ${reference}.fai mutated.bam
 \end{lstlisting}
 
 
+\subsection{Blacklist generation from healthy samples}
+
+\begin{lstlisting}[language=bash, caption=Blacklist postprocessing, label={lst-mmf:blacklist}]
+awkCounting=$(cat <<'AWK'
+{
+    key=$1"\t"$2"\t"$3"\t"$4
+    counts[key]++
+}
+END{
+    for(i in counts){
+        occ = counts[i]
+        if(occ >= 3){
+            print i"\t"counts[i] > "healthy_blacklist_sites_m3.tsv"
+        }
+        if(occ >= 5){
+            print i"\t"counts[i] > "healthy_blacklist_sites_m5.tsv"
+        }
+        if(occ >= 10){
+            print i"\t"counts[i] > "healthy_blacklist_sites_m10.tsv"
+        }
+    }
+}
+AWK
+)
+
+cat *_sites.tsv | awk "$awkCounting"
+\end{lstlisting}
+
+
 \subsection{Patient data subsampling}
 \label{ch-mmfAppendix:subsampling}
 Subsampling of high depth WGS data was done with samtools (v1.13) supplying random seeds, but stable sampling rates. Sampling rates were selected, such that the output file would have an average coverage of 10x to be comparable with other sequencing data.
@@ -271,4 +300,6 @@ Subsampling of high depth WGS data was done with samtools (v1.13) supplying rand
 \includegraphics[width=.99\linewidth, page=51]{Figures/MisMatchFinder/signatureFittedDists.pdf}
 \caption[Fitted beta distribution for Signature SBS46 in healthy samples]{Fitted beta distribution for Signature SBS46 in healthy samples}\label{A:fig:fittedDistsSBS46}
 \end{figure}
+
+
 

@@ -106,7 +106,7 @@ This convinced us that germline filtering, additionally to the consensus overlap
 \label{mmf-sec:realworld}
 
 While simulated data is perfect to ensure the method performs as expected in edge cases and to estimate detection limits, only real world data allows the final examination if the model used for analysis can mirror biological concepts. To show our new method is usable for a variety of datasets, we used a mixture of different cancer types with different library preparation. In \autoref{mmf-sec:healthy} we focused on the analysis of healthy individuals. We generated a background noise model and excluded aging as one of the sources of variation from our data. Then we analysed two metastatic breast cancer patients with BRCA1 postive disease, comparing matched tumour-normal sequencing with MisMatchFinder. This dataset allowed us to evaluate how efficient germline filtering was (\autoref{mmf-sec:germlineArtifacts}) and how accurate and sensitive our method is when compared to the current gold standard of tumour-normal tissue analysis (\autoref{mmf-sec:matchedMBCB}).
-A second dataset containing  multiple samples of two cell free DNA time points and corresponding tissue allowed us to validate performance of MisMatchFinder in a different cancer context (\autoref{mmf-sec:matchedMelanoma}). Lastly we analysed a dataset of 180 \todo{get exact number} tumour only cfDNA samples to show the clinical application of MisMatchFinder (\autoref{mmf-sec:tumourDetection}).
+A second dataset containing  multiple samples of two cell free DNA time points and corresponding tissue allowed us to validate performance of MisMatchFinder in a different cancer context (\autoref{mmf-sec:melpatients}). Lastly we analysed a dataset of 180 \todo{get exact number} tumour only cfDNA samples to show the clinical application of MisMatchFinder (\autoref{mmf-sec:tumourDetection}).
 
 In the following section, we showed that MisMatchFinder exhibits barely any technical bias.
 
@@ -153,32 +153,6 @@ With the strong influence filtering of both technical errors (\autoref{mmf-sec:c
 The site files generated through MisMatchFinder were then concatenated and aggregated to multiple blacklists with cut-offs of a variant present in at least 3, 5 or 10 times. The bash code used for the post processing of MisMatchFinder site files can be found in \autoref{lst-mmf:blacklist}.
 
 
-\begin{lstlisting}[language=bash, caption=Blacklist postprocessing, label={lst-mmf:blacklist}]
-awkCounting=$(cat <<'AWK'
-{
-    key=$1"\t"$2"\t"$3"\t"$4
-    counts[key]++
-}
-END{
-    for(i in counts){
-        occ = counts[i]
-        if(occ >= 3){
-            print i"\t"counts[i] > "healthy_blacklist_sites_m3.tsv"
-        }
-        if(occ >= 5){
-            print i"\t"counts[i] > "healthy_blacklist_sites_m5.tsv"
-        }
-        if(occ >= 10){
-            print i"\t"counts[i] > "healthy_blacklist_sites_m10.tsv"
-        }
-    }
-}
-AWK
-)
-
-cat *_sites.tsv | awk "$awkCounting"
-\end{lstlisting}
-
 \todo[inline]{add some data about how the blacklist didn't really do much}
 
 
@@ -203,10 +177,11 @@ Nevertheless, this result combined with the effective filtering of technical err
 \begin{table}
 \caption[Germline variants retained after germline filtering]{Germline variants retained after germline filtering with in MisMatchFinder analysis; Default parameters were used when running MisMatchFinder with gnomAD zarr for filtering. seed column showed the seed used to subsample the high depth sequencing BAM, ``mismatch sites`` column contains number of sites found to be changed, ``germline sites`` contains the number of sites also found with germline variant calling, fraction shows fraction of column 4 and 3}\label{tab:mmf-germlineArtifacts}
 \centering
-\begin{tabular}{c|c|c|c|c}
+\begin{tabular}{|c|c|c|c|c|}
 \toprule
+\hline
 \textbf{Patient ID} & \textbf{seed} & \textbf{mismatch sites} & \textbf{germline sites} & \textbf{fraction} \\
-\midrule
+\hline
  & \num{1007} & \num{216950} &  \num{2107} & \num{0.0097}\\ 
  & \num{1234} & \num{217145} &  \num{2073} & \num{0.0095}\\ 
  & \num{1337} & \num{216823} &  \num{2080} & \num{0.0096}\\ 
@@ -216,7 +191,7 @@ Nevertheless, this result combined with the effective filtering of technical err
  & \num{5229} & \num{216876} &  \num{2062} & \num{0.0095}\\ 
  & \num{6060} & \num{217388} &  \num{2080} & \num{0.0096}\\ 
 \multirow{-9}{*}{MBCB196} & \num{9876} & \num{217656} &  \num{2008} & \num{0.0092}\\ 
-\midrule
+\hline
  & \num{1756} & \num{148495} &  \num{2168} & \num{0.0146}\\ 
  & \num{3599} & \num{149901} &  \num{2224} & \num{0.0148}\\ 
  & \num{4117} & \num{149382} &  \num{2277} & \num{0.0152}\\ 
@@ -226,6 +201,7 @@ Nevertheless, this result combined with the effective filtering of technical err
  & \num{5887} & \num{150099} &  \num{2287} & \num{0.0152}\\ 
  & \num{8387} & \num{149533} &  \num{2248} & \num{0.0150}\\ 
 \multirow{-9}{*}{MBCB298} & \num{9754} & \num{149547} &  \num{2229} & \num{0.0149}\\
+\hline
 \bottomrule
 \end{tabular}
 \end{table}
@@ -254,7 +230,7 @@ Nevertheless, this result combined with the effective filtering of technical err
 \subsubsection{Melanoma patients}
 \label{mmf-sec:melpatients}
 
-For melanoma real world data, we a dataset, containing tumour-normal matched tissue WES with two additional longitudinal time points of cell free DNA sequenced both as WES and as lcWGS. This allowed us to compare the current standard signature analysis for both time points with the envisioned low coverage method MisMatchFinder was developed for.
+For melanoma real world data, we used a dataset, containing tumour-normal matched tissue WES with two additional longitudinal time points of cell free DNA sequenced both as WES and as lcWGS. This allowed us to compare the current standard signature analysis for both time points with the envisioned low coverage method MisMatchFinder was developed for.
 
 With the help of the WES of both the tissue and the cfDNA samples, we established the gold standard to compare the MisMatchFinder result to.  Strelka2 was used to call somatic variants and the high confidence somatic SNPs were used to generate signature weights with sigminer \cite{Wang2021} using default parameters for the GRCh38 genome build and QP deconstruction method.
 
@@ -281,6 +257,32 @@ This high exposure of SBS7a and SBS7b was highly concordant with our analysis of
 \todo[inline]{Add data about the glmnet and ichorCNA}
 clinical testing, e.g. copy number analysis \cite{Homburger2019,Chen2021}
 
+
+\begin{table}[ht]
+\caption[Confusion matrix for MisMatchFinder leave one out validation on trainings set]{Confusion matrix for MisMatchFinder leave one out validation on trainings set}\label{tab:mmf-looMat}
+\centering
+\begin{tblr}{
+	vlines,
+	colspec=cccc,
+	cell{3}{3} = {LimeGreen},
+	cell{4}{4} = {LimeGreen},
+	vline{1} = {1,2}{fg=white}
+	}
+
+\SetHline{1-4}{1pt}
+\SetHline{3-4}{0.4pt}
+\SetCell[r=2,c=2]{c}  & 1-2 & \SetCell[c=2]{c,bg=Goldenrod} True class & 1-4\\
+\SetHline{3-4}{0.4pt}
+ 2-1 & 2-2 & positive & negative \\
+ \SetHline{1-4}{0.4pt}
+ \SetCell[r=2]{m,bg=Goldenrod} Prediction & positive & 21 & 5 \\
+ \SetHline{2-4}{0.4pt}
+ 4-1 & negative & 19 & 55 \\
+ \SetHline{1-4}{0.4pt} 
+ \SetHline{1-4}{1pt} 
+
+\end{tblr}
+\end{table}
 
 \section{Summary}
 \todo[inline]{Write how awesome it is, but that it still needs improvemnet for clinical application}
