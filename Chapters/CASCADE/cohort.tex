@@ -3,26 +3,15 @@
 \section{Cohort level analysis}
 \label{cascade-sec:cohortLevel}
 
-\todo[inline, color=red]{fill this}
-ideas:\\
-loss of heterozygosity \\
-long stem and explosion of small cell transformation\\
-potentially move this after the mitochondrial analysis to put that in as well.
+Even though there were only five lung cancer patients in the lung cancer stream, each of the patient had a high number of samples analysed, showed a high internal heterogeneity (\autoref{cascade-sec:patientLevel}). However there were several parallels between the patients showing similarities in disease trajectories. The process of small cell transformation (SCT) was still significantly under explored and understood. The rarity of the transformation as well as the lower overall survival in comparison to other resistance mechanisms reduced availability of samples. In the following section, the small cell carcinoma samples were compared and contrasted with the adenocarcinoma samples to partially meet the unsolved need of describing this mechanism in the literature.
 
+The generally accepted hallmarks of SCT, apart from the histological changes such as high \textit{MKI67} expression and down regulation of major histocompatibility complex I and II, are a much higher mortality, a high prevalence of \textit{FHIT} and \textit{MAD1L1} deletions or loss, and \textit{TP53} and \textit{RB1} mutations \cite{Meerbeeck2011,Raso2021}. However, while in patient CA-L all samples showed a TP53~``stop gained`` mutation, patient CA-I's transformation did not result in a \textit{TP53} loss. Additionally, neither of the patients presented with a \textit{RB1}, \textit{FHIT}, or \textit{MAD1L1} loss (\Autoref{fig:ca51heatmap,fig:ca86heatmap}). 
 
-\subsection{Small cell transformation}
+In agreement with recent literature showing whole genome doubling (WGD) for SCLC \cite{Zhou2021}, we observed at chromosomal arm amplification in patient CA-I and full WGD for patient CA-L. However, all NSCLC patient also showed at least one sample with complete WGD, casting doubt on WGD being a distinguishing feature of SCLC (\Autoref{tab:ca99cnv,tab:ca51cnv,tab:ca80cnv,tab:ca82cnv,tab:ca86cnv}). Additionally, the overall loss of heterozygosity could be seen in both NSCLC and SCLC and there seems to be a general feature of late stage lung cancers rather than NSCLC\todo{do I reference all the circos plots here?}. Suggesting that copy number alterations are not the main drivers of SCT.
 
-\begin{itemize}
-\item hypothesised high amount of drug resistant subclones in sclc
-\item high TP53/RB1 mutation amount but not required.
-\item FHIT deletion in all samples
-\item MAD1 deletion common
-\end{itemize}
- \cite{Meerbeeck2011}
+The most prominent difference of NSCLC and SCLC in our patients was the reconstructed phylogeny. While the NSCLC showed substructure and meaningful evolutionary splits, the SCLC patients phylogenies are a star shaped. Each sample branch is very close to the others and with substantial amounts of private variants in each sample (\Autoref{fig:CA51mitoPhylo,fig:CA86mitoPhylo} vs. \Autoref{fig:CA99mitoPhylo,fig:CA80mitoPhylo,fig:CA82mitoPhylo}). However, even though the shared variants in CA-L seemed to provide the ability to transform, they do not necessitate the transformation, as both samples CA-L 17A and 26 remained NSCLC with virtually no known genetic determinant of status. This in term suggested either a currently undetected genetic determinant or potential epigenetic regulation (\autoref{fig:ca86heatmap}).
 
-\todo[inline]{compare to these case reports and the recent multi region paper}
-\todo[inline]{Why is CA80 not transformed}
+In contrast to CA-L, who presented with both NSCLC and SCLC, CA-I's samples were completely transformed. The biopsied adenocarcinoma, which already had an MHC-I disrupting mutation was completely out-competed by a secondary clone, which did not present with any additional genetic driver alterations. Similar to patient CA-L this suggested, that the genetic prerequisites for SCT were already present in the clonal population, but not sufficient to drive transformation (\Autoref{fig:ca51.clonalTree,fig:ca51.ccfCluster}). 
 
-Multi-region exome sequencing reveals the intratumoral heterogeneity of surgically resected small cell lung cancer (\textcite{Zhou2021}) \\
- An Autopsy Case of Two Distinct, Acquired Drug Resistance Mechanisms in Epidermal Growth Factor Receptor-mutant Lung Adenocarcinoma: Small Cell Carcinoma Transformation and Epidermal Growth Factor Receptor T790M Mutation (\textcite{Furugen2015}) \\
-Small cell transformation of ROS1 fusion-positive lung cancer resistant to ROS1 inhibition (\textcite{Lin2020})
+Gene fusions or regulatory genetic variants leading to aberrant transcription could have been the cause for this phenomenon observed in both SCLC cases. These could be detected in RNA sequencing of the biobanked fresh autopsy samples to exclude genetic causes which were not picked up with the performed WES, or detect transcription alterations. However this analysis is outside the scope of this work.
+

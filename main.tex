@@ -8,7 +8,7 @@
 %% ---------------------------------------------------------------- 
 
 % Set up the document
-\documentclass[a4paper, 11pt, twoside]{Thesis}  % Use the "Thesis" style, based on the ECS Thesis style by Steve Gunn
+\documentclass[a4paper, 11pt, oneside]{Thesis}  % Use the "Thesis" style, based on the ECS Thesis style by Steve Gunn
 %
 % Put your figures in this directory
 \graphicspath{Figures/}  % Location of the graphics files (set up for graphics to be in PDF format)
@@ -26,14 +26,14 @@
 %\usepackage[proportional,scaled=1.064]{erewhon}
 %\usepackage{heuristica}
 %\usepackage[heuristica,vvarbb,bigdelims]{newtxmath}
-%\usepackage[T1]{fontenc}
 
-\usepackage[light]{CrimsonPro}
+
+%\usepackage[light]{CrimsonPro}
 \usepackage[T1]{fontenc}
 %% The font package uses mweights.sty which has som issues with the
 %% \normalfont command. The following two lines fixes this issue.
-\let\oldnormalfont\normalfont
-\def\normalfont{\oldnormalfont\mdseries}
+%\let\oldnormalfont\normalfont
+%\def\normalfont{\oldnormalfont\mdseries}
 
 
 \usepackage[usenames,dvipsnames,table]{xcolor}
@@ -334,8 +334,8 @@
 \addtotoc{List of Equations}
 \listofmyequations
 
-\fancyhead[LE,RO]{\emph{Listings}}
-\addtotoc{Listings}
+\fancyhead[LE,RO]{\emph{List of Listings}}
+\addtotoc{List of Listings}
 \lstlistoflistings
 
 
@@ -346,7 +346,7 @@
 \listofsymbols{ll}  % Include a list of Abbreviations (a table of two columns)
 {
 % \textbf{Acronym} & \textbf{W}hat (it) \textbf{S}tands \textbf{F}or \\
-\textit{APOBEC} & \textbf{APO}lipoprotein \textbf{B} mRNA \textbf{E}diting enzyme, \textbf{C}atalytic polypeptide-like \\
+\textbf{APOBEC} & \textbf{APO}lipoprotein \textbf{B} mRNA \textbf{E}diting enzyme, \textbf{C}atalytic polypeptide-like \\
 \textbf{BAM} & \textbf{B}inary \textbf{A}lignment \textbf{M}ap \\
 \textbf{bp} & \textbf{b}ase \textbf{p}air\\
 \textbf{BQ} & \textbf{B}ase \textbf{Q}uality\\
@@ -379,6 +379,7 @@
 \textbf{RPRS} & \textbf{R}ead \textbf{P}osition \textbf{R}ank \textbf{S}um \\
 \textbf{SBS} & \textbf{S}ingle \textbf{B}ase \textbf{S}ubstitution \\
 \textbf{SCLC} & \textbf{S}mall \textbf{C}ell \textbf{L}ung \textbf{C}ancer\\
+\textbf{SCT} & \textbf{S}mall \textbf{C}ell \textbf{T}ransformation \\
 \textbf{SNP} & \textbf{S}ingle \textbf{N}ucleotide \textbf{P}olymorphism\\
 \textbf{SV} & \textbf{S}tructural \textbf{V}ariant \\
 \textbf{TAS} & \textbf{T}argeted \textbf{A}mplicon \textbf{S}equencing \\
@@ -389,6 +390,7 @@
 \textbf{VCF} & \textbf{V}ariant \textbf{C}all \textbf{F}ormat\\
 \textbf{VEP} & \textbf{V}ariant \textbf{E}ffect \textbf{P}redictor \\
 \textbf{WES} & \textbf{W}hole \textbf{E}xome \textbf{S}equencing\\
+\textbf{WGD} & \textbf{W}hole \textbf{G}enome \textbf{D}oubling \\
 \textbf{WGS} & \textbf{W}hole \textbf{G}enome \textbf{S}equencing\\
 \textbf{WPGMA} & \textbf{W}eighted \textbf{P}air \textbf{G}roup \textbf{M}ethod with \textbf{A}rithmetic mean \\
 
