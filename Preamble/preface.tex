@@ -15,12 +15,12 @@ This preface includes a summary of all chapters in this work as well as a compre
 
 %%%%%%%%%%%%%%%%%%%%%%%
 
-\paragraph*{\hyperref[ch:intro]{Chapter~\ref*{ch:intro}}:} Introduction is an original work providing background and overview relevant to understanding the thesis and its relevance to the field. It includes an introduction to DNA, ctDNA, DNA sequencing, somatic variant calling and lung cancer.
+\paragraph*{\hyperref[ch:intro]{Chapter~\ref*{ch:intro}}:} The Introduction is an original work providing background and overview relevant to understanding the thesis and its relevance to the field. It includes an introduction to DNA, ctDNA, DNA sequencing, somatic variant calling and tumour heterogeneity.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%
 
-\paragraph*{\hyperref[ch:variantcalling]{Chapter~\ref*{ch:variantcalling}}:} Joint somatic variant calling is an original work describing two workflows for the joint analysis of multiple related tumour samples and has been published in \textit{Bioinformatics} as "Custom workflows to improve joint variant calling from multiple related tumour samples: FreeBayesSomatic and Strelka2Pass" on 21$^{st}$ September 2021. In addition to the published analysis, I have added longitudinal analysis and its evaluation as well as the impact of this new method on other downstream analysis, like phylogenetic reconstruction and clonal deconvolution.
+\paragraph*{\hyperref[ch:variantcalling]{Chapter~\ref*{ch:variantcalling}}:} The chapter ``Joint somatic variant calling`` is an original work describing two workflows for the joint analysis of multiple related tumour samples and has been published in \textit{Bioinformatics} as "Custom workflows to improve joint variant calling from multiple related tumour samples: FreeBayesSomatic and Strelka2Pass" on 21$^{st}$ September 2021. In addition to the published analysis, I have added longitudinal analysis and its evaluation as well as the impact of this new method on other downstream analysis, like phylogenetic reconstruction and clonal deconvolution.
 
 Contributions for this chapter:
 \begin{itemize}
@@ -31,11 +31,11 @@ Contributions for this chapter:
 	
 %\begingroup\interlinepenalty=10000
 	\item I wrote the draft of the manuscript and performed revisions
-	\item D.C. and S-J.D. provided advice in planning and writing the manuscript
+	\item Dineika Chandrananda (D.C.) and Sarah-Jane Dawson (S-J.D). provided advice in planning and writing the manuscript
 	\item D.C. provided guidance for method development
 	\item S-J.D. provided guidance for method evaluation
-	\item S.W. performed the targeted amplicon validation
-	\item S.W. and  B.S. read the draft manuscript and provided feedback
+	\item Stephen Wong (S.W.) performed the targeted amplicon validation
+	\item S.W. and  Ben Solomon (B.S.) read the draft manuscript and provided feedback
 	\item B.S. provided clinical expertise for human data
 	
 %\endgroup
@@ -44,13 +44,50 @@ Contributions for this chapter:
 
 %%%%%%%%%%%%%%%%%%%%%%%
 
-\paragraph*{\hyperref[ch:cascade]{Chapter~\ref*{ch:cascade}}:} \todo[inline]{summary plus contributions}
+\paragraph*{\hyperref[ch:cascade]{Chapter~\ref*{ch:cascade}}:} 
+In this chapter the analysis of five lung cancer patients with regards to tumour heterogeneity. A special focus was put on sample and clonal relationships using the variant calling methods from Chapter~\ref*{ch:variantcalling}. We also developed a phylogenetic reconstruction method based on mitochondrial variants, which allowed a second point of view on metastatic seeding and timing. Parts of this analysis has been published, but the publications are not included in this thesis, as I did not contribute more than 50\% of the work of the articles. 
 
+
+Contributions for this chapter:
+\begin{itemize}
+	\item I analysed all data
+	\item I generated all visualisations
+	\item I wrote the draft
+	\item I implemented the mitochondrial phylogeny reconstruction method
+	\item S-J.D., D.C., and Mark Dawson (M.D.) conceptualised the mitochondrial phylogeny reconstruction
+	
+%\begingroup\interlinepenalty=10000
+
+	\item S-J.D., D.C. and  B.S. read the draft manuscript and provided feedback
+	\item Lavinia Tan (L.T.) and B.S. provided clinical expertise for human data
+	
+%\endgroup
+\end{itemize}
 
 \paragraph*{\hyperref[ch:mmf]{Chapter~\ref*{ch:mmf}}:}
+The MisMatchFinder analysis method described in this chapter is an original work using a read-centric variant calling approach to detect tumour somatic mutational signatures from low coverage sequencing data. The work describes individual design decisions and shows the performance of the method in multiple datasets.
+
+Contributions for this chapter:
+\begin{itemize}
+   	\item I conceptualised the work with input from S.W.
+	\item I analysed all data
+	\item I generated all visualisations
+	\item I implemented the method.
+	\item I wrote the draft
+	\item S-J.D. and D.C. read the draft and provided feedback
+	
+%\begingroup\interlinepenalty=10000
+
+	\item S-J.D., D.C. and  B.S. read the draft manuscript and provided feedback
+	\item Lavinia Tan (L.T.) and B.S. provided clinical expertise for human data
+	
+%\endgroup
+\end{itemize}
 
 \paragraph*{\hyperref[ch:conclusion]{Chapter~\ref*{ch:conclusion}}:}
+The conclusion chapter places the thesis in the wider field of methods to asses tumour heterogeneity and outlining future directions of the field.
 
+\hrulefill
 
 \paragraph*{Other publications} These publications I have contributed to in my candidature, but they are not presented in this work
 
@@ -62,7 +99,10 @@ Solomon B.J.\footnote{These authors contributed equally and are considered share
 
 Fennell K.A.\footnotemark[\value{footnote}], Vassiliadis D.\footnotemark[\value{footnote}], Lam E.Y., Martelotto L.G., Balic J.J., \textbf{Hollizeck S.}, Weber T.S., Semple T., Wang Q., Miles D.C., MacPherson L., Chan Y-C. Guirguis A.A., Kats L.M., Wong E.S., Dawson S-J., Naik S.H., Dawson M.A. \textbf{``Non-genetic determinants of malignant clonal fitness at single cell resolution``} \textit{Nature.} 2021 DOI: \href{https://doi.org/10.1038/s41586-021-04206-7}{\nolinkurl{10.1038/s41586-021-04206-7}}
 
-\todo[inline]{add more papers if they are published before the end}
+
+
+
+\todo[inline,color=red]{add more papers if they are published before the end}
 
 
 \hrulefill
