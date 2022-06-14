@@ -97,21 +97,21 @@ This patient was a 61 year old male  with a metastatic \textit{RET-KIF5B} fusion
 
 Serial sampling of the plasma of the patient and analysis with the commercial Guardant360 assay \cite{Talasaz2014} revealed the previously undetected RET~G810S resistance mutation after three months of treatment . While at this point the driver mutation allele frequency was still dropping in the plasma, by month four the abundance of RET~G810S had increased and was accompanied by additional mutations in the same site (RET~G810R, C and V). In addition with the increase of fusion positive ctDNA this suggests that any mutation in this site affects the efficiency of Selpercatinib. While the patient initially was responsive to the treatment, repeat PET scans showed a progressive disease after six months, which ultimately lead to the death of the patient (\autoref{fig:ca99pet}).
 
-\begin{figure}[ht]
+\begin{figure}[htp]
 \centering
 \includegraphics[width=.99\linewidth]{Figures/CASCADE/CA99/CA-A_ctDNAstream}
 \caption[Allelic frequencies of of driver and emerging resistance mutations]{Allelic frequencies of of driver and emerging resistance mutations during Selpercatinib treatment (11 months after diagnosis); \textit{KIF5B-RET} fusion is the initiating driver with RET~G810R/S/C/V the emerging resistance SNPs} \label{fig:ca99ctDNA}
 \end{figure}
 
 
-\begin{figure}[ht]
+\begin{figure}[hbp]
 \centering
 \includegraphics[width=.99\linewidth]{Figures/CASCADE/CA99/CA-A_PETscans}
 \caption[PET scans of patient CA-A before and during Selpercatinib treatment]{PET scans of patient CA-A before and during Selpercatinib treatment} \label{fig:ca99pet}
 \end{figure}
 
 
-\begin{figure}[ht]
+\begin{figure}[htp]
 \centering
 \includegraphics[width=.99\linewidth]{Figures/CASCADE/CA99/CA-A_schematic_CA99_organColours}
 \caption[Schematic of tumour lesions in patient CA-A]{Schematic of tumour lesions in patient CA-A: Primary diagnostic sample shown in red; All 24 autopsy samples were coloured by organ they were collected from: Brain (7), left lung (2), right lung (1), liver (9), T8 bone (1), ascitic fluid (1), adrenal gland (2), kidney (1); Additionally to the post mortem blood sample, six serial blood samples were taken (\protect\autoref{fig:ca99timeline})} \label{fig:ca99schematic}
@@ -128,9 +128,9 @@ At autopsy, 24 tumour tissue biopsies and a post mortem blood sample were collec
 \toprule
 \hline
  \rowcolor{gray!50}
-\textbf{Sample number} & \textbf{Organ} & \textbf{H \& E} & \textbf{Type}\\
+\textbf{Sample number} & \textbf{Organ} & \textbf{H\&E} & \textbf{Type}\\
 \hline
- 11 & right occipital lobe & 0.75 &  \cellcolor{white}\\
+ 11 & right occipital lobe & 0.7 &  \cellcolor{white}\\
  26 & right liver lobe & 0.6 & \cellcolor{white} \\
  31 & left lower lung & 0.2 & \cellcolor{white} \\
  41 & left liver lobe & 0.2 & \cellcolor{white} \\
@@ -148,13 +148,13 @@ Apart from the mutations changing RET~G810 no other variants affecting \textit{R
 
 Phylogeny based on the short variants shows a nice clustering into right (26 and 57) and left liver (41, 47, and 55) with ocipital and pleural sample sharing the most mutations as a hint towards the longest evolutionary trajectory and final progression. There also exists a bifurcating line separating progression (11, 41,47,55; top right) and stable disease sites. The much lower and higher number of both samples 31 and 41 were due to the low tumour purity of those samples (\Autoref{tab:ca99wgsSamples,tab:ca99cnv}, \autoref{fig:ca99phylo}).
 
-\begin{figure}[ht]
+\begin{figure}[htp]
 	\centering
 	\includegraphics[width=.99\linewidth]{Figures/CASCADE/CA99/CA99phylo.pdf}
 	\caption[Phylogeny of autopsy samples from patient CA-A]{Phylogeny of autopsy samples from patient CA-A; reconstructed with all somatic SNVs and InDels. Ruler symbolises 4000 Variants difference} \label{fig:ca99phylo}
 \end{figure}
 
-\begin{figure}[ht]
+\begin{figure}[htp]
 \centering
 \includegraphics[width=.99\linewidth]{Figures/CASCADE/CA99/CA99varHeatmap.pdf}
 \caption[Heatmap of driver gene variants in patient CA-A]{Heatmap of driver gene variants in patient CA-A: Protein altering mutations are highlighted with their HGVSp notation; non protein altering mutations are grouped as ``other``.} \label{fig:ca99heatmap}
@@ -167,14 +167,14 @@ The structural variant calling with GRIDSS showed consistent presence of the \te
 While this change also have a minute effect on the PURPLE copy number calls, which are informed by structural variants, these structural variants will also be sub-clonal and therefore removal will result in a cleaner clonal copy number profile.
 
 
-\begin{figure}[ht]
+\begin{figure}[htp]
 \centering
 \includegraphics[width=.99\linewidth]{Figures/CASCADE/CA99/CA99-11.circos.png}
 \caption[Circos plot of patient CA-A sample 11]{Circos plot of patient CA-A with somatic structural variants with allele frequency $> 0.2$: outer first ring shows the canonical chromosomes with gaps (centromere, heterochromatin,...) highlighted as darker areas; second ring visualises all somatic SNVs corrected for tumour purity and scaled from 0 to 1, the colour representing the base change of SNV like in \protect\textcite{Alexandrov2013}; vertical lines directly under the SNVs symbolise InDels, with yellow for insertions and red for deletions; the third ring shows the total copy number alterations, with green showing a copy number gain and red a loss, dots at the outer border show a copy number greater than four; the last ring shows the minor copy number, with blue depicting a gain and orange a loss, this ring allows the detection of copy number neutral changes, like loss of heterozygosity; the center shows all structural variants: translocations in blue, deletions in red, insertions in yellow, tandem duplications in green and inversions in black.} \label{fig:ca99.11circos}
 \end{figure}
 
 
-\begin{figure}[ht]
+\begin{figure}[htp]
 \centering
 \includegraphics[width=.99\linewidth]{Figures/CASCADE/CA99/CA99-11.circos_0.05AF.png}
 \caption[Circos plot of patient CA-A sample 11 without allele frequency filter]{Circos plot of patient CA-A with all somatic structural variants: outer first ring shows the canonical chromosomes with gaps (centromere, heterochromatin,...) highlighted as darker areas; second ring visualises all somatic SNVs corrected for tumour purity and scaled from 0 to 1, the colour representing the base change of SNV like in \protect\textcite{Alexandrov2013}; vertical lines directly under the SNVs symbolise InDels, with yellow for insertions and red for deletions; the third ring shows the total copy number alterations, with green showing a copy number gain and red a loss, dots at the outer border show a copy number greater than four; the last ring shows the minor copy number, with blue depicting a gain and orange a loss, this ring allows the detection of copy number neutral changes, like loss of heterozygosity; the center shows all structural variants: translocations in blue, deletions in red, insertions in yellow, tandem duplications in green and inversions in black.} \label{fig:ca99.11circosnoAF}
@@ -182,7 +182,7 @@ While this change also have a minute effect on the PURPLE copy number calls, whi
 
 %think about putting the circos plot on one page, height=.4\textheight, keepaspectratio
 
-\Autoref{fig:ca99.11circos,fig:ca99.26circos,fig:ca99.41circos,fig:ca99.47circos,fig:ca99.55circos,fig:ca99.57circos,fig:ca99.59circos} show very similar copy number profiles of all tumour samples of patient CA-A, with loss of heterozygosity on almost all chromosomes apart from chromosome 5 and 9, only \autoref{fig:ca99.26circos} shows a less granular mix of gain and loss of the minor allele, which is most likely due to the lower tumour purity of the sample. However, all samples exhibit high copy number gain levels consistent with whole genome duplication (\Autoref{tab:ca99wgsSamples,tab:ca99cnv}). All samples show a copy number gain in chromosome 7 at the \textit{EGFR} locus leading to \textit{EGFR} amplification (min: 3.9 max: 9.9), which is a known resistance mechanism to Levantinib \cite{Jin2021} and was therefore most likely a result of previous treatment (\autoref{fig:ca99timeline}). Just as expected from the results of the Guardant360 ctDNA results leading up to the death of the patient, there is no \textit{MET} amplification present in the patient at any site\todo{Do i need more genes here?}.
+\Autoref{fig:ca99.11circos,fig:ca99.26circos,fig:ca99.41circos,fig:ca99.47circos,fig:ca99.55circos,fig:ca99.57circos,fig:ca99.59circos} show very similar copy number profiles of all tumour samples of patient CA-A, with loss of heterozygosity on almost all chromosomes apart from chromosome 5 and 9, only \autoref{fig:ca99.26circos} shows a less granular mix of gain and loss of the minor allele, which is most likely due to the lower tumour purity of the sample. However, all samples exhibit high copy number gain levels consistent with whole genome duplication (\Autoref{tab:ca99wgsSamples,tab:ca99cnv}). All samples show a copy number gain in chromosome 7 at the \textit{EGFR} locus leading to \textit{EGFR} amplification (min: 3.9 max: 9.9), which is a known resistance mechanism to Levantinib \cite{Jin2021} and was therefore most likely a result of previous treatment (\autoref{fig:ca99timeline}). Just as expected from the results of the Guardant360 ctDNA results leading up to the death of the patient, there is no \textit{MET} amplification present in the patient at any site\todo[color=green]{Do i need more genes here?}.
 
 With the absence of any other plausible mechanism, of SNV, SV or CNV nature, the only possible explanation of resistance to Selpercatinib in the patient are the solvent front mutations RET~G810C, G810R, G810S, and G810V as described in \textcite{Solomon2020}. However, the autopsy revealed substantial spatial heterogeneity of the emerged resistance mechanisms within the patient which was previously unappreciated.
 
@@ -235,7 +235,7 @@ This 56 year old female never smoker presented with \textit{EGFR} exon 19 deleti
 
 At autopsy six lesions and one blood sample were collected and biobanked (\autoref{fig:ca51schematic}). After quality assessment by pathology with H\& E stain, all autopsy samples and the initial diagnostic biopsy were sequenced as WES (\autoref{tab:ca51wesSamples}) and analysed with the standard workflow (\autoref{cascade-sec:workflow}). The secondary small cell confirmation biopsy at 29 months did not contain enough tissue for sequencing.
 
-\begin{figure}[ht]
+\begin{figure}[htp]
 	\centering
 	\includegraphics[width=.99\linewidth]{Figures/CASCADE/CA51/CA-I_schematic_CA51_organColours}
 	\caption[Schematic of tumour lesions in patient CA-I]{Schematic of tumour lesions in patient CA-I: Primary diagnostic sample shown in red; All six autopsy samples were coloured by organ they were collected from: Parasternal (1), left lung (2), right lung (1), diaphragm (1), liver (1); Additionally a post mortem blood sample was taken} \label{fig:ca51schematic}
@@ -250,7 +250,7 @@ At autopsy six lesions and one blood sample were collected and biobanked (\autor
 	\toprule
 	\hline
  	\rowcolor{gray!50}
-\textbf{Sample number} & \textbf{Organ} & \textbf{H \& E} & \textbf{Type}\\
+\textbf{Sample number} & \textbf{Organ} & \textbf{H\&E} & \textbf{Type}\\
 	\hline
  Dx & right VATS & - &  adenocarcinoma \\
  557 & parasternal mass & 0.9 & \cellcolor{gray!15} \\
@@ -268,7 +268,7 @@ At autopsy six lesions and one blood sample were collected and biobanked (\autor
 Somatic variant calling showed very little genetic heterogeneity. The original \textit{EGFR} exon 19 deletion was present in all sequenced samples from the diagnostic to the 40 months later autopsy samples. No other protein altering somatic mutations were detected at a purity corrected allele frequency $\geq 0.33$. While the diagnostic sample presented with TERT~H687Q at 25\% VAF with sufficient local copy number amplification, none of the autopsy samples showed any support for this variant. Generally, the number of somatic protein altering SNVs and InDels (min: 988 max: 1236 mean: 1090.5)  is very close to the average lung adenocarcinoma with an observed tumour mutational burden of 18.75 \cite{Alexandrov2013}. 
 In contrast, the diagnostic sample showed a much higher number of mutations, which we attribute to the formalin-fixed paraffin-embedded (FFPE) preservation, which is known to cause DNA damage \cite{Do2015}. This DNA damage could have led to a higher rate of called somatic variants (\autoref{fig:ca51numVars}). In order to appreciate the relationship of the autopsy samples, we removed the diagnost sample from the phylogenetic analysis. The full phylogeny can be seen in \autoref{fig:ca51phyloWithDx}. The phylogeny of SNVs and InDels shows no internal hierarchical structure, but rather shows that both stem of tumour initiation and additional private mutations accumulated during the disease progression are approximatly equal in number, with the stem being slightly longer. Only a very limited amount of somatic variants are shared between cancer samples, which are not part of the initial stem (\autoref{fig:ca51phylo}). Which is consistent with the clinical history, where there never was any remission, but only mixed response of already established lesions.
 
-\begin{figure}[ht]
+\begin{figure}[htp]
 	\centering
 	\includegraphics[width=.99\linewidth]{Figures/CASCADE/CA51/CA51phyloAutopsy.pdf}
 	\caption[Phylogeny of autopsy samples from patient CA-I]{Phylogeny of autopsy samples from patient CA-I; reconstructed with all somatic SNVs and InDels. Ruler symbolises 2000 Variants difference. The phylogeny with diagnostic sample can be found in \protect\autoref{fig:ca51phyloWithDx}} \label{fig:ca51phylo}
@@ -277,7 +277,7 @@ In contrast, the diagnostic sample showed a much higher number of mutations, whi
 Due to the pathology information of small cell transformation, we could highlight an intronic \textit{TP53} mutations, which is present at almost 100\% VAF in all autopsy samples. However the same variant was also found in the diagnostic sample, which was reportedly adenocarcinoma. The variant was therefore not sufficient to drive the transformation, but could have been a predisposition for the patient (\autoref{fig:ca51heatmap}).
 
 
-\begin{figure}[ht]
+\begin{figure}[htp]
 \centering
 \includegraphics[width=.99\linewidth]{Figures/CASCADE/CA51/CA51varHeatmap.pdf}
 \caption[Heatmap of driver gene variants in patient CA-I]{Heatmap of driver gene variants in patient CA-I: Protein altering mutations are highlighted with their HGVSp notation; non protein altering mutations are grouped as ``other``.} \label{fig:ca51heatmap}
@@ -291,14 +291,14 @@ The high amplification of chromosome 7 is consistent with the origin of \textit{
 \todo[color=green]{Do I need more here?}
 
 
-\begin{figure}[ht]
+\begin{figure}[p]
 \centering
 \includegraphics[width=.99\linewidth]{Figures/CASCADE/CA51/CA51-Ep12P3369.circos.png}
 \caption[Circos plot of patient CA-I sample dx]{Circos plot of patient CA-I sample dx with somatic structural variants: outer first ring shows the canonical chromosomes with gaps (centromere, heterochromatin,...) highlighted as darker areas; second ring visualises all somatic SNVs corrected for tumour purity and scaled from 0 to 1, the colour representing the base change of SNV like in \protect\textcite{Alexandrov2013}; vertical lines directly under the SNVs symbolise InDels, with yellow for insertions and red for deletions; the third ring shows the total copy number alterations, with green showing a copy number gain and red a loss, dots at the outer border show a copy number greater than four; the last ring shows the minor copy number, with blue depicting a gain and orange a loss, this ring allows the detection of copy number neutral changes, like loss of heterozygosity; the center shows all structural variants: translocations in blue, deletions in red, insertions in yellow, tandem duplications in green and inversions in black.} \label{fig:ca51.dxcircos}
 \end{figure}
 
 
-\begin{figure}[ht]
+\begin{figure}[p]
 \centering
 \includegraphics[width=.99\linewidth]{Figures/CASCADE/CA51/CA51-557.circos.png}
 \caption[Circos plot of patient CA-I sample 557]{Circos plot of patient CA-I sample 557 with somatic structural variants: outer first ring shows the canonical chromosomes with gaps (centromere, heterochromatin,...) highlighted as darker areas; second ring visualises all somatic SNVs corrected for tumour purity and scaled from 0 to 1, the colour representing the base change of SNV like in \protect\textcite{Alexandrov2013}; vertical lines directly under the SNVs symbolise InDels, with yellow for insertions and red for deletions; the third ring shows the total copy number alterations, with green showing a copy number gain and red a loss, dots at the outer border show a copy number greater than four; the last ring shows the minor copy number, with blue depicting a gain and orange a loss, this ring allows the detection of copy number neutral changes, like loss of heterozygosity; the center shows all structural variants: translocations in blue, deletions in red, insertions in yellow, tandem duplications in green and inversions in black.} \label{fig:ca51.557circos}
@@ -329,7 +329,7 @@ The high amplification of chromosome 7 is consistent with the origin of \textit{
 \end{table} 
 
 
-\begin{figure}[ht]
+\begin{figure}[htp]
 \centering
 \includegraphics[width=.99\linewidth]{Figures/CASCADE/CA51/CA51.clonaltree.pdf}
 \caption[Clonal evolutionary tree CA-I]{Clonal evolutionary tree of patient CA-I; Highest support tree for clustered ccf clones generated with PhylogicNDT; Support for clone is shown in parenthesis; Major driver alterations of clones were annotated; Clusters with less than 5 supporting variants were discarded; Cluster with 2000 supporting variants only present in sample Dx was discarded as FFPE artefact} \label{fig:ca51.clonalTree}
@@ -339,7 +339,7 @@ Clonal deconvolution of somatic variants with PhylogicNDT revealed a linear, mos
 
 These results agree with the phylogenetic reconstruction which showed initial shared somatic evolution of all sites, with strong individual evolution and limited substructure.
 
-\begin{figure}[ht]
+\begin{figure}[htp]
 \centering
 \includegraphics[width=.99\linewidth]{Figures/CASCADE/CA51/CA51.ccf_cluster.pdf}
 \caption[Cancer cell fraction of mutation clusters of clonal tree for patient CA-I]{Cancer cell fraction of mutation clusters of clonal tree for patient CA-I; transparent polygons show the 95\% confidence intervals. Clusters and cluster colours are taken from \protect\autoref{fig:ca51.clonalTree}} \label{fig:ca51.ccfCluster}
@@ -383,7 +383,7 @@ At autopsy 18 sites of disease were resected and biobanked. A representative six
 \toprule
 \hline
  \rowcolor{gray!50}
-\textbf{Sample number} & \textbf{Organ} & \textbf{H \& E} & \textbf{Type}\\
+\textbf{Sample number} & \textbf{Organ} & \textbf{H\&E} & \textbf{Type}\\
 \hline
  Dx & left lung core & - & \cellcolor{white} \\
  2 & adrenal gland & 0.5 & \cellcolor{white} \\
@@ -403,14 +403,14 @@ Finally, Sample 32 also contained a subclonal KRAS~L5Q mutation in addition to b
 
 The emergence of the \textit{TP53} mutations was a expansion event for samples 20, 24, 32, and 42 differentiating them from the adrenal gland and the original site of disease. This very early split and seeding and the low abundance of the putative \textit{EGFR} driver mutation hints at very different disease trajectories (\autoref{fig:ca80phylo})\todo[color=green]{Did the samples progress differently?}. 
 
-\begin{figure}[ht]
+\begin{figure}[htp]
 	\centering
 	\includegraphics[width=.99\linewidth]{Figures/CASCADE/CA80/CA80phylo.pdf}
 	\caption[Phylogeny of autopsy samples from patient CA-J]{Phylogeny of autopsy samples from patient CA-J; reconstructed with all somatic SNVs and InDels. Ruler symbolises 4000 Variants difference.} \label{fig:ca80phylo}
 \end{figure}
 
 
-\begin{figure}[ht]
+\begin{figure}[htp]
 \centering
 \includegraphics[width=.99\linewidth]{Figures/CASCADE/CA80/CA80varHeatmap.pdf}
 \caption[Heatmap of driver gene variants in patient CA-J]{Heatmap of driver gene variants in patient CA-J: Protein altering mutations are highlighted with their HGVSp notation; non protein altering mutations are grouped as ``other``.} \label{fig:ca80heatmap}
@@ -424,13 +424,13 @@ While multiple samples exhibited gene fusions with lung cancer driver and resist
 All samples apart from sample 2 showed whole genome duplication and high polyclonality, which suggests that in addition to the heterogeneity observed through short and structural variants, there was an additional level of heterogeneity of copy number alterations. The lower purity of sample 2 might have been a confounding factor, however both sample 28 and 32 showed lower purities, but a much higher polyclonality and genome duplication. While sample 2 had several minor focal amplifications in \textit{PMS2}, \textit{STK11} and \textit{GADD45B}, no major copy number amplification was found. All other samples showed amplifications in \textit{KRAS} (min: 2.9, max: 5.0, median: 4.6), \textit{CDK4} (min: 3.2, max: 24.4, median: 21.7) and \textit{BRAF} (min: 2.1, max: 6.0, median: 3.9) in addition to the highly amplified \textit{EGFR} (min: 10.6, max: 266.7, median: 197.4) and \textit{MET} (min: 4.2, max: 6.3, median: 4.6) locus. Both \textit{EGFR} and \textit{MET} copy number gain most likely were the resistance mechanism to the initial treatment with the tyrosine kinase inhibitor Erlotinib. (\Autoref{fig:ca80.2circos,fig:ca80.20circos,fig:ca80.24circos,fig:ca80.28circos,fig:ca80.32circos,fig:ca80.42circos} , \autoref{tab:ca80cnv}).
 
 
-\begin{figure}[ht]
+\begin{figure}[htp]
 \centering
 \includegraphics[width=.99\linewidth]{Figures/CASCADE/CA80/CA80-2.circos.png}
 \caption[Circos plot of patient CA-J sample 2]{Circos plot of patient CA-J sample 2 with somatic structural variants with allele frequency $\geq 0.1$: outer first ring shows the canonical chromosomes with gaps (centromere, heterochromatin,...) highlighted as darker areas; second ring visualises all somatic SNVs corrected for tumour purity and scaled from 0 to 1, the colour representing the base change of SNV like in \protect\textcite{Alexandrov2013}; vertical lines directly under the SNVs symbolise InDels, with yellow for insertions and red for deletions; the third ring shows the total copy number alterations, with green showing a copy number gain and red a loss, dots at the outer border show a copy number greater than four; the last ring shows the minor copy number, with blue depicting a gain and orange a loss, this ring allows the detection of copy number neutral changes, like loss of heterozygosity; the center shows all structural variants: translocations in blue, deletions in red, insertions in yellow, tandem duplications in green and inversions in black.} \label{fig:ca80.2circos}
 \end{figure}
 
-\begin{figure}[ht]
+\begin{figure}[htp]
 \centering
 \includegraphics[width=.99\linewidth]{Figures/CASCADE/CA80/CA80-20.circos.png}
 \caption[Circos plot of patient CA-J sample 20]{Circos plot of patient CA-J sample 20 with somatic structural variants with allele frequency $\geq 0.1$: outer first ring shows the canonical chromosomes with gaps (centromere, heterochromatin,...) highlighted as darker areas; second ring visualises all somatic SNVs corrected for tumour purity and scaled from 0 to 1, the colour representing the base change of SNV like in \protect\textcite{Alexandrov2013}; vertical lines directly under the SNVs symbolise InDels, with yellow for insertions and red for deletions; the third ring shows the total copy number alterations, with green showing a copy number gain and red a loss, dots at the outer border show a copy number greater than four; the last ring shows the minor copy number, with blue depicting a gain and orange a loss, this ring allows the detection of copy number neutral changes, like loss of heterozygosity; the center shows all structural variants: translocations in blue, deletions in red, insertions in yellow, tandem duplications in green and inversions in black.} \label{fig:ca80.20circos}
@@ -461,8 +461,15 @@ All samples apart from sample 2 showed whole genome duplication and high polyclo
 
 Both the somatic variants as well as copy number analysis showed clear signs of a \textit{BRAF} driven tumour with both \textit{BRAF} mutations and amplifications and amplification of \textit{CDK4}. However the patient also displayed potential alternative methods of resistance, like \textit{KEAP1} and \textit{FLT4} mutations which could only be appreciated analysing multiple sites of the cancer. \todo[color=green]{Do I mention the TP53 mutation here?}
 
+\begin{figure}[!h]
+	\centering
+	\includegraphics[width=.99\linewidth]{Figures/CASCADE/CA80/CA80.ccf_mutations.pdf}
+	\caption[Cancer cell fractions of individual mutations for patient CA-J]{Cancer cell fractions of individual mutations of cluster 2 containing TP53 mutations for patient CA-J : each dot represented a distinct variant. Variants were connected with a dotted line to the same variant in other samples. Mutations were clustered with PhylogicNDT; } \label{fig:ca80ccfMuts}
+\end{figure}
 
-\todo[inline]{add the phylogicNDT results when done}
+
+PhylogicNDT analysis revealed a high degree of subclonality, consistent with the results from PURPLE. However, the low tumour purity of samples 2 and 28 lead to unrealistic clustering of variants in these samples. While the TP53 mutation was not found in either sample 2 or sample 28 (\autoref{fig:ca80heatmap}), the cluster containing this mutation was assigned a 100\% cancer cell fraction overall. As the individual mutations do show multiple substructures in this cluster, for example connecting 2 and 20 at low ccf as well as high, and parameter tuning did not lead to a more granular representation, we considered the results to be low quality and not interpretable (\autoref{tab:ca80cnv}, \autoref{fig:ca80ccfMuts}).
+
 \todo[inline,color=green]{maybe include ddPCR data during EVICT phase}
 
 %we clear all floats before we go to the next patient
@@ -506,16 +513,16 @@ At autopsy 18 sites were resected and biobanked and seven high quality represent
 \toprule
 \hline
  \rowcolor{gray!50}
-\textbf{Sample number} & \textbf{Organ} & \textbf{H \& E} & \textbf{Type}\\
+\textbf{Sample number} & \textbf{Organ} & \textbf{H\&E} & \textbf{Type}\\
 \hline
- Dx & left lung core & ? & \cellcolor{white} \\
- 1 & right kidney & ? & \cellcolor{white} \\
- 4 & right upper lung & ? & \cellcolor{white} \\
- 5 & right lower lung & ? & \cellcolor{white} \\
- 6 & right middle lung & ? & \cellcolor{white} \\
- 8 & left lower lung & ? & \cellcolor{white} \\
- 9 & left upper lung & ? & \cellcolor{white} \\
- 13 & left brain & ? & \cellcolor{white}\multirow{-7}{*}{adenocarcinoma} \\
+ Dx & left lung core & 0.8 & \cellcolor{white} \\
+ 1 & right kidney & 0.7 & \cellcolor{white} \\
+ 4 & right upper lung & 0.8 & \cellcolor{white} \\
+ 5 & right lower lung & 0.7 & \cellcolor{white} \\
+ 6 & right middle lung & 0.7 & \cellcolor{white} \\
+ 8 & left lower lung & 0.9 & \cellcolor{white} \\
+ 9 & left upper lung & 0.5 & \cellcolor{white} \\
+ 13 & left brain & 0.5 & \cellcolor{white}\multirow{-7}{*}{adenocarcinoma} \\
  \hline
 \bottomrule
 \end{tabular}
@@ -536,7 +543,7 @@ These splits nicely grouped the samples according to their organ of origin right
 \end{figure}
 
 
-\begin{figure}[ht]
+\begin{figure}[htp]
 \centering
 \includegraphics[width=.99\linewidth]{Figures/CASCADE/CA82/CA82varHeatmap.pdf}
 \caption[Heatmap of driver gene variants in patient CA-K]{Heatmap of driver gene variants in patient CA-K: Protein altering mutations are highlighted with their HGVSp notation; non protein altering mutations are grouped as ``other``.} \label{fig:ca82heatmap}
@@ -548,7 +555,7 @@ Similar to the short variants, structural variants and copy number changes also 
 Samples 8 and 9 were the only samples in the patient with significantly amplified copy numbers resulting in a whole genome duplication, however they still exhibited the same pattern of loss of heterozygosity. In all samples we observed a copy number gain in the q arm of chromosome 1 amplifying both \textit{NTKR1} and \textit{DDR2} with a loss of heterozygosity for \textit{NRAS} and \textit{MTOR} on the p arm of the same chromosome. The loss of heterozygosity presented in all samples on chromosome 3 reduces the representation of \textit{TM4SF1}, \textit{PIK3CA}, and \textit{USP13}, however in both sample 8 and 9 the other chromosome is amplified leading to a copy number neutral area. The loss of heterozygosity on chromosome 5 leads to a haploinsufficiency for \textit{APC}, \textit{PIK3R1}, \textit{CSF1R}, \textit{PDGFRB}, and \textit{FLT4} for all samples, which combined with the stop mutation in samples 8 and 9 is suggestive of a common resistance pathway. The loss of heterozygosity on chromosome 8 affected \textit{TUSC3} and \textit{FGFR1}. No lung cancer driver genes were affected by the loss of heterozygosity on chromosome 15. The seemingly heterzygous loss of chromosome X had the loss of \textit{ARAF} and \textit{AR} as a consequence, but the loss must be subclonal given the sex of the patient was male. Lastly, the additional copy number loss only present in both samples 8 and 9 affected \textit{JAK2}, \textit{CD274}, and \textit{PDCD1LG2} and these samples also show \textit{EGFR} amplification in contrast to all other samples (\Autoref{fig:ca82.1circos,fig:ca82.4circos,fig:ca82.5circos,fig:ca82.6circos,fig:ca82.8circos,fig:ca82.9circos,fig:ca82.13circos},  \autoref{tab:ca82cnv}). 
 
 
-\begin{figure}[ht]
+\begin{figure}[htp]
 \centering
 \includegraphics[width=.99\linewidth]{Figures/CASCADE/CA82/CA82-1.circos.png}
 \caption[Circos plot of patient CA-K sample 1]{Circos plot of patient CA-K sample 1: outer first ring shows the canonical chromosomes with gaps (centromere, heterochromatin,...) highlighted as darker areas; second ring visualises all somatic SNVs corrected for tumour purity and scaled from 0 to 1, the colour representing the base change of SNV like in \protect\textcite{Alexandrov2013}; vertical lines directly under the SNVs symbolise InDels, with yellow for insertions and red for deletions; the third ring shows the total copy number alterations, with green showing a copy number gain and red a loss, dots at the outer border show a copy number greater than four; the last ring shows the minor copy number, with blue depicting a gain and orange a loss, this ring allows the detection of copy number neutral changes, like loss of heterozygosity; the center shows all structural variants: translocations in blue, deletions in red, insertions in yellow, tandem duplications in green and inversions in black.} \label{fig:ca82.1circos}
@@ -556,7 +563,7 @@ Samples 8 and 9 were the only samples in the patient with significantly amplifie
 
 
 
-\begin{figure}[ht]
+\begin{figure}[htp]
 \centering
 \includegraphics[width=.99\linewidth]{Figures/CASCADE/CA82/CA82-8.circos.png}
 \caption[Circos plot of patient CA-K sample 8]{Circos plot of patient CA-K sample 8: outer first ring shows the canonical chromosomes with gaps (centromere, heterochromatin,...) highlighted as darker areas; second ring visualises all somatic SNVs corrected for tumour purity and scaled from 0 to 1, the colour representing the base change of SNV like in \protect\textcite{Alexandrov2013}; vertical lines directly under the SNVs symbolise InDels, with yellow for insertions and red for deletions; the third ring shows the total copy number alterations, with green showing a copy number gain and red a loss, dots at the outer border show a copy number greater than four; the last ring shows the minor copy number, with blue depicting a gain and orange a loss, this ring allows the detection of copy number neutral changes, like loss of heterozygosity; the center shows all structural variants: translocations in blue, deletions in red, insertions in yellow, tandem duplications in green and inversions in black.} \label{fig:ca82.8circos}
@@ -585,21 +592,20 @@ Samples 8 and 9 were the only samples in the patient with significantly amplifie
 \end{tabular}
 \end{table} 
 
-
-Similar to the phylogeny, the clonal deconvolution with PhylogicNDT revealed a higher complexity of disease after a bottle neck, where the right side lung samples samples 4, 5, and 6 all presented with a very high prevalence of cluster 11 and the following clonal diversification after CNBD1 stop-gained mutation. In contrast samples 1 and 13 (kidney and brain) showed an additional EGFR~S720W mutation seperating the distant sites from the original lung disease. Finally the original site of disease in the left lung lobe displayed less diversification, however the early split of cluster 1 into 10 and 3 splitting left lung and all other sites suggests early metastatic seeding (\Autoref{fig:ca82.clonalTree,fig:ca82.ccfCluster}). 
-
 \begin{figure}[ht]
-\centering
+\centering	
 \includegraphics[width=.99\linewidth]{Figures/CASCADE/CA82/CA82.clonaltree.pdf}
 \caption[Clonal evolutionary tree CA-K]{Clonal evolutionary tree of patient CA-K; Highest support tree for clustered ccf clones generated with PhylogicNDT; Support for clone is shown in parenthesis; Major driver alterations of clones were annotated; Clusters with less than 10 supporting variants were discarded} \label{fig:ca82.clonalTree}
-\end{figure}
 
+\vspace{\floatsep}
 
-\begin{figure}[ht]
-\centering
 \includegraphics[width=.99\linewidth]{Figures/CASCADE/CA82/CA82.ccf_cluster.pdf}
 \caption[Cancer cell fraction of mutation clusters of clonal tree for patient CA-K]{Cancer cell fraction of mutation clusters of clonal tree for patient CA-K; transparent polygons show the 95\% confidence intervals. Clusters and cluster colours are taken from \protect\autoref{fig:ca82.clonalTree}} \label{fig:ca82.ccfCluster}
+
 \end{figure}
+
+
+Similar to the phylogeny, the clonal deconvolution with PhylogicNDT revealed a higher complexity of disease after a bottle neck, where the right side lung samples samples 4, 5, and 6 all presented with a very high prevalence of cluster 11 and the following clonal diversification after CNBD1 stop-gained mutation. In contrast samples 1 and 13 (kidney and brain) showed an additional EGFR~S720W mutation seperating the distant sites from the original lung disease. Finally the original site of disease in the left lung lobe displayed less diversification, however the early split of cluster 1 into 10 and 3 splitting left lung and all other sites suggests early metastatic seeding (\Autoref{fig:ca82.clonalTree,fig:ca82.ccfCluster}). 
 
 
 
@@ -624,7 +630,7 @@ This 68 year old female ex-smoker presented with \textit{EGFR} mutant NSCLC, how
 During autopsy 25 lesions were resected and biobanked and representative samples, both adeno- and small cell carcinoma according to histology, were selected for WES (\autoref{fig:ca86schematic}, \autoref{tab:ca86wesSamples}) and analysed with the standard workflow (\autoref{cascade-sec:workflow}). For granular analysis of the transition from adeno- to small cell carcinoma, the progression sample after 15 months (P) was disected to the individual types based on histology staining.
 
 
-\begin{figure}[ht]
+\begin{figure}[htp]
 \centering
 \includegraphics[width=.99\linewidth]{Figures/CASCADE/CA86/CA-L_schematic_CA86_organColours}
 \caption[Schematic of analysed tumour lesions in patient CA-L]{Schematic of analysed tumour lesions in patient CA-L: Primary diagnostic sample shown in red; Samples are coloured by organ they were collected from: left lung (6), right lung (9), sternum (1), diaphragm (2), liver (3), adrenal gland (1) kidney (2), anal (1); Additionally to the post mortem blood sample, five serial blood samples were taken (\protect\autoref{fig:ca86timeline})} \label{fig:ca86schematic}
@@ -638,7 +644,7 @@ During autopsy 25 lesions were resected and biobanked and representative samples
 \toprule
 \hline
  \rowcolor{gray!50}
-\textbf{Sample number} & \textbf{Organ} & \textbf{H \& E} & \textbf{Type}\\
+\textbf{Sample number} & \textbf{Organ} & \textbf{H\&E} & \textbf{Type}\\
 \hline
  P.1 & right lung core & \cellcolor{gray!15} & small cell \\
  P.2 & right lung core & \cellcolor{gray!15}\multirow{-2}{*}{>0.9} & adenocarcinoma \\
@@ -661,7 +667,7 @@ Surprisingly even though the samples were taken at different times (one at progr
 \end{figure}
 
 
-\begin{figure}[ht]
+\begin{figure}[htp]
 \centering
 \includegraphics[width=.99\linewidth]{Figures/CASCADE/CA86/CA86varHeatmap.pdf}
 \caption[Heatmap of driver gene variants in patient CA-L]{Heatmap of driver gene variants in patient CA-L: Protein altering mutations are highlighted with their HGVSp notation; non protein altering mutations are grouped as ``other``.} \label{fig:ca86heatmap}
@@ -670,14 +676,14 @@ Surprisingly even though the samples were taken at different times (one at progr
 
 Copy number analysis with sequenza revealed a high prevalence of loss of heterozygosity in all samples,but both sample P.2 and 8 showed almost no copy number gains on chromosome 9 and 10 with 8 even extending through to 12. In general small cell transformed samples showed a higher level of copy number gain than the original adenocarcinoma. The difference in copy number in the two spatially intertwined types of cancers can only be attributed to the small cell transformation. Additionally to the increased overall ploidy of the small cell sample P.1 over P.2 (\autoref{tab:ca86cnv}), P.2 also lost chromosome X completely  (\autoref{fig:ca86.p1circos} vs. \autoref{fig:ca86.p2circos}). Interestingly, the small cell samples still have the same high amplification level of EGFR seen in the adenocarcinoma samples (min: 6 max: 13) suggesting the transformation did not remove EGFR based signalling. While commonly small cell transformation is associated with RB1 loss, the locus was amplified in all samples with a loss of heterozygosity. As this patient's sequencing was restricted to exonic regions, we could not rule out a regulatory defect. Interestingly, while the small cell transformed part of the progression sample (P.1) showed a heterozygous loss of chromosome X, the adenocarcinoma part (P.1) showed an almost complete loss of chromosome X, which could not be observed in any of the autopsy samples, which instead show and amplification. This indicated, that the small cell transformation happened at multiple sites instead of being spread after the transformation (\Autoref{fig:ca86.p1circos,fig:ca86.p2circos,fig:ca86.8circos,fig:ca86.17Acircos,fig:ca86.26circos}), .
 
-\begin{figure}[ht]
+\begin{figure}[htp]
 \centering
 \includegraphics[width=.99\linewidth]{Figures/CASCADE/CA86/CA86-17B037524-1-S.circos.png}
 \caption[Circos plot of patient CA-L sample P.1]{Circos plot of patient CA-L sample P.1: outer first ring shows the canonical chromosomes with gaps (centromere, heterochromatin,...) highlighted as darker areas; second ring visualises all somatic SNVs corrected for tumour purity and scaled from 0 to 1, the colour representing the base change of SNV like in \protect\textcite{Alexandrov2013}; vertical lines directly under the SNVs symbolise InDels, with yellow for insertions and red for deletions; the third ring shows the total copy number alterations, with green showing a copy number gain and red a loss, dots at the outer border show a copy number greater than four; the last ring shows the minor copy number, with blue depicting a gain and orange a loss, this ring allows the detection of copy number neutral changes, like loss of heterozygosity; the center shows all structural variants: translocations in blue, deletions in red, insertions in yellow, tandem duplications in green and inversions in black.} \label{fig:ca86.p1circos}
 \end{figure}
 
 
-\begin{figure}[ht]
+\begin{figure}[htp]
 \centering
 \includegraphics[width=.99\linewidth]{Figures/CASCADE/CA86/CA86-17B037524-1-A.circos.png}
 \caption[Circos plot of patient CA-L sample P.2]{Circos plot of patient CA-L sample P.2: outer first ring shows the canonical chromosomes with gaps (centromere, heterochromatin,...) highlighted as darker areas; second ring visualises all somatic SNVs corrected for tumour purity and scaled from 0 to 1, the colour representing the base change of SNV like in \protect\textcite{Alexandrov2013}; vertical lines directly under the SNVs symbolise InDels, with yellow for insertions and red for deletions; the third ring shows the total copy number alterations, with green showing a copy number gain and red a loss, dots at the outer border show a copy number greater than four; the last ring shows the minor copy number, with blue depicting a gain and orange a loss, this ring allows the detection of copy number neutral changes, like loss of heterozygosity; the center shows all structural variants: translocations in blue, deletions in red, insertions in yellow, tandem duplications in green and inversions in black.} \label{fig:ca86.p2circos}

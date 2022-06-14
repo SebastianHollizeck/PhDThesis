@@ -124,8 +124,6 @@ fields="['variants/CHROM', 'variants/POS', 'variants/REF', 'variants/ALT', 'vari
 \end{lstlisting}
 Which contains only the information used in MisMatchFinder. The same result can be achieved with adding the option \lq --$mandatoryOnly$ \rq to the supplied wrapper.
 
-\todo[inline, color=red]{actually implement the wrapper i am talking about here}
-
 \subsection{MisMatchFinder filtering - the zarr API}
 \label{ch-mmfAppendix:filter}
 
@@ -305,7 +303,7 @@ Subsampling of high depth WGS data was done with samtools (v1.13) supplying rand
 
 \begin{figure}[ht]
 \centering
-\includegraphics[width=.99\linewidth]{Figures/MisMatchFinder/signaturesGermlineSplit.pdf}
+\includegraphics[height=.89\textheight]{Figures/MisMatchFinder/signaturesGermlineSplit.pdf}
 \caption[Signature detection of variants categorised by presence in gnomAD]{Signature detection of variants categorised by presence in gnomAD: All pie charts show signature deconvolution results with clinically relevant signatures coloured; blue (APOBEC), red (UV exposure), orange (tobacco), purple (chemotherapy), light grey (sequencing artefacts), dark grey (everything below 1\% weight); left column shows results of somatic variants not found in gnomAD, right column shows results for somatic variants found in gnomAD}\label{A:fig:signaturesGermlineSplit}
 \end{figure}
 

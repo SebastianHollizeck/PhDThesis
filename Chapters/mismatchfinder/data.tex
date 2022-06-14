@@ -116,7 +116,7 @@ A dataset with healthy samples is key to detect biases, because any variability 
 To verify that our assumptions were correct, we performed a principle component analysis (PCA) of the raw tri-nucleotide mismatch count numbers, of all 100 tumour only samples, which MisMatchFinder can report alongside the weights of signatures.
 
 % latex is dumb with this figure, i want it right HERE
-\begin{figure}[!ht]
+\begin{figure}[htp]
 \centering
 \includegraphics[width=.99\linewidth]{Figures/MisMatchFinder/countPCAsPC1vsPC2.pdf}
 \caption[PCA of tri-nucleotide mismatch counts of real world data (PC1 and PC2)]{PCA (PC1 and PC2) of tri-nucleotide mismatch counts of healthy donor and tumour samples (melanoma and metastatic breast cancer) of varying purity; PCA was conducted on scaled and centered data}\label{fig:mmf-pca1v2}
@@ -232,7 +232,7 @@ In summary, the germline filtering is a very powerful step, which boosts the per
  
 The matched tissue-normal WGS for the two metastatic breast cancer patients allowed a concordance analysis with a known truth signature. We called variants with Strelka2 and performed default signature deconvolution with sigminer to obtain weights using default parameters for the GRCh38 genome build and QP deconstruction method  \cite{Wang2021}. Due to their known germline BRCA1/2 mutations we expected a contribution of SBS3. Both the tissue and the cfDNA samples of patient MBCB196 show a greater than 3\% SBS3 as expected, however neither samples for MBCB298 showed SBS3 (\autoref{fig:mmf-mbcbWGSsigPie}).
  
-\begin{figure}[ht]
+\begin{figure}[hb]
 \centering
 \includegraphics[width=.99\linewidth]{Figures/MisMatchFinder/brca1BarPlots.pdf}
 \caption[Signature weights for subsampled BRCA1 positive patients]{Signature weights for subsampled BRCA1 positive patients: each quadrant represents one high depth WGS sample downsampled to 8x with different seed (x-axis) signature weights per downsampling were shown in the columns in each quadrant. Colours represent clinically relevant signatures: blue (APOBEC), green (HRD), red (UV radiation); light grey and white show sequencing artefact and signatures of unknown significance respectively. Only signatures considered to be active (\autoref{mmf-sec:sigdetection}) were displayed}\label{fig:mmf-mbcbBarPlot}
