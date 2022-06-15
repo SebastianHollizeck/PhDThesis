@@ -209,9 +209,19 @@ With the absence of any other plausible mechanism, of SNV, SV or CNV nature, the
 \end{tabular}
 \end{table} 
 
-With the high percentage of likely sub-clonality of samples (\Autoref{tab:ca99cnv}) we used PhylogicNDT to
 
-\todo[inline]{add the phylogicNDT results}
+
+With the high percentage of likely sub-clonality of samples (\Autoref{tab:ca99cnv}) we used PhylogicNDT to infer clonal hierarchy and complexity. Initial analysis confirmed 141 clone like clusters, which far exceeded the maximum amount PhylogicNDT was able to visualise. In \autoref{fig:ca99.ccfCluster} the clonal abundance per sample for the three clones 64, 70 and 139 was shown, which corresponded to RET~G810C, RET~G810R, and RET~G810S respectivly, exactly as seen in the longitudinal data (\autoref{fig:ca99ctDNA}). The clonal abundance in each sample was highly variable and follows an exclusion pattern, where if one resistant clone was present another was not. Only sample 31 and 55 showed signs of mixed populations. We attributed these patterns to parallel evolution due to selection pressure of a drug on already established lesions rather than metastatic seeding.
+
+\begin{figure}[htp]
+\centering
+\includegraphics[width=.99\linewidth]{Figures/CASCADE/CA99/CA99.ccf_cluster.pdf}
+\caption[Cancer cell fraction of mutation clusters of clonal tree for patient CA-A]{Cancer cell fraction of mutation clusters for patient CA-A; transparent polygons show the 95\% confidence intervals. Clusters were generated with PhylogicNDT} \label{fig:ca99.ccfCluster}
+\end{figure}
+
+We attempted to build a clonal tree from the clustered mutations with PhylogicNDT with the restricted clusters using \autoref{eq:clusterRestriction}, however no output was generated after 480 CPU hours. In contrast all other patients required less than 100 CPU hours. We assumed the high subclonality of the data made it not possible to converge to a solution. Which again highlights the necessity of computational methods to close the gap between current algorithms and the available datasets.
+
+
 
 %we clear all floats before we go to the next patient
 \cleardoublepage
@@ -522,7 +532,7 @@ At autopsy 18 sites were resected and biobanked and seven high quality represent
  6 & right middle lung & 0.7 & \cellcolor{white} \\
  8 & left lower lung & 0.9 & \cellcolor{white} \\
  9 & left upper lung & 0.5 & \cellcolor{white} \\
- 13 & left brain & 0.5 & \cellcolor{white}\multirow{-7}{*}{adenocarcinoma} \\
+ 13 & left brain & 0.5 & \cellcolor{white}\multirow{-8}{*}{adenocarcinoma} \\
  \hline
 \bottomrule
 \end{tabular}
