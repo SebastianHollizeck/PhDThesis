@@ -8,7 +8,7 @@
 %% ---------------------------------------------------------------- 
 
 % Set up the document
-\documentclass[a4paper, 11pt, oneside]{Thesis}  % Use the "Thesis" style, based on the ECS Thesis style by Steve Gunn
+\documentclass[a4paper, 11pt, oneside, draft]{Thesis}  % Use the "Thesis" style, based on the ECS Thesis style by Steve Gunn
 %
 % Put your figures in this directory
 \graphicspath{Figures/}  % Location of the graphics files (set up for graphics to be in PDF format)
@@ -49,7 +49,7 @@
 \newcommand\Beta{\mathrm{B}}
 
 %reference managing
-\usepackage[sorting=none, citestyle=numeric, backend=biber, giveninits=true]{biblatex}
+\usepackage[sorting=none, citestyle=numeric, sortcites, backend=biber, giveninits=true]{biblatex}
 \addbibresource{MyBibLatex.bib}
 
 % we allow the urls in the bibliography to be broken after normal characters as well, not just '-', '\' and '.'
@@ -258,7 +258,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Update your department and school here:
 \department{{The Sir Peter MacCallum Department of Oncology}}
-\school{{Melbourne Medical School}}
+\school{{Faculty of Medicine, Dentistry, and Health Sciences}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %
@@ -350,6 +350,7 @@
 \textbf{BAM} & \textbf{B}inary \textbf{A}lignment \textbf{M}ap \\
 \textbf{bp} & \textbf{b}ase \textbf{p}air\\
 \textbf{BQ} & \textbf{B}ase \textbf{Q}uality\\
+\textbf{CASCADE} & \textbf{CA}ncer ti\textbf{S}sue \textbf{C}ollection \textbf{A}fter \textbf{DE}ath \\
 \textbf{CCF} & \textbf{C}ancer \textbf{C}ell \textbf{Fraction} \\
 \textbf{cfDNA} & \textbf{c}ell \textbf{f}ree \textbf{DNA} \\
 \textbf{ChIP} & \textbf{Ch}romatin \textbf{I}mmuno\textbf{P}recipitation\\
@@ -382,6 +383,7 @@
 \textbf{SCLC} & \textbf{S}mall \textbf{C}ell \textbf{L}ung \textbf{C}ancer\\
 \textbf{SCT} & \textbf{S}mall \textbf{C}ell \textbf{T}ransformation \\
 \textbf{SNP} & \textbf{S}ingle \textbf{N}ucleotide \textbf{P}olymorphism\\
+\textbf{SNV} & \textbf{S}ingle \textbf{N}ucleotide \textbf{V}ariant \\
 \textbf{SV} & \textbf{S}tructural \textbf{V}ariant \\
 \textbf{TAS} & \textbf{T}argeted \textbf{A}mplicon \textbf{S}equencing \\
 \textbf{TKI} & \textbf{T}yrosine \textbf{K}inase \textbf{I}nhibitor \\
