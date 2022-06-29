@@ -388,7 +388,6 @@ parseStrelkaVcf <- function(vcfFilePath=stop("need file as input"), geneList){
 
 \begin{lstlisting}[language=R, caption=annotate variants with copy number calls, label={lst-jvcAppendix:cnv}]
 for (sample in dnaSamples){
-  
   varName <- paste0("vars",sample)
   varTmp <- as.data.frame(get(varName))
   
