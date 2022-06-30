@@ -226,7 +226,7 @@ The biological data underlying this article are available at the European Genome
 \rowcolors{2}{white}{gray!15}
 \begin{tabular}{c|c|l|c}
 \toprule
-\textbf{SAMPLE NAME} & \textbf{PUBLISHED STUDY} & \textbf{ORIGINAL NAME} & \textbf{SEQUENCING TYPE} \\
+\textbf{SAMPLE NAME} & \textbf{PUBLISHED IN} & \textbf{ORIGINAL NAME} & \textbf{SEQUENCING} \\
 \midrule
 CA-A-1	&  \cellcolor{white} & Case 1 Left liver 1	& \cellcolor{green!9}\\
 CA-A-2	& \cellcolor{white} &	Case 1 Right occipital & \cellcolor{green!9}\\
@@ -290,6 +290,7 @@ CA-H-3 &  \cellcolor{white} &CAS-E-4 & \cellcolor{blue!9} \\
 CA-H-4 &  \cellcolor{white} &CAS-E-10 & \cellcolor{blue!9} \\ 
 CA-H-5 &  \cellcolor{white} &CAS-E-6 & \cellcolor{blue!9} \\ 
 CA-H-6 & \cellcolor{white}\multirow{-47}{*}{\citeauthor*{Vergara2021} \cite{Vergara2021}} & CAS-E-8 & \cellcolor{blue!9} \multirow{-6}{*}{WES}\\ 
+\hline
 \bottomrule
 \end{tabular}
 \end{table}
@@ -349,10 +350,11 @@ The usage of these workflows can be easily integrated into existing workflows an
 
 \chapter{Joint somatic variant calling - supplementary data}
 \label{A:ch:jsvSupp}
-
 \fancyhead[RE,LO]{Supplementary methods}
-\fancyhead[RO,LE]{Appendix \ref{ch:appendixManuscript} Joint somatic variant calling}
-This section contains supplementary data for the joint somatic variant calling chapter (\autoref{ch:variantcalling}) not contains in the published paper but for the work shown in this thesis
+\fancyhead[RO,LE]{Appendix \ref*{A:ch:jsvSupp} Joint somatic variant calling}
+
+
+This section contains supplementary data for the joint somatic variant calling chapter (\autoref{ch:variantcalling}) not contained in the published paper but for the work shown in this thesis
 
 \begin{lstlisting}[language=R, caption=parse strelka VCF, label={lst-jvcAppendix:parseVcf}]
 #this function will parse a strelkaVcf after the joined refiltering put all the
@@ -445,8 +447,3 @@ convertToMaf <- function(varTable, chrs=paste0("chr",c(1:22, "X", "Y"))){
 \includegraphics[width=.99\linewidth]{Figures/jointVariantCalling/CA-F_schematic_organColours}
 \caption[Schematic of analysed tumour lesions in patient CA-F]{Schematic of analysed tumour lesions in patient CA-F; Primary (diagnostic) skin sample is shown in red; metastatic sites are shown in blue; From top to bottom: right parietal lobe; left temporal lobe; right cerebellum; posterior mediastinal lymph node; left liver lobe; right liver lobe; liver, hepatic vessel; small bowel; Right side depicts three blood draws with plasma sampling (\protect\autoref{fig:CA-Ftimeline})}\label{fig:CA-Fschematic}
 \end{figure}
-
-
-%reset this to what we had before
-\fancyhead[RO,LE]{\leftmark}
-\fancyhead[RE,LO]{\rightmark}
