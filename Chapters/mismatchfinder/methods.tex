@@ -1,11 +1,11 @@
 \section{Methods}
 \label{mmf-sec:methods}
 
-With the change from a variant focused approach to a read based method, \linebreak MisMatchFinder analysed ``mismatches`` of a read from the reference genome, rather than a genomic locus. This had the advantage of not requiring a matched normal and could theoretically be used for virtually any sequencing data source like TAS, WES, WGS or even RNA sequencing. However, it also meant, that the error suppression methods, which are usually used by variant calling methods like read position ranks sum (RPRS) or strand bias were not applicable. To solve the problem of high background noise we developed multiple filtering steps, which are presented in the following sections.
+With the change from a variant focused approach to a read based method, our method  MisMatchFinder analysed ``mismatches`` of a read from the reference genome, rather than a genomic locus. This had the advantage of not requiring a matched normal and could theoretically be used for virtually any sequencing data source like TAS, WES, WGS or even RNA sequencing. However, it also meant, that the error suppression methods, which are usually used by variant calling methods like read position ranks sum (RPRS) or strand bias were not applicable. To solve the problem of high background noise we developed multiple filtering steps, which are presented in the following sections.
 
 \subsection{Mathematical concept}
 \label{mmf-sec:concept}
-A mismatch in this work was considered  any position in an aligned read, which did not show the same base as the reference at the aligned position. The mismatch inherited all the metrics of the read such as mapping quality, base quality and read position. 
+A mismatch in this work was considered as any position in an aligned read, which did not show the same base as the reference at the aligned position. The mismatch inherited all the metrics of the read such as mapping quality, base quality and read position. 
 
 Ultimately, there were three sources of mismatches in a read, which are somatic variants, germline variants and sequencing errors (\autoref{mmf-eq:1}).
 \begin{equation}
@@ -44,7 +44,7 @@ n(mismatches) \sim n(som.~var.)
 \end{equation}
 \myequation[\ref{mmf-eq:final}]{MisMatchFinder: number of mismatches correlation with somatic variants}
 
-With the help of \autoref{mmf-eq:final} we were theoretically able to approximate tumour mutational burden and signatures from individual reads with MisMatchFinder. The method therefore was independent from read depth and required no matched normal sample for somatic variant calling.
+With the help of \autoref{mmf-eq:final} we were theoretically able to approximate tumour mutational burden and signatures from individual reads with MisMatchFinder. The method therefore was independent of read depth and required no matched normal sample for somatic variant calling.
 
 \subsection{Data preprocessing}
 As MisMatchFinder employs multiple internal measures to filter and process sequencing data, the steps used for preprocessing were minimal: The reads were  aligned to the GRCh38 reference genome (\autoref{intro-sec:mapping}). For optimal mapping and additional noise reduction, paired end sequencing of at least 75 bp is required to ensure a few bases overlap on the standard fragment length of less than 155bp of ctDNA (\autoref{intro-sec:ctDNA}). 
@@ -69,7 +69,7 @@ When paired end sequencing of ctDNA is analysed, the fraction of fragments where
 \caption[Schematic of consensus computation method for overlapping reads]{Schematic of consensus computation method for overlapping reads in MisMatchFinder; Read 1 and Read 2 depict two overlapping paired end reads aligned to the reference sequence; Positions in the overlap are numbered for later referral; Read positions agreeing with the reference are coloured black, positions differing from the reference but agreeing in both reads are coloured purple (position 3) and differences between reads are coloured in the respective read colours (blue and red, position 6); Calculation for the resulting base quality (BQ$_{cons}$ for each possibility is shown as formulas)}\label{fig:mmf-consensus}
 \end{figure}
 
-This option however also reduced the available data by restricting the analysis to areas where reads were overlapping. Due to the fragment size distribution of ctDNA a paired end sequencing with 100bp read length will statistically in most cases lead to an overlap of at least 45 nucleotides (\autoref{intro-sec:ctDNA}) and with 150bp most ctDNA fragments will be almost entirely covered by both reads. However due to soft-clipping and incomplete alignment, this number was lower in reality.
+This option however also reduced the available data by restricting the analysis to areas where reads were overlapping. Due to the fragment size distribution of ctDNA a paired end sequencing with 100bp read length will statistically in most cases lead to an overlap of at least 45 nucleotides (\autoref{intro-sec:ctDNA}) and with 150bp read length most ctDNA fragments will be almost entirely covered by both reads. However due to soft-clipping and incomplete alignment, this number was lower in reality.
 In our tests, the restriction led to approximately 18 nucleotides (min:~14bp max:~25bp std.dev.:~1.45) being retained in the analysis out of 100. Nevertheless, this meant that with a read depth of 8-10x $\approx$80\% of the genome was covered by the overlap of at least one read pair.
 
 
@@ -128,7 +128,7 @@ MisMatchFinder allows the use of either QP or ILM, as they in many cases produce
  
 The combinatorial problem in ILM, already shown by \textcite{Lynch2016}, was exacerbated  with ``wide`` signatures like SBS3 (\autoref{fig:sig7a}) and low signature contribution weights. As we were interested in analysing low tumour purity samples with low somatic signature signals from ctDNA, ILM was less sensitive in our test. Especially for SBS3, the contribution of the signature was only assigned by ILM with sufficient signal (15 and 20 mutations per megabase respectively for for SBS7a and SBS3) where QP allowed for a more linear increase in signal, even at lower levels. On the other hand, ILM will assign an overall higher proportional weight than QP once the signal reaches a certain threshold (\autoref{fig:mmf-methodDifferences}). ILM was therefore better suited for high confidence signal, but less effective for the more subtle differences we expected from ctDNA.
 
-The deconvolution method could be an aread for further optimisation by creating a custom deconvolution system adjusted for ctDNA detection and the signatures present.
+The deconvolution method could be an area for further optimisation by creating a custom deconvolution system adjusted for ctDNA detection and the signatures present.
 
 For the rest of this work, unless specified differently, the results shown were generated using the QP deconstruction method.
 

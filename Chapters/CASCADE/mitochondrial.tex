@@ -19,18 +19,19 @@ To tackle this issue, and assist with the interpretation of phylogenetic reconst
 
 First a pileup of all mitochondrial positions was performed. Before the pileup we preselected reads which uniquely mapped to the mitochondrial genome and only retained high mapping quality reads. Then the nucleotide counts in each position were transformed into a MultiEssayExperiment \cite{Ramos2017} for final analysis in R. The preprocessing code can be found in \autoref{lst-cascadeAppendix:mitoPreProcessing}.
 
-The final MultiEssayExperiment is then read into R and quality metrics applied to exclude samples with not enough coverage on the mitochondrial contig. Our analysed WGS samples showed an extensive coverage of mitochondrial DNA, however WES library preparation procedures might restrict coverage. Patient CA-I had a coverage of more than 100x for all but the germline sample which only had an overall coverage of 17x. Similar, patient CA-L showed lower depth for the germline sample (127x) but a generally high coverage for all tumour samples. All other Patients (CA-A/J/K) where samples were sequenced with WGS exhibited a coverage of more than 200 even for low performing samples with a median depth of \num{67916}, \num{45603} and \num{49726} per sample (\autoref{fig:mtCoverage}).
+The final MultiEssayExperiment is then read into R and quality metrics applied to exclude samples with not enough coverage on the mitochondrial contig. Our analysed WGS samples showed an extensive coverage of mitochondrial DNA, however WES library preparation procedures might restrict coverage. Patient CA-I had a coverage of more than 100x for all but the germline sample which only had an overall coverage of 17x. Similarly, patient CA-L showed lower depth for the germline sample (127x) but a generally high coverage for all tumour samples (mean: 543x, min: 138x). All other Patients (CA-A/J/K) where samples were sequenced with WGS exhibited a coverage of more than 200 even for low performing samples with a median depth of \num{67916}, \num{45603}, and \num{49726} per sample~(\autoref{fig:mtCoverage}).
 
-\begin{figure}[!ht]
+\begin{figure}[hbt]
 \centering
 \includegraphics[width=.99\linewidth]{Figures/CASCADE/mito/mtCoverage}
 \vspace{-1em}
 \caption[Average coverage of mitochondrial DNA of CASCADE patients]{Average coverage of mitochondrial DNA of CASCADE patients: Orange squares show germline sample for each patient; black points show tumour samples; horizontal red dotted line shows quality cut off suggested by \protect\textcite{Ludwig2019}} \label{fig:mtCoverage}
 \end{figure}
 
+
 This proved, that even without specifically enriching for mitochondrial DNA, most samples will contained enough tumour reads for this analysis.
 
-To ensure optimal results, we excluded all samples with an average coverage of less than 50x. This means we removed the germline sample for patient CA-I, however as we expected the germline sample to be the ancestral state for all samples, this has virtually no effect on the reconstruction procedure. Additionally, we were more interested in the relation of tumour samples with each other, which was still accessible even with the removed germline sample.
+To ensure optimal results, we excluded all samples with an average coverage of less than 50x. This means we removed the germline sample for patient CA-I, however as we expected the germline sample to be the ancestral state for all samples, this has virtually no effect on the reconstruction procedure. Additionally, we were more interested in the relationships between the tumour sample, which was still accessible even with the removed germline sample.
 
 In contrast to the simple Hamming distance used for the presence-absence vector representation of canonical somatic variants (\autoref{cascade-sec:phylo}), for mitochondrial variants we employed an allele frequency ($vaf$) based distance (\autoref{eq:mitoDist}) of two samples~$s_i$ and $s_j$. The difference in read support was normalised with the product of the total allelic depth~$cov$ and summed up at all sites of variation~$v$.
 
@@ -44,11 +45,11 @@ This distance was only calculated for variant sites where both samples had at le
 
 \subsection{Results}
 \label{cascade-sec:mitoResults}
-While the mitochondrial variants analysis only used a fraction of the size of the genomic DNA loci and therefore most likely breaks the infinite sites assumption \cite{Kimura1969}, it was still able to generate a second viewing angle at the heterogeneity and trajectory of the multi-regional samples in each patient.
+While the mitochondrial variants analysis only used a fraction of the size of the genomic DNA loci and therefore most likely violates the infinite sites assumption \cite{Kimura1969}, it was still able to generate an orthogonal view of the heterogeneity and trajectory of the multi-regional samples in each patient.
 
 \subsubsection{Patient CA-A}
 
-While the separation of progression (11, 47, 55, and 59) and stable (26, 31, 41, and 57) disease sites was already visible in the somatic phylogeny, the bottle neck of treatment and new metastasis is more obvious in the mitochondrial phylogeny. However the individual resolution of splits appeared to be lower for the mitochondrial reconstruction (\autoref{fig:CA99mitoPhylo}).
+While the separation of progression (11, 47, 55, and 59) and stable (26, 31, 41, and 57) disease sites was already visible in the somatic phylogeny, the bottle neck of treatment and new metastasis is more obvious in the mitochondrial phylogeny. However the individual resolution of splits appeared to be lower for the mitochondrial reconstruction, as seen in  \autoref{fig:CA99mitoPhylo}.
 
 
 \begin{figure}[h]
@@ -59,7 +60,7 @@ While the separation of progression (11, 47, 55, and 59) and stable (26, 31, 41,
 
 \subsubsection{Patient CA-I}
 
-Neither the somatic variants nor the mitochondrial variants resolved the evolutionary trajectory in a granular fashion. The slightly long stem of shared variants was most likely due to the low coverage of the germline sample. Similar to all other patients, the substructure of the samples was changed. While using the somatic variants showed sample 566 as the closest to the germline sample, the mitochondrial variant phylogeny instead indicated sample 559 as the closest (\Autoref{fig:mtCoverage,fig:CA51mitoPhylo}).
+Neither the somatic variants nor the mitochondrial variants resolved the evolutionary trajectory in a granular fashion. The slightly longer stem of shared variants in the mitochondrial phylogeny was most likely due to the low coverage of the germline sample. Similar to all other patients, the substructure of the samples was changed. While using the somatic variants showed sample 566 as the closest to the germline sample, the mitochondrial variant phylogeny instead indicated sample 559 as the closest (\Autoref{fig:mtCoverage,fig:CA51mitoPhylo}).
 
 
 \begin{figure}[ht]
@@ -101,6 +102,6 @@ While the somatic variants linked the small cell carcinoma samples P.1 and 8 tog
 \end{figure}
 
 \subsection{Summary}
-With the analysis of the mitochondrial history of samples, we could shed some light on the timing of lesions and the development of resistance mechanisms, which is not heavily influenced by the treatment and its selection pressure. While the infinite sites hypothesis does not hold true for mitochondrial DNA, due to the limited sites and reduced repair mechanisms, the selection pressure of treatment and their resistance mechanisms parallel evolution bias in the analysis of multiple related tumour samples when using somatic variants.
+With the analysis of the mitochondrial history of samples, we could shed some light on the timing of lesions and the development of resistance mechanisms, which is not heavily influenced by the treatment and its selection pressure. While the infinite sites hypothesis does not hold true for mitochondrial DNA, due to the limited sites and reduced repair mechanisms, the selection pressure of treatment and their resistance mechanisms parallel evolution bias in the analysis of multiple related tumour samples also violates multiple assumptions for phylogenetic reconstruction when using somatic variants. 
 
-This method could offer an alternate view on the history of samples and their kinship with data that was previously discarded but was abundantly available at no extra cost. Ideally both somatic variants and mitochondrial variants would be integrated into a holistic approach, however due to the substantial difference in scale between nuclear DNA and mitochondrial DNA, the process is intricate and outside the scope of this work.
+Neither options come without pitfalls and caveats, but this method could offer an alternate view on the history and seeding time of lesions and their kinship using data that was previously discarded but was abundantly available. This approach is also available at virtually no additional cost, as mitochondrial variants can be readily detected from standard WGS and WES. Ideally both somatic variants and mitochondrial variants would be integrated into a holistic approach, however due to the substantial difference in scale between nuclear DNA and mitochondrial DNA, the process is intricate and outside the scope of this work.

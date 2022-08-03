@@ -3,7 +3,7 @@
 
 The full publication related to the joint somatic variant calling can be found at \href{https://doi.org/10.1093/bioinformatics/btab606}{\nolinkurl{https://doi.org/10.1093/bioinformatics/btab606}} and a formatted version is also attached as \autoref{ch:appendixManuscript} with all supplementary methods.
 
-References to supplementary data will be prefixed with the letter \ref{ch:appendixManuscript} for figures and methods taken from the publication and \ref{A:ch:jsvSupp} for additional data generated for this work.
+References to supplementary data will be prefixed with the letter \ref{ch:appendixManuscript} for tables and methods taken from the publication,  supplementary figures from the publication are integrated into the main text and not shown in the appendix. Prefix \ref{A:ch:jsvSupp} was used for additional data generated for this work.
 
 \subsection{Summary}
 To enable highly sensitive, fast and accurate variant detection from multiple related tumour samples, we have developed joint variant calling extensions to two widely used single-sample algorithms, FreeBayes \parencite{Garrison2012} and Strelka2 \parencite{Kim2018}. Using both simulated and clinical sequencing data, we show that these workflows are highly accurate and can detect variants at much lower variant allele frequencies than other commonly used methods.
@@ -35,7 +35,7 @@ Next, the variant allele frequencies (VAF) in both the tumour and the normal sam
 
 A variant is classified as somatic when both somatic LOD as well as somatic VAF pass the criteria somaticLOD (\autoref{eq:03}) and somaticVAF (\autoref{eq:05}).
 
-The thresholds chosen for both LOD and VAF calculations were previously fitted by the blue-collar bioinformatics workflow for the ``DREAM synthetic 3`` dataset using the SpeedSeq likelihood difference approach \parencite{Chapman2020} and were selected to identify high confidence variants.
+The thresholds chosen for both LOD (3.5) and VAF (0.001 and 2.7) calculations were previously fitted by the blue-collar bioinformatics workflow for the ``DREAM synthetic 3`` dataset using the SpeedSeq likelihood difference approach \parencite{Chapman2020} and were selected to identify high confidence variants.
 
 \subsection{Strelka2Pass workflow}
 In contrast to FreeBayes, whilst Strelka2 has a multiple-sample mode for germline analysis and tumour-normal pair somatic variant calling capabilities, it cannot jointly analyse multiple related tumour samples. We enable this feature by adapting a two-pass strategy previously used for RNA-seq data \parencite{Veeneman2015}. First, somatic variants are called from each tumour-normal pair. All detected variants across the cohort are then used as input for the second pass of the analysis, where we re-iterate through each tumour-normal pair but assess allelic information for all input genomic sites.
@@ -68,7 +68,7 @@ As an additional improvement, we also built multiallelic support into Strelka2 w
 
 \subsection{Validation}
 
-While the development of new methods can challenge previous assumptions, all methods need be validated against the current gold standard methods in the field, with data which allows objective evaluation. For germline variant calling, there have been multiple community led challenges and specifically designed test datasets, but there is currently no somatic variant calling equivalent. This issue is even more pronounced for our method, as we do not only need a tumour-normal pair, but we need the multiple tumour samples in the dataset to be related. To allow a fair comparison, we first generated a fully synthetic dataset, where every variant is known and fully defined (\autoref{variantcalling-sec:simdata}) to allow a general performance assessment of the methods. Then to ensure that these metrics also hold true in real world data, we then analysed a previously published dataset which had orthogonal validation of a subset of SNVs through targeted amplicon sequencing (TAS) (\autoref{variantcalling-sec:realdata}).
+While the development of new methods can challenge previous assumptions, all methods need be validated against the current gold standard methods in the field, with data which allows objective evaluation. For germline variant calling, there have been multiple community led challenges and specifically designed test datasets, but there is currently no somatic variant calling equivalent. This issue is even more pronounced for our method, as we do not only need a tumour-normal pair, but we need the multiple tumour samples in the dataset to be related. To allow a fair comparison, we first generated a fully synthetic dataset, where every variant is known and fully defined (\autoref{variantcalling-sec:simdata}) to allow a general performance assessment of the methods. Then to ensure that these metrics also hold true in real world data, we then analysed a previously published dataset which had orthogonal validation of a subset of SNVs through targeted amplicon sequencing (TAS) in \autoref{variantcalling-sec:realdata}.
 
 \begin{figure*}[!tpb]
 \centering
@@ -78,23 +78,103 @@ While the development of new methods can challenge previous assumptions, all met
 
 \subsubsection{Simulated data}
 \label{variantcalling-sec:simdata}
+
+\begin{figure}[htbp]
+\centering
+  \includegraphics[width=\textwidth]{Appendices/Variantcalling/supp/S1}
+  \caption[Characteristics of simulated data]{Characteristics of simulated data: A) Simulated phylogeny of samples B) Number of simulated germline and somatic variants per sample C) Variant allele frequency distribution of simulated variants per sample D) Distance to nearest variant in each sample.}\label{A:fig:S01}
+\end{figure}
+
 We first simulated a phylogeny with somatic and germline variants from ten tumour samples and one normal (\autoref{fig:varcalling:fig1}A and \autoref{A:fig:S01}A, B). Germline variants were simulated at a uniform allele frequency of $0.5$. Somatic VAFs were sampled from a custom distribution, modelled to favour low allele frequency variants to closely represent real world data (min VAF: $0.001$; max VAF: $1$; Fig.~S1C, D). Paired-end sequencing reads with realistic error profiles were simulated for WGS data at 160X average coverage using the ART-MountRainier software \parencite{Huang2011}. The simulated reads were aligned to GRCh38 and both germline and somatic variants from the phylogeny were spiked into the aligned reads using Bamsurgeon \parencite{Ewing2015}. We compared the workflows for FreeBayes and Strelka2 with and without our extensions for joint variant calling on the simulated datasets. The performance of Mutect2 joint variant calling was also assessed using its proposed best practice workflow. As both Mutect2 and FreeBayes do not return a verdict for each individual sample, we needed to assign each sample in the multi-sample VCF its own FILTER value. We called a somatic variant as present in a sample, if there were at least two reads supporting it for this sample and the overall FILTER showed a ``PASS``, which was the same cut-off used in the refiltering step in the Strelka2-pass workflow.
+
+
+\begin{figure}[hbt]
+\centering
+  \includegraphics[width=\textwidth]{Appendices/Variantcalling/supp/S2}
+  \caption[Performance of workflows using simulated data]{Performance of workflows using simulated data: A) Precision and B) Recall of Mutect2, FreeBayes and Strelka2, run in single tumour-normal paired and joint calling configurations.}\label{A:fig:S02}
+\end{figure}
 
 While the precision of each method without our extensions was greater than $99.8\%$, they all missed at least 25\% of all variants in the samples (i.e. recall $\leq 75\%$). In contrast, the recall of the modified workflows increased to $\approx 95\%$ with only a minute decrease in the precision for both FreeBayes and Strelka2 (\autoref{A:fig:S02}). Mutect2 had virtually no change in precision, but the recall actually decreased from $\approx 75\%$ to $\approx 41\%$ when analysing the samples jointly (\autoref{A:fig:S02}B). Additionally, with our modified workflows, true positive variants were called with VAFs as low as 0.008 (median detected VAF $\geq 0.14$ for joint sample analysis and $\geq 0.21$ for single tumour-normal pair analysis), enabling improved distinction between true variants and technical errors (\autoref{A:fig:S03}). This improvement in performance for Strelka2 is only achieved after the refiltering step and not just a result of the second pass (\autoref{A:fig:S04}, \autoref{A:varcalling:steps}).
 
+
+\begin{figure}[htp]
+\centering
+  \includegraphics[width=\textwidth]{Appendices/Variantcalling/supp/S3}
+  \caption[Variant allele frequencies (VAF) of variants detected by joint sample analysis]{Variant allele frequencies (VAF) of variants detected by joint sample analysis; A) VAF distribution of true positive variants additionally detected by Strelka2pass B) and FreeBayesSomatic C) VAF distribution of false positive variants additionally detected by FreeBayesSomatic D) and Strelka2pass E) VAF distribution of false negatives not called by FreeBayesSomatic F) and Strelka2pass.}\label{A:fig:S03}
+\end{figure}
+
+
+
+\begin{figure}[htbp]
+\centering
+  \includegraphics[width=\textwidth]{Appendices/Variantcalling/supp/S4}
+  \caption[Performance of individual steps in the Strelka2pass workflow using the simulated data]{Performance of individual steps in the Strelka2pass workflow using the simulated data: A) Precision and B) Recall of tumour-normal paired analysis, two-pass step without refiltering (supplying variants from all tumour-normal pairs for evaluation) and two-pass step with refiltering (the final workflow)}\label{A:fig:S04}
+\end{figure}
+
+
+
+\begin{figure}[htp]
+\centering
+  \includegraphics[width=\textwidth]{Appendices/Variantcalling/supp/S5}
+  \caption[Summary of variant filters assigned by Mutect2]{Summary of variant filters assigned by Mutect2; The counts for each filter type are denoted by black boxplots with white circles depicting the median values. The fitted distribution of variant counts outlines each boxplot; A) Counts of filter assignments for false negative variants and B) true negative variants called by Mutect2 C) Filter assignment for all variants reported for sequenced patient data sequenced with WGS or D) WES.}\label{A:fig:S05}
+\end{figure}
+
+
 The performance of joint variant calling in Mutect2 was inferior compared to all other methods (\autoref{A:fig:S02}A, B). This was primarily due to the "clustered\_events" filter in Mutect2, which excluded the majority of false negative variants, with negligible contribution to the exclusion of true negative variants (\autoref{A:fig:S05}A, B). This result was unexpected as the simulated variants were evenly distributed along the genome and the corresponding allele frequencies were sampled randomly (\autoref{A:fig:S01}D).
 
+
+\begin{figure}[tbp]
+\centering
+  \includegraphics[width=\textwidth]{Appendices/Variantcalling/supp/S6}
+  \caption[Assessing the performance of different workflows using tumour samples with different evolutionary relationships in the simulated data]{Assessing the performance of different workflows using tumour samples with different evolutionary relationships in the simulated data; A) Simulated phylogeny highlighting two samples with high evolutionary distance (sim-a and sim-j) where MRCA denotes the most recent common ancestor. B) Simulated phylogeny highlighting two samples with low evolutionary distance (sim-a and sim-b).C) Precision  and E) Recall of FreeBayes and Strelka, run in individual tumour-normal paired and joint calling configurations using two (sim-a and sim-j), three (sim-a, sim-g and sim-j), five (sim-a, sim-c, sim-f, sim-h and sim-j) and all ten tumour samples D) Precision and F) Recall estimates for FreeBayes and Strelka run in individual tumour-normal paired and joint calling configurations. Comparing the performance of these workflows when using two evolutionary distant samples (sim-a and sim-j), two evolutionary close samples (sim-a and sim-b) and all ten tumour samples.}\label{A:fig:S06}
+\end{figure}
+
+
 Since the extent of the improvement in our joint calling workflows is bound by the number of shared variants between samples, we sub-sampled the simulated dataset, to show the effect of incomplete sampling on our methods, which is more likely in clinical settings. Furthermore, the evolutionary distance between the related samples in addition to the number of samples, has a major impact on the number of shared variants, as only variants acquired between the germline and the most recent common ancestor (MRCA), will benefit from the joint analysis. Therefore, we selected three sample subsets which included two, three and five samples with high evolutionary distance to show the minimum expected improvement (\autoref{fig:varcalling:fig1}A, B). There was a clear linear improvement for both FreeBayesSomatic and Strelka2Pass when increasing the number of samples, even if they had a distant evolutionary relationship. In contrast, when using only two samples with a small evolutionary distance, the increase in performance was almost as large as when jointly analysing all 10 available samples. This shows that samples with a high number of shared variants will perform better in joint calling workflows (\autoref{A:fig:S06}).
+
+\cleardoublepage
 
 \subsubsection{Clinical data}
 \label{variantcalling-sec:realdata}
 To validate the performance of our new workflows, we then analysed WGS and whole-exome sequencing (WES) data of multi-region tumour samples from eight patients, with late stage melanoma, who had multiple tumour samples (average 7 samples per patient; total number of samples 55) collected following enrollment in a rapid autopsy program (CASCADE) conducted at the Peter MacCallum Cancer Centre (\autoref{A:tab:S1} and \autoref{A:varcalling:clinical}) \parencite{Solomon2020, Vergara2021}. The published studies had multiple somatic variants from the clinical samples orthogonally validated through targeted amplicon sequencing (TAS). We used these TAS-validated variants as the gold standard to evaluate the performance of different workflows, acknowledging that the technical biases inherent to TAS data are different to those present in WGS and WES (\autoref{A:fig:S07}) and that there would be sampling biases depending on different tumour cells analysed in each data type.
 
+
+
+\begin{figure}[!ht]
+\centering
+  \includegraphics[width=0.6\textwidth]{Appendices/Variantcalling/supp/S7}
+  \caption[Correlation of variant allele frequencies in validation]{Correlation of variant allele frequencies (VAF) from WES and WGS data against targeted amplicon sequencing VAF values with fitted violin plots of each individual distribution. Grey background shows 95\% confidence interval for the fit of the linear model (dotted line).}\label{A:fig:S07}
+\end{figure}
+
+
+\begin{figure}[htp]
+\centering
+  \includegraphics[width=\textwidth]{Appendices/Variantcalling/supp/S8}
+  \caption[Performance of the different workflows using clinical samples from eight cancer patients]{Performance of the different workflows using clinical samples from eight cancer patients: A) Number of variants called by Strelka2 run in the tumour-normal paired (grey) and joint calling configurations, which have been validated by targeted amplicon sequencing (TAS). The same for C) FreeBayes and E) Mutect2 workflows. Precision of tumour-normal paired and joint analysis of TAS validated clinical data for B) Strelka2, D) FreeBayes and F) Mutect2; \protect\autoref{A:tab:S1} provides the sample naming map to the original publications.}\label{A:fig:S08}
+\end{figure}
+
+
 In concordance with the results of the simulated data, our improved workflows found additional variants in all but one patient (\autoref{fig:varcalling:fig1}D, \autoref{A:fig:S08}) (total additional variants Strelka2Pass: $64$; FreeBayesSomatic: $85$) with only a slight drop in precision for FreeBayesSomatic (mean: $0.94$ vs. $0.88$) and Strelka2Pass (mean: $0.97$ vs. $0.92$). Since the panel of variants validated by TAS was limited ($7108$ bp for patients CA-B through -H), this increase in detected variants suggests that a high number of shared variants in samples are missed with current approaches, which in turn leads to an overestimation of tumour heterogeneity between samples, as these variants are thought to not be present rather than undetected.
+
+
+\begin{figure}[htbp]
+\centering
+  \includegraphics[width=0.7\textwidth]{Appendices/Variantcalling/supp/S9}
+  \caption[Correlation between cellularity and proportion of variants found only with joint calling using FreeBayesSomatic]{Correlation between cellularity and proportion of variants found only with joint calling using FreeBayesSomatic. Grey background shows 95\% confidence interval for fit of linear model (dotted line)}\label{A:fig:S09}
+\end{figure}
 
 Even though the number of shared variants is a major influencing factor when jointly calling variants, low cellularity samples benefit more from the joint calling, as conventional methods cannot reliably distinguish low allele frequency variants from noise. Through a joint analysis approach, the number of recovered variants is higher in low cellularity samples, which indicates, that especially for clinical samples with variable tumour purity, joint analysis can have a major impact on improving performance (\autoref{fig:varcalling:fig1}E, \autoref{A:fig:S09}).
 
-Mutect2 in contrast, did not show significant improvement in any sample in its joint calling configuration, but showed inferior performance compared to the tumour-normal pairwise approach in two samples (\autoref{A:fig:S08}E), similar to its decreased performance in the simulated data (\autoref{A:fig:S02}). This was due to true variants being removed by the internal filters of the tool (\autoref{A:fig:S05}C, D). This is in stark contrast to our novel workflows, where the joint analysis preserves all called sites from the pairwise method and finds additional variants. Overall, Mutect2 found less validated variants in all patients than both Strelka2Pass (mean: $2.2$) and FreeBayesSomatic (mean: $2.5$) with comparable levels of precision (\autoref{A:fig:S08}, \autoref{A:fig:S10}) but longer run times (\autoref{A:tab:S2}).
+
+\begin{figure}[!ht]
+\centering
+  \includegraphics[width=0.7\textwidth]{Appendices/Variantcalling/supp/S10}
+  \caption{Improvement in recall using FreeBayesSomatic and Strelka2pass over Mu\-tect2 in the clinical samples.}\label{A:fig:S10}
+\end{figure}
+
+
+Mutect2 in contrast, did not show significant improvement in any sample in its joint calling configuration, but showed inferior performance compared to the tumour-normal pairwise approach in two samples (\autoref{A:fig:S08}E), similar to its decreased performance in the simulated data (\autoref{A:fig:S02}). This was due to true variants being removed by the internal filters of the tool (\autoref{A:fig:S05}C, D). This is in stark contrast to our novel workflows, where the joint analysis preserves all called sites from the pairwise method and finds additional variants. Overall, Mutect2 found less validated variants in all patients than both Strelka2Pass (mean: $2.2$) and FreeBayesSomatic (mean: $2.5$) with comparable levels of precision (\Autoref{A:fig:S08,A:fig:S10}) but longer run times (\autoref{A:tab:S2}).
+
 
 Our improved workflow also enabled the discovery of multiallelic variants with Strelka2, which led to the discovery of on average $42$ additional variants (min: $1$; max: $535$) in the analysed WES and $987$ additional variants in the WGS (min: $81$; max $2329$). These variants are strong indicators of sub clonal structure and are invaluable for the study of evolutionary trajectories in cancer, as shown in the following sections.
 
