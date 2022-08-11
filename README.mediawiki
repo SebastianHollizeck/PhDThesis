@@ -1,58 +1,7 @@
+= Development of new methods for accurate estimation of tumour heterogeneity =
+
 __TOC__
 
-<span> '''APOBEC''' &amp; '''APO'''lipoprotein '''B''' mRNA '''E'''diting enzyme, '''C'''atalytic polypeptide-like<br />
-'''BAM''' &amp; '''B'''inary '''A'''lignment '''M'''ap<br />
-'''bp''' &amp; '''b'''ase '''p'''air<br />
-'''BQ''' &amp; '''B'''ase '''Q'''uality<br />
-'''CASCADE''' &amp; '''CA'''ncer ti'''S'''sue '''C'''ollection '''A'''fter '''DE'''ath<br />
-'''CCF''' &amp; '''C'''ancer '''C'''ell '''Fraction'''<br />
-'''cfDNA''' &amp; '''c'''ell '''f'''ree '''DNA'''<br />
-'''ChIP''' &amp; '''Ch'''romatin '''I'''mmuno'''P'''recipitation<br />
-'''CT''' &amp; '''C'''omputed '''T'''omography<br />
-'''ctDNA''' &amp; '''c'''irculating '''t'''umour '''DNA'''<br />
-'''DBS''' &amp; '''D'''ouble '''B'''ase '''S'''ubstitution<br />
-'''DNA''' &amp; '''D'''eoxyribo'''N'''ucleic '''A'''cid<br />
-'''F81''' &amp; '''F'''elsenstein 19'''81''' model<br />
-'''GATK''' &amp; '''G'''enome '''A'''nalysis '''T'''ool'''K'''it<br />
-'''HGSOC''' &amp; '''H'''igh '''G'''rade '''S'''erous '''O'''varian '''C'''arcinoma<br />
-'''HKY85''' &amp; '''H'''asegawa, '''K'''ishino and '''Y'''ano 19'''85''' model<br />
-'''HPC''' &amp; '''H'''igh '''P'''erformance '''C'''omputing<br />
-'''H&amp;E''' &amp; '''H'''ematoxylin and '''E'''osin<br />
-'''ILM''' &amp; '''I'''terative '''L'''inear '''M'''odels<br />
-'''InDel''' &amp; '''In'''sertion or '''Del'''etion<br />
-'''LN''' &amp; '''L'''ymph '''N'''ode<br />
-'''MQ''' &amp; '''M'''apping '''Q'''uality<br />
-'''MRCA''' &amp; '''M'''ost '''R'''ecent '''C'''ommon '''A'''ncestor<br />
-'''NGS''' &amp; '''N'''ext '''G'''eneration '''S'''equencing<br />
-'''NJ''' &amp; '''N'''eighbour '''J'''oining<br />
-'''NSCLC''' &amp; '''N'''on-'''S'''mall '''C'''ell '''L'''ung '''C'''ancer<br />
-'''PCA''' &amp; '''P'''rincipal '''C'''omponent '''A'''analysis<br />
-'''PCx''' &amp; '''P'''rincipal '''C'''omponent number x<br />
-'''PET''' &amp; '''P'''ositron '''E'''mission '''T'''omography<br />
-'''PON''' &amp; '''P'''anel '''O'''f '''N'''ormals<br />
-'''QP''' &amp; '''Q'''uadratic '''P'''rogramming<br />
-'''RAID''' &amp; '''R'''edundant '''A'''rray of '''I'''ndependent '''D'''isks<br />
-'''RNA''' &amp; '''R'''ibo'''N'''ucleic '''A'''cid<br />
-'''ROI''' &amp; '''R'''egion '''O'''f '''I'''nterest<br />
-'''RPRS''' &amp; '''R'''ead '''P'''osition '''R'''ank '''S'''um<br />
-'''SBS''' &amp; '''S'''ingle '''B'''ase '''S'''ubstitution<br />
-'''SCLC''' &amp; '''S'''mall '''C'''ell '''L'''ung '''C'''ancer<br />
-'''SCT''' &amp; '''S'''mall '''C'''ell '''T'''ransformation<br />
-'''SNP''' &amp; '''S'''ingle '''N'''ucleotide '''P'''olymorphism<br />
-'''SNV''' &amp; '''S'''ingle '''N'''ucleotide '''V'''ariant<br />
-'''SV''' &amp; '''S'''tructural '''V'''ariant<br />
-'''TAS''' &amp; '''T'''argeted '''A'''mplicon '''S'''equencing<br />
-'''TKI''' &amp; '''T'''yrosine '''K'''inase '''I'''nhibitor<br />
-'''TNBC''' &amp; '''T'''riple '''N'''egative '''B'''reast '''C'''ancer<br />
-'''UPGMA''' &amp; '''U'''nweighted '''P'''air '''G'''roup '''M'''ethod with '''A'''rithmetic mean<br />
-'''UV''' &amp; '''U'''ltra '''V'''iolet light<br />
-'''VCF''' &amp; '''V'''ariant '''C'''all '''F'''ormat<br />
-'''VEP''' &amp; '''V'''ariant '''E'''ffect '''P'''redictor<br />
-'''WES''' &amp; '''W'''hole '''E'''xome '''S'''equencing<br />
-'''WGD''' &amp; '''W'''hole '''G'''enome '''D'''oubling<br />
-'''WGS''' &amp; '''W'''hole '''G'''enome '''S'''equencing<br />
-'''WPGMA''' &amp; '''W'''eighted '''P'''air '''G'''roup '''M'''ethod with '''A'''rithmetic mean<br />
-</span>
 
 <div class="savequote">
 
