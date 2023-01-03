@@ -30,7 +30,7 @@
 
 %\usepackage[light]{CrimsonPro}
 \usepackage[T1]{fontenc}
-%% The font package uses mweights.sty which has som issues with the
+%% The font package uses mweights.sty which has some issues with the
 %% \normalfont command. The following two lines fixes this issue.
 %\let\oldnormalfont\normalfont
 %\def\normalfont{\oldnormalfont\mdseries}
@@ -248,6 +248,10 @@
 
 % hide anything lower than section in the TOC
 \setcounter{tocdepth}{2}
+
+\usepackage[margins,ignoremode]{trackchanges}
+\tcignore{\cite}{1}{1}
+\tcignore{\autoref}{1}{1}
 
 \begin{document}
 \frontmatter      % Begin Roman style (i, ii, iii, iv...) page numbering
