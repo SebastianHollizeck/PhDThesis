@@ -102,6 +102,59 @@ As the sample was acquired through a healthy donor blood bank, we \change{had no
 This result convinced us that germline filtering\change{, additionally to}{and} the consensus overlap analysis, \change{were} fundamentally important for the method to recover \add{the} signal. \change{In the following sections}{Therefore}, unless further specified, the germline filter was enabled for all analyses in the following sections.
 
 
+
+\subsection{Detection limit analysis}
+\label{mmf-sec:detectionlimit}
+
+Finally, to estimate our method's limit of detection, we simulated two different datasets. First, an in-silico dilution series using a high ctDNA melanoma to investigate the impact of tumour purity on the signature reconstruction results (\autoref{mmf-sec:puritydilution}). Secondly, we subsampled the same high ctDNA melanoma sample and another low ctDNA melanoma sample to coverages below the intended depth to estimate MisMatchFinder's minimum useable depth of coverage (\autoref{mmf-sec:depthdilution}). 
+
+\subsubsection{Purity based dilution}
+\label{mmf-sec:puritydilution}
+\add{To approximate our method's tumour purity limit of detection, we simulated a synthetic dilution series of a high ctDNA melanoma sample's sequencing with reads from a healthy sample. IchorCNA assigned the tumour sample a tumour purity ($p_c$) of 25\%, and the average depth of coverage over the whole genome was 8x ($\approx 271.2 M$ reads). To achieve a more representative result, we used 13 different tumour subsampling seeds with samtools for each target purity ($p_t$). The subsampling fractions ($s_t$ and $s_n$) were based on the number of reads in the tumour and normal bam ($n_t$ and $n_n$), with the focus on keeping the reads in the tumour sample stable (}\Autoref{eq:mmftumoursampling,eq:mmfnormalsampling}\add{).}
+
+\begin{equation}
+s_{t} = \displaystyle\frac{p_t}{p_c}
+\label{eq:mmftumoursampling} 
+\end{equation}
+\myequation[\ref{eq:mmftumoursampling}]{MisMatchFinder: Tumour subsampling fraction for purity dilution series}
+\begin{equation}
+s_{n} = \frac{(1 - s_t) \cdot n_t}{n_n}
+\label{eq:mmfnormalsampling} 
+\end{equation}
+\myequation[\ref{eq:mmfnormalsampling}]{MisMatchFinder: Normal subsampling fraction for purity dilution series}
+
+\add{The normal subsampling seed was unchanged to ensure all simulations received the same reads, and the inclusion of tumour reads caused the only change in results.
+
+The individually subsampled bams were merged and analysed with MisMatchFinder's default parameter.}
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=.99\linewidth]{Figures/MisMatchFinder/purity_dilution_series.pdf}
+\caption[Correlation of SBS7a detection and ctDNA purity]{Correlation of SBS7a detection and ctDNA purity: dots represent individual subsampling processes; violin plots show the distribution of results per subsampling; purple dot represents the mean result of all subsampling samples for one tumour purity; grey dotted line shows the loess smoothed trend of means; red dotted line represents the cutoff for SBS7a from the signature fitting from \autoref{mmf-sec:sigdetection}}\label{fig:mmf-dilutionseries}
+\end{figure}
+
+\autoref{fig:mmf-dilutionseries}\add{ showed a linear increase of SBS7a initially from 2\% to 10\% tumour purity but a diminishing increase up to 20\%. While with the right seed there were tumour-positive ctDNA samples at 2\%, the mean remained below the cutoff from }\autoref{mmf-sec:sigdetection}\add{, which means most samples with a ctDNA content of 2\% or less would not be correctly classified as a tumour-containing sample. In contrast, samples with 3\% and more tumour purity will be correctly identified as tumour at the $\approx 8x$ coverage simulated in this dataset.}
+
+
+\subsubsection{Depth reduction}
+\label{mmf-sec:depthdilution}
+
+\add{We were interested in investigating the effect of sequencing depth on MisMatchFinder's signature detection ability, so we downsampled the high tumour purity ctDNA melanoma sample from the section above (\autoref{mmf-sec:puritydilution}) and a low tumour purity melanoma sample with 25\% and 8\% tumour purity, respectively. All ctDNA-only samples in this work were sequenced to a target depth of 8-9x, which we used as the base analysis. We then downsampled both samples to each target depth of coverage using 13 different seeds to have a representative result.}
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=.99\linewidth]{Figures/MisMatchFinder/depth_dilution_series.pdf}
+\caption[Correlation of SBS7a detection and depth of coverage]{Correlation of SBS7a detection and depth of coverage:  outlined dots represent individual subsampling simulations, full dots represent the mean result per depth of coverage sampling; violin plots show the distribution of results per subsampling; purple colour represents high ctDNA results, green show low ctDNA results, red rectangles show results below the detection limit; red dotted line represents the cutoff for SBS7a from the signature fitting from \autoref{mmf-sec:sigdetection}}\label{fig:mmf-depthdilution}
+\end{figure}
+
+\add{While a high tumour purity ctDNA sample can be detected at as low coverage as 0.1x, the variability increased drastically at coverages of one and below. Additionally, for lower tumour purity samples, already at 3x coverage, there are downsampled instances where the signature could not be detected anymore. The seemingly increased mean for the low ctDNA sample at coverages 0.1x and 0.5x are a side effect of a skewed normal distribution because signature weights can not go below 0 (}\autoref{fig:mmf-depthdilution}\add{).
+
+As expected, the depth of coverage detection limit is highly dependent on the tumour purity of the sample. For a detection limit in line with ichorCNA (3\% tumour purity), an average coverage of at least 8x was required. However, if only high tumour purity sample detection is necessary, the coverage could be reduced.} 
+
+
+
+%might want to break a page here
+
 \subsection{Real world data - analysis of patient data}
 \label{mmf-sec:realworld}
 
@@ -192,7 +245,7 @@ Nevertheless, this result, combined with the effective filtering of technical er
  & \num{3311} & \num{217219} &  \num{2046} & \num{0.0094}\\ 
  & \num{5229} & \num{216876} &  \num{2062} & \num{0.0095}\\ 
  & \num{6060} & \num{217388} &  \num{2080} & \num{0.0096}\\ 
-\multirow{-9}{*}{patient 1} & \num{9876} & \num{217656} &  \num{2008} & \num{0.0092}\\ 
+\multirow{-9}{*}{Patient 1} & \num{9876} & \num{217656} &  \num{2008} & \num{0.0092}\\ 
 \hline
  & \num{1756} & \num{148495} &  \num{2168} & \num{0.0146}\\ 
  & \num{3599} & \num{149901} &  \num{2224} & \num{0.0148}\\ 
@@ -202,7 +255,7 @@ Nevertheless, this result, combined with the effective filtering of technical er
  & \num{5788} & \num{150103} &  \num{2241} & \num{0.0149}\\ 
  & \num{5887} & \num{150099} &  \num{2287} & \num{0.0152}\\ 
  & \num{8387} & \num{149533} &  \num{2248} & \num{0.0150}\\ 
-\multirow{-9}{*}{patient 1} & \num{9754} & \num{149547} &  \num{2229} & \num{0.0149}\\
+\multirow{-9}{*}{Patient 2} & \num{9754} & \num{149547} &  \num{2229} & \num{0.0149}\\
 \hline
 \bottomrule
 \end{tabular}
@@ -268,12 +321,6 @@ This high exposure of SBS7a and SBS7b was highly concordant with our analysis of
 \includegraphics[width=.99\linewidth]{Figures/MisMatchFinder/melanomaMMFsignatures.pdf}
 \caption[Signature weights of lcWGS of two melanoma samples]{Signature weights of lcWGS of two melanoma samples Colours show cancer associated signatures: blue (APOBEC), red (UV exposure), orange (tobacco), purple (chemotherapy), light grey (sequencing artefacts), dark grey (everything below 1\% weight)}\label{fig:mmf-melaMMFsigPie}
 \end{figure}
-
-
-\subsection{Detection limit analysis}
-\label{mmf-sec:detectionlimit}
-
-\add{Alan, write some dialog here!}
 
 
 \subsection{ Tumour detection analysis}
