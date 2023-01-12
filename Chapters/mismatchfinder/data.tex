@@ -133,13 +133,13 @@ The individually subsampled bams were merged and analysed with MisMatchFinder's 
 \caption[Correlation of SBS7a detection and ctDNA purity]{Correlation of SBS7a detection and ctDNA purity: dots represent individual subsampling processes; violin plots show the distribution of results per subsampling; purple dot represents the mean result of all subsampling samples for one tumour purity; grey dotted line shows the loess smoothed trend of means; red dotted line represents the cutoff for SBS7a from the signature fitting from \autoref{mmf-sec:sigdetection}}\label{fig:mmf-dilutionseries}
 \end{figure}
 
-\autoref{fig:mmf-dilutionseries}\add{ showed a linear increase of SBS7a initially from 2\% to 10\% tumour purity but a diminishing increase up to 20\%. While with the right seed there were tumour-positive ctDNA samples at 2\%, the mean remained below the cutoff from }\autoref{mmf-sec:sigdetection}\add{, which means most samples with a ctDNA content of 2\% or less would not be correctly classified as a tumour-containing sample. In contrast, samples with 3\% and more tumour purity will be correctly identified as tumour at the $\approx 8x$ coverage simulated in this dataset.}
+\autoref{fig:mmf-dilutionseries}\add{ showed a linear increase of SBS7a initially from 2\% to 10\% tumour purity but a diminishing increase up to 20\%. While with the right seed there were tumour-positive ctDNA samples at 2\%, the mean remained below the cutoff from }\autoref{mmf-sec:sigdetection}\add{, which means most samples with a ctDNA content of 2\% or less would not be correctly classified as a tumour-containing sample. In contrast, samples with 3\% and more tumour purity will be correctly identified as tumour at the $\approx 8x$ coverage simulated in this dataset}.
 
 
 \subsubsection{Depth reduction}
 \label{mmf-sec:depthdilution}
 
-\add{We were interested in investigating the effect of sequencing depth on MisMatchFinder's signature detection ability, so we downsampled the high tumour purity ctDNA melanoma sample from the section above (\autoref{mmf-sec:puritydilution}) and a low tumour purity melanoma sample with 25\% and 8\% tumour purity, respectively. All ctDNA-only samples in this work were sequenced to a target depth of 8-9x, which we used as the base analysis. We then downsampled both samples to each target depth of coverage using 13 different seeds to have a representative result.}
+\add{We were interested in investigating the effect of sequencing depth on MisMatchFinder's signature detection ability, so we downsampled the high tumour purity ctDNA melanoma sample from the section above (\autoref{mmf-sec:puritydilution}) and a low tumour purity melanoma sample with 25\% and 8\% tumour purity, respectively. All ctDNA-only samples in this work were sequenced to a target depth of 8-9x, which we used as the base analysis. We then downsampled both samples to each target depth of coverage using 13 different seeds to have a representative result}.
 
 \begin{figure}[ht]
 \centering
@@ -147,9 +147,9 @@ The individually subsampled bams were merged and analysed with MisMatchFinder's 
 \caption[Correlation of SBS7a detection and depth of coverage]{Correlation of SBS7a detection and depth of coverage:  outlined dots represent individual subsampling simulations, full dots represent the mean result per depth of coverage sampling; violin plots show the distribution of results per subsampling; purple colour represents high ctDNA results, green show low ctDNA results, red rectangles show results below the detection limit; red dotted line represents the cutoff for SBS7a from the signature fitting from \autoref{mmf-sec:sigdetection}}\label{fig:mmf-depthdilution}
 \end{figure}
 
-\add{While a high tumour purity ctDNA sample can be detected at as low coverage as 0.1x, the variability increased drastically at coverages of one and below. Additionally, for lower tumour purity samples, already at 3x coverage, there are downsampled instances where the signature could not be detected anymore. The seemingly increased mean for the low ctDNA sample at coverages 0.1x and 0.5x are a side effect of a skewed normal distribution because signature weights can not go below 0 (}\autoref{fig:mmf-depthdilution}\add{).
+\add{While a high tumour purity ctDNA sample can be detected at as low coverage as 0.1x, the variability increased drastically at coverages of one and below. Additionally, for lower tumour purity samples, already at 3x coverage, there are downsampled instances where the signature could not be detected anymore. The seemingly increased mean for the low ctDNA sample at coverages 0.1x and 0.5x are a side effect of a skewed normal distribution because signature weights can not go below 0 (}\autoref{fig:mmf-depthdilution}\add{).}
 
-As expected, the depth of coverage detection limit is highly dependent on the tumour purity of the sample. For a detection limit in line with ichorCNA (3\% tumour purity), an average coverage of at least 8x was required. However, if only high tumour purity sample detection is necessary, the coverage could be reduced.} 
+\add{As expected, the depth of coverage detection limit is highly dependent on the tumour purity of the sample. For a detection limit in line with ichorCNA (3\% tumour purity), an average coverage of at least 8x was required. However, if only high tumour purity sample detection is necessary, the coverage could be reduced.} 
 
 
 
@@ -326,7 +326,7 @@ This high exposure of SBS7a and SBS7b was highly concordant with our analysis of
 \subsection{ Tumour detection analysis}
 \label{mmf-sec:tumourDetection}
 
-The comparison of our glmnet based analysis of MisMatchFinder signatures showed similar results to ichorCNA, which is the most commonly used method to call tumour presence (i.e. ctDNA detection) from low coverage sequencing of cfDNA. The two methods classified 21 and 23 true positives and 55 and 60 true negatives which resulted in a sensitivity of $0.525$ for MisMatchFinder and $0.575$ for ichorCNA and a specificity of $0.91$ for MisMatchFinder and $1$ for ichorCNA on the melanoma samples (\Autoref{tab:mmf-looMatMMFmela,tab:mmf-looMatichorCNAmela}).
+The comparison of our glmnet-based analysis of MisMatchFinder signatures showed \change{similar}{slightly worse} results than ichorCNA, \remove{which is} the most commonly used method to call tumour presence (i.e. ctDNA detection) from low coverage sequencing of cfDNA. The two methods classified 21 and 23 true positives and 55 and 60 true negatives, which resulted in a sensitivity of $0.525$ for MisMatchFinder and $0.575$ for ichorCNA, and a specificity of $0.91$ for MisMatchFinder and $1$ for ichorCNA on the melanoma samples (\Autoref{tab:mmf-looMatMMFmela,tab:mmf-looMatichorCNAmela}).
 
 
 \begin{table}[ht]
@@ -381,10 +381,9 @@ The comparison of our glmnet based analysis of MisMatchFinder signatures showed 
 \end{tblr}
 \end{table}
 
-While MisMatchFinder was inferior to ichorCNA, there were 5 melanoma samples, which showed very low tumour purity with ichorCNA (mean: 0.6\% min: 0.4\% max: 1.1\%) but MisMatch\-Finder correctly identified them as cancerous samples. As ichorCNA is purely based on copy number alterations, these samples most likely only had mutationally driven disease, which is why MisMatchFinder could detect altered mutational signatures. Interestingly, only one of the patients exhibited melanoma associated signature SBS7c, while all others had a very high contribution of SBS4 and SBS29, which are thought to play a role in tobacco related cancers. 
+While MisMatchFinder was inferior to ichorCNA, \remove{there were} \change{5}{five} melanoma samples that were not correctly identified by ichorCNA, due to the very low estimated tumour purity (mean: 0.6\% min: 0.4\% max: 1.1\%), but MisMatch\-Finder correctly identified them as cancerous samples. As ichorCNA is purely based on copy number alterations, these samples \remove{most} likely \remove{only} had \add{a predominantly} mutationally driven disease, which is why MisMatchFinder could detect altered mutational signatures. Interestingly, only one of these patients exhibited melanoma-associated signature SBS7c, while all others had a very high contribution of SBS4 and SBS29, which are thought to play a role in tobacco-related cancers\add{ instead}. 
 
-
-This suggested to us, that while MisMatchFinder is able to detect the right signature if it is present (\autoref{mmf-sec:melaSim}) the the detection of ctDNA in a sample is not purely dependant on the presence of a single dominant signature, and rather is influenced by the combination of signatures detected in the sample. We therefore restricted the detection of the melanoma samples to only melanoma associated signatures SBS7a through SBS7d and SBS38, to validate our hypothesis. With only the melanoma related signatures, only 2 samples were classified as tumour positive, which showed, that the interplay of signatures contains additional data and potentially more signatures than previously thought are related to cancer.
+This suggested to us that while MisMatchFinder \change{was able to}{could} detect the \change{right}{correct} signature if it is present (\autoref{mmf-sec:melaSim}), the\remove{ the} detection of ctDNA in a sample is not purely dependent on the presence of a single dominant signature and rather is influenced by the combination of signatures detected in the sample. \change{We, therefore,}{Therefore, to validate our hypothesis, we} restricted the detection of the melanoma samples to only melanoma-associated signatures SBS7a through SBS7d and SBS38\remove{ to validate our hypothesis}. With only the melanoma-related signatures, only two samples were classified as tumour positive, which showed that the interplay of signatures contains additional data and potentially more signatures than previously thought are related to cancer.
 
 \begin{table}[ht]
 \caption[Confusion matrix for MisMatchFinder leave one out validation on breast cancer training set]{Confusion matrix for MisMatchFinder leave one out validation on breast cancer training set}\label{tab:mmf-looMatMMFbreast}
@@ -413,7 +412,7 @@ This suggested to us, that while MisMatchFinder is able to detect the right sign
 \end{table}
 
 
-Finally, when comparing our method to ichorCNA on the breast cancer samples, ichorCNA's performance was superior to the melanoma samples \autoref{tab:mmf-looMatichorCNAbreast}, but MisMatch\-Finder preformed considerably worse \autoref{tab:mmf-looMatMMFbreast}. The increased sensitivity of ichorCNA (0.74 vs 0.575) on the breast cancer samples was expected, as breast cancers are known to accumulate specific copy number alterations during their evolution \cite{Dawson2013} and these changes have been shown to be able to stratify and diagnose breast cancer samples \cite{Russnes2010,Curtis2012}. MisMatchFinder on the other hand requires a mutationally driven cancer signal, which is considerably weaker in breast cancers \cite{Alexandrov2020}. 
+Finally, when comparing our method to ichorCNA on the breast cancer samples, ichorCNA's performance was superior to its performance on the melanoma samples \autoref{tab:mmf-looMatichorCNAbreast}, but MisMatch\-Finder preformed considerably worse \autoref{tab:mmf-looMatMMFbreast}. The increased sensitivity of ichorCNA (0.74 vs 0.575) on the breast cancer samples was expected, as breast cancers are known to accumulate specific copy number alterations during their evolution \cite{Dawson2013}, and these changes have been shown to be able to stratify and diagnose breast cancer samples \cite{Russnes2010,Curtis2012}. MisMatchFinder, on the other hand, requires a mutationally driven cancer signal, which is considerably weaker in breast cancers \cite{Alexandrov2020}. 
 
 
 \begin{table}[hbt]
@@ -442,7 +441,7 @@ Finally, when comparing our method to ichorCNA on the breast cancer samples, ich
 \end{tblr}
 \end{table}
 
-However, when using information gain feature selection on the signature weights reported for the breast cancer samples by MisMatchFinder, only signatures SBS3 and SBS5 showed a reduced entropy. We therefore used only these signatures in the training and subsequently boosted the sensitivity from 2\% to 18\%. Finally, by just using a cut-off approach for weights in SBS3, we achieved the highest sensitivity (0.36\%) with a minute drop in specificity (0.95\%). We used twice the standard deviation added to the mean of SBS3 weights observed in healthy samples as a cut-off (\autoref{fig:mmf-SBS3distribution}).
+However, when using information gain feature selection on the signature weights reported for the breast cancer samples by MisMatchFinder, only signatures SBS3 and SBS5 showed a reduced entropy. \change{We, therefore,}{Therefore, we} used only these signatures in \remove{the }training and subsequently boosted the sensitivity from 2\% to 18\%. Finally, by just using a cut-off approach for weights in SBS3, we achieved the highest sensitivity (0.36\%) with a minute drop in specificity (0.95\%). We used twice the standard deviation added to the mean of SBS3 weights observed in healthy samples as a cut-off (\autoref{fig:mmf-SBS3distribution}).
 
 \begin{figure}[ht]
 \centering
@@ -450,7 +449,15 @@ However, when using information gain feature selection on the signature weights 
 \caption[SBS3 signature weight distribution in healthy and breast cancer samples]{SBS3 signature weight distribution in healthy and breast cancer samples: MisMatchFinder reported signature weights are shown as both a violinplot with boxplot in black and mean shown as white point on the left and the real measurements on the right; red line depicts classification cut-off twice at 0.003}\label{fig:mmf-SBS3distribution}
 \end{figure}
 
-With samples presenting with a SBS3 signature weight above 0.003 considered positive, we found 12 out of 39 (30\%) breast cancer samples and only misclassified 3 healthy samples as cancer positive. With only BRCA1/2 mutation positive cancers having a specific signature we only expected to be able to detect a subset of breast cancer patients. With homologous recombination deficiency (SBS3) being reported in up to to 40\% of breast cancers in previous studies \cite{AkashiTanaka2015}, our lower sensitivity for breast cancer could be caused by the lack of mutational signatures in the other 60\% of cases.
+With samples presenting with an SBS3 signature weight above 0.003 considered positive, we found 12 out of 39 (30\%) breast cancer samples and only misclassified \change{3}{three} healthy samples as cancer positive. With only BRCA1/2 mutation positive cancers having a specific signature we only expected to be able to detect a subset of breast cancer patients. With homologous recombination deficiency (SBS3) being reported in up to to 40\% of breast cancers in previous studies \cite{AkashiTanaka2015}, our lower sensitivity for breast cancer could be caused by the lack of mutational signatures in the other 60\% of cases.
+
+\add{To further explore this hypothesis, we sequenced the cfDNA of eight germline BRCA1-positive breast cancer samples, and analysed it with MisMatchFinder. All BRCA1 positive samples showed the expected SBS3 signature at a much higher weight than the healthy samples (}\autoref{fig:mmf-SBS3brca1}\add{). This result again confirmed, that MisMatchFinder could detect somatic mutational signatures in real-world data and could be used to stratify cancer and healthy samples.} 
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=.99\linewidth]{Figures/MisMatchFinder/brca1_sbs3.pdf}
+\caption[SBS3 signature weight distribution in healthy and BRCA1-positive breast cancer samples]{SBS3 signature weight distribution in healthy and BRCA1-positive breast cancer samples: MisMatchFinder reported signature weights are shown as both a violinplot with boxplot in black and mean shown as white point on the left and the real measurements on the right}\label{fig:mmf-SBS3brca1}
+\end{figure}
 
 \section{Summary}
 In this chapter we presented a new method to detect signatures from low coverage whole genome sequencing data as a complementary method to ichorCNA to detect and classify patient samples. Simulated data showed a high specificity of our method for deriving signatures. Real patient data confirmed that while there is a discrepancy between the current standard method of signature detection and MisMatchFinder, the most prevalent clinically relevant signatures were detected. Furthermore, MisMatchFinder was able to detect tumour presence in samples without additional input or need for matched normals.
